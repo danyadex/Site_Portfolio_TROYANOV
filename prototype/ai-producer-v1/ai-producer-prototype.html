@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Producer animated prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: "Gilroy";
+      src: local("Gilroy");
+      font-weight: 400 700;
+    }
+
+    @font-face {
+      font-family: "Gilroy";
+      src: local("Gilroy Light"), local("Gilroy-Light"), local("Gilroy");
+      font-weight: 300;
+    }
+
+    :root {
+      --bg: #efeeec;
+      --bg-warm: #f3f0ed;
+      --surface: rgba(255, 255, 255, .78);
+      --input: #f6f6f5;
+      --text: #0a0a0a;
+      --text-muted: #838383;
+      --chip-text: #0a0a0a;
+      --muted: #59606a;
+      --placeholder: #656565;
+      --border: #b0b0b0;
+      --primary: #b59ffc;
+      --active: #d8ff9d;
+      --shadow: 0 5px 6px rgba(85, 85, 85, .1);
+      --ease: cubic-bezier(.22, .61, .36, 1);
+    }
+
+    @property --shader-x {
+      syntax: "<percentage>";
+      inherits: false;
+      initial-value: 34%;
+    }
+
+    @property --shader-y {
+      syntax: "<percentage>";
+      inherits: false;
+      initial-value: 28%;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Gilroy", Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .stage {
+      position: relative;
+      width: min(100vw, 1280px);
+      min-height: 832px;
+      margin: 0 auto;
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    .header {
+      position: absolute;
+      z-index: 20;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 80px;
+    }
+
+    .wordmark,
+    .login,
+    .primary-action,
+    .secondary-action {
+      font-family: "Unbounded", sans-serif;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .wordmark {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 28px;
+      white-space: nowrap;
+    }
+
+    .login {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: opacity .32s var(--ease), transform .32s var(--ease), visibility .32s;
+    }
+
+    .screen.is-active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .hero {
+      position: absolute;
+      left: 80px;
+      top: 150px;
+      width: 1120px;
+      height: 442px;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      object-fit: cover;
+      object-position: bottom;
+    }
+
+    .hero-base {
+      z-index: 2;
+    }
+
+    .hero-foreground {
+      z-index: 3;
+    }
+
+    .hero-sphere {
+      position: absolute;
+      z-index: 1;
+      left: 31.5%;
+      top: 21%;
+      width: 37%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      overflow: hidden;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 88%, rgba(99, 43, 255, .96), rgba(151, 94, 255, .58) 30%, rgba(214, 224, 255, .86) 72%, rgba(239, 246, 255, .94) 100%);
+      box-shadow:
+        inset 0 -82px 110px rgba(111, 55, 255, .62),
+        inset 0 44px 88px rgba(215, 228, 255, .36),
+        0 0 48px rgba(173, 191, 255, .18);
+    }
+
+    .hero-sphere::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at var(--shader-x) var(--shader-y), rgba(211, 226, 255, .5), transparent 28%),
+        radial-gradient(circle at 48% 86%, rgba(105, 45, 255, 1), rgba(138, 82, 255, .76) 24%, rgba(190, 160, 255, .32) 48%, transparent 68%),
+        radial-gradient(circle at 74% 40%, rgba(255, 196, 246, .62), transparent 48%),
+        radial-gradient(circle at 22% 62%, rgba(96, 165, 255, .5), transparent 54%),
+        conic-gradient(from 120deg, rgba(166, 210, 255, .5), rgba(159, 116, 255, .78), rgba(255, 186, 239, .52), rgba(116, 68, 255, .7), rgba(139, 198, 255, .48), rgba(166, 210, 255, .5));
+      background-size: 125% 125%, 115% 115%, 140% 140%, 135% 135%, 180% 180%;
+      background-position: 38% 28%, 50% 82%, 74% 38%, 22% 62%, 50% 50%;
+      filter: blur(1.5px) saturate(1.42) contrast(1.08);
+      mix-blend-mode: color;
+      opacity: .82;
+      animation: sphere-color-breathe 16s ease-in-out infinite alternate;
+    }
+
+    .hero-star {
+      position: absolute;
+      z-index: 4;
+      left: 50.125%;
+      top: 7.404%;
+      width: 24px;
+      height: 24px;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      animation: star-drift 9s ease-in-out infinite alternate;
+    }
+
+    .hero-star::before,
+    .hero-star::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      background:
+        radial-gradient(circle at 42% 34%, rgba(255, 255, 255, .96) 0 8%, rgba(213, 200, 255, .98) 18%, transparent 30%),
+        linear-gradient(180deg, #a88cff 0%, #7b5cff 54%, #6f4cff 100%);
+      clip-path: polygon(50% 0, 61% 37%, 100% 50%, 61% 63%, 50% 100%, 39% 63%, 0 50%, 39% 37%);
+      filter: drop-shadow(0 0 5px rgba(126, 93, 255, .82)) drop-shadow(0 0 16px rgba(168, 146, 255, .56));
+      transform-origin: 50% 50%;
+      animation: star-spin 6.5s linear infinite, star-pulse 3.8s ease-in-out infinite;
+    }
+
+    .hero-star::after {
+      inset: -7px;
+      background:
+        radial-gradient(circle, rgba(255, 255, 255, .32) 0 8%, rgba(154, 128, 255, .24) 24%, transparent 62%);
+      clip-path: none;
+      border-radius: 999px;
+      filter: blur(5px);
+      mix-blend-mode: screen;
+      animation: star-aura 4.8s ease-in-out infinite;
+    }
+
+    .composer-row {
+      position: absolute;
+      z-index: 10;
+      top: 672px;
+      left: 271px;
+      display: flex;
+      gap: 24px;
+    }
+
+    .prompt-card {
+      width: 738px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 24px;
+      border-radius: 24px;
+      background: var(--input);
+      box-shadow: var(--shadow);
+    }
+
+    .prompt-main {
+      width: 486px;
+      min-width: 0;
+      height: 88px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .prompt-input {
+      width: 100%;
+      max-height: 84px;
+      border: 0;
+      outline: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: "Gilroy", Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      -webkit-text-fill-color: var(--text-muted);
+    }
+
+    .prompt-input::placeholder {
+      color: var(--text-muted);
+      opacity: 1;
+    }
+
+    .chips {
+      display: flex;
+      align-items: end;
+      gap: 8px;
+      min-height: 24px;
+    }
+
+    .chip {
+      min-width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      border: 0;
+      padding: 0 8px;
+      border-radius: 8px;
+      background: rgba(205, 205, 205, .5);
+      color: var(--chip-text);
+      font-family: "Gilroy", Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 20px;
+    }
+
+    .chip.icon-only {
+      width: 32px;
+      padding: 0;
+    }
+
+    .stepper-chip {
+      padding: 0 8px;
+    }
+
+    .stepper-control {
+      border: 0;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      line-height: inherit;
+    }
+
+    .stepper-control:disabled {
+      cursor: default;
+      opacity: .38;
+    }
+
+    .stepper-value {
+      min-width: 22px;
+      text-align: center;
+    }
+
+    .chip-icon {
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 16px;
+    }
+
+    .chip-icon img {
+      width: 12px;
+      height: 12px;
+      display: block;
+    }
+
+    .chip-icon.action img {
+      width: 16px;
+      height: 16px;
+    }
+
+    .chip-icon.rotate {
+      transform: rotate(-90deg);
+    }
+
+    .stepper-control img {
+      width: 12px;
+      height: 12px;
+      display: block;
+    }
+
+    .stepper-control img.minus-icon {
+      width: 9px;
+      height: 1px;
+    }
+
+    .primary-action {
+      width: 156px;
+      height: 88px;
+      border: 0;
+      border-radius: 16px;
+      background: var(--primary);
+      color: white;
+      font-size: 16px;
+      line-height: 24px;
+      text-align: center;
+    }
+
+    .secondary-action {
+      position: absolute;
+      z-index: 10;
+      top: 672px;
+      left: 1033px;
+      width: 167px;
+      height: 120px;
+      border: 1px solid #000;
+      border-radius: 24px;
+      background: transparent;
+      color: #000;
+      font-size: 16px;
+      line-height: 24px;
+      text-align: center;
+    }
+
+    .composer-row > .secondary-action {
+      position: static;
+      flex: 0 0 167px;
+    }
+
+    @keyframes sphere-color-breathe {
+      0% {
+        opacity: .72;
+        filter: blur(2px) saturate(1.22) contrast(1.04) hue-rotate(-12deg);
+        background-position: 34% 24%, 50% 86%, 78% 34%, 18% 68%, 48% 50%;
+        --shader-x: 34%;
+        --shader-y: 24%;
+      }
+
+      34% {
+        opacity: .92;
+        filter: blur(2px) saturate(1.5) contrast(1.1) hue-rotate(10deg);
+        background-position: 54% 32%, 45% 80%, 66% 42%, 28% 58%, 56% 44%;
+        --shader-x: 54%;
+        --shader-y: 32%;
+      }
+
+      68% {
+        opacity: .84;
+        filter: blur(2px) saturate(1.42) contrast(1.08) hue-rotate(24deg);
+        background-position: 44% 44%, 56% 84%, 82% 48%, 22% 54%, 42% 58%;
+        --shader-x: 44%;
+        --shader-y: 44%;
+      }
+
+      100% {
+        opacity: .96;
+        filter: blur(2px) saturate(1.58) contrast(1.12) hue-rotate(-4deg);
+        background-position: 60% 28%, 52% 78%, 70% 36%, 34% 66%, 58% 52%;
+        --shader-x: 60%;
+        --shader-y: 28%;
+      }
+    }
+
+    @keyframes star-drift {
+      0% {
+        transform: translate(-50%, -50%) translate3d(0, 1px, 0);
+      }
+
+      50% {
+        transform: translate(-50%, -50%) translate3d(0, -2px, 0);
+      }
+
+      100% {
+        transform: translate(-50%, -50%) translate3d(0, 1px, 0);
+      }
+    }
+
+    @keyframes star-spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes star-pulse {
+      0%, 100% {
+        opacity: .7;
+        scale: .78;
+      }
+
+      45% {
+        opacity: 1;
+        scale: 1.08;
+      }
+
+      68% {
+        opacity: .86;
+        scale: .92;
+      }
+    }
+
+    @keyframes star-aura {
+      0%, 100% {
+        opacity: .18;
+        transform: scale(.7);
+      }
+
+      42% {
+        opacity: .58;
+        transform: scale(1.18);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .stage {
+        width: 100vw;
+        min-height: 100vh;
+        transform-origin: top left;
+      }
+
+      .stage-scale {
+        width: 1280px;
+        height: 832px;
+        transform: scale(calc(100vw / 1280));
+        transform-origin: top left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage" id="stage" data-view="start" aria-label="AI Producer animated prototype">
+    <div class="stage-scale">
+      <header class="header">
+        <button class="wordmark" id="homeButton" type="button">AI PRODUCER</button>
+        <button class="login" type="button">Войти</button>
+      </header>
+
+      <section class="screen is-active" data-screen="start" aria-label="Старт">
+        <div class="hero">
+          <span class="hero-sphere" aria-hidden="true"></span>
+          <img class="hero-base" src="assets/figma/hero-image-128-reference.png" alt="" />
+          <img class="hero-foreground" src="assets/figma/hero-mountains-foreground.png" alt="" />
+          <span class="hero-star" aria-hidden="true"></span>
+        </div>
+        <div class="composer-row">
+          <div class="prompt-card">
+            <div class="prompt-main">
+              <input class="prompt-input" id="startInput" placeholder="Уточни жанр - например: футуристичная драма" />
+              <div class="chips">
+                <button class="chip icon-only" type="button" aria-label="Добавить изображение">
+                  <span class="chip-icon action" aria-hidden="true">
+                    <img src="assets/uikit-icons/input-image-plus.svg" alt="" />
+                  </span>
+                </button>
+                <button class="chip" type="button">
+                  <span class="chip-icon" aria-hidden="true">
+                    <img src="assets/uikit-icons/input-sparkles.svg" alt="" />
+                  </span>
+                  Модель
+                </button>
+                <span class="chip stepper-chip" role="group" aria-label="Количество вариантов">
+                  <button class="stepper-control" type="button" data-stepper-minus aria-label="Уменьшить">
+                    <img class="minus-icon" src="assets/uikit-icons/input-minus.svg" alt="" />
+                  </button>
+                  <span class="stepper-value" id="variantCount">1/4</span>
+                  <button class="stepper-control" type="button" data-stepper-plus aria-label="Увеличить">
+                    <img src="assets/uikit-icons/input-plus.svg" alt="" />
+                  </button>
+                </span>
+                <button class="chip" type="button">8с</button>
+                <button class="chip" type="button">1080p</button>
+                <button class="chip" type="button">
+                  <span class="chip-icon rotate" aria-hidden="true">
+                    <img src="assets/uikit-icons/input-rectangle-horizontal-narrow.svg" alt="" />
+                  </span>
+                  16:9
+                </button>
+                <button class="chip" type="button">
+                  <span class="chip-icon" aria-hidden="true">
+                    <img src="assets/uikit-icons/input-volume.svg" alt="" />
+                  </span>
+                  Звук
+                </button>
+              </div>
+            </div>
+            <button class="primary-action" type="button">ПРИМЕНИТЬ</button>
+          </div>
+          <button class="secondary-action" type="button">УТОЧНИТЬ<br>ВИЗУАЛ</button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    const homeButton = document.querySelector("#homeButton");
+    const variantCount = document.querySelector("#variantCount");
+    const stepperMinus = document.querySelector("[data-stepper-minus]");
+    const stepperPlus = document.querySelector("[data-stepper-plus]");
+    let variants = 1;
+
+    function renderVariantCount() {
+      variantCount.textContent = `${variants}/4`;
+      stepperMinus.disabled = variants === 1;
+      stepperPlus.disabled = variants === 4;
+    }
+
+    homeButton.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    stepperMinus.addEventListener("click", () => {
+      variants = Math.max(1, variants - 1);
+      renderVariantCount();
+    });
+
+    stepperPlus.addEventListener("click", () => {
+      variants = Math.min(4, variants + 1);
+      renderVariantCount();
+    });
+
+    renderVariantCount();
+  </script>
+</body>
+</html>
