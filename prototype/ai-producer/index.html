@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>AI Producer - Genre Prototype</title>
+    <link rel="stylesheet" href="styles.css?v=16" />
+  </head>
+  <body>
+    <main class="viewport">
+      <section class="stage" id="stage" aria-label="AI Producer genre selector">
+        <header class="header">
+          <div class="wordmark">AI PRODUCER</div>
+          <div class="avatar" aria-hidden="true">
+            <img class="avatar-ring" src="assets/avatar-ring.svg" alt="" />
+            <span class="avatar-photo"><img src="assets/avatar-photo.png" alt="" /></span>
+            <img class="avatar-status" src="assets/avatar-status.svg" alt="" />
+          </div>
+        </header>
+
+        <div class="toast" id="toast" role="status" aria-live="polite">
+          <span>Стиль сохранён</span>
+          <button class="toast-close" id="toastClose" type="button" aria-label="Закрыть">×</button>
+        </div>
+
+        <div class="view-tools" aria-hidden="true">
+          <span class="target-icon"></span>
+          <span class="grid-icon"><i></i><i></i><i></i><i></i></span>
+        </div>
+
+        <div class="genre-cloud" aria-label="Выбор жанра">
+          <button class="genre-option action" type="button" data-genre="action">
+            <span>Экшн</span><img src="assets/raw-4.png" alt="" />
+          </button>
+          <button class="genre-option sci-fi" type="button" data-genre="sci-fi">
+            <span>Sci-Fi</span><img src="assets/raw-6.png" alt="" />
+          </button>
+          <button class="genre-option surreal" type="button" data-genre="surreal">
+            <span>Сюрреализм</span><img src="assets/raw-10.png" alt="" />
+          </button>
+          <button class="genre-option horror" type="button" data-genre="horror">
+            <span>Хоррор</span><img src="assets/raw-11.png" alt="" />
+          </button>
+          <button class="genre-option anime" type="button" data-genre="anime">
+            <span>Аниме</span><img src="assets/raw-7.png" alt="" />
+          </button>
+          <button class="round-nav previous" type="button" aria-label="Предыдущие жанры">‹</button>
+          <button class="round-nav next" type="button" aria-label="Следующие жанры">›</button>
+        </div>
+
+        <div class="selection-area" id="selectionArea">
+          <div class="empty-state" id="emptyState">Выбери жанр</div>
+        </div>
+
+        <div class="composer">
+          <nav class="tabs" aria-label="Настройка стиля">
+            <button class="active" type="button">Жанр</button>
+            <button type="button">Атмосфера</button>
+            <button type="button">Локация</button>
+            <button type="button">Персонаж</button>
+            <button type="button">Ракурс</button>
+          </nav>
+
+          <div class="prompt-row">
+            <div class="prompt-field">
+              <span>Уточни жанр - например: футуристичная драма</span>
+              <button class="image-button" type="button" aria-label="Добавить изображение">
+                <img src="assets/image-plus.svg" alt="" />
+              </button>
+              <button class="apply-button" type="button">ПРИМЕНИТЬ</button>
+            </div>
+            <button class="save-button" id="saveButton" type="button">СОХРАНИТЬ<br />СТИЛЬ</button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="script.js?v=16"></script>
+  </body>
+</html>

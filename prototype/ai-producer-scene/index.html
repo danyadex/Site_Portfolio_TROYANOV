@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>AI Producer - Scene Prototype</title>
+    <link rel="stylesheet" href="styles.css?v=58" />
+  </head>
+  <body>
+    <main class="viewport">
+      <section class="stage" aria-label="AI Producer scene editor">
+        <header class="header">
+          <div class="wordmark">AI PRODUCER</div>
+          <div class="avatar" aria-hidden="true">
+            <img class="avatar-ring" src="assets/avatar-ring.svg" alt="" />
+            <span class="avatar-photo"><img src="assets/avatar-photo.png" alt="" /></span>
+            <img class="avatar-status" src="assets/avatar-status.svg" alt="" />
+          </div>
+        </header>
+
+        <button class="back-button" type="button" aria-label="Назад">
+          <img src="assets/chevron-left.svg" alt="" />
+        </button>
+
+        <div class="workspace">
+          <section class="shots-panel" aria-labelledby="shotsTitle">
+            <div class="shots-content">
+              <h2 id="shotsTitle">Шоты сцены</h2>
+              <div class="shots" id="shots">
+                <button class="shot is-active" type="button" data-index="0" aria-label="Шот 01">
+                  <img src="assets/scene-shot-01.png" alt="" />
+                  <span>01</span>
+                </button>
+                <button class="shot" type="button" data-index="1" aria-label="Шот 02">
+                  <img src="assets/scene-shot-02.png" alt="" />
+                  <span>02</span>
+                </button>
+                <button class="shot" type="button" data-index="2" aria-label="Шот 03">
+                  <img src="assets/scene-shot-03.png" alt="" />
+                  <span>03</span>
+                </button>
+                <button class="shot" type="button" data-index="3" aria-label="Шот 04">
+                  <img src="assets/scene-shot-04.png" alt="" />
+                  <span>04</span>
+                </button>
+                <button class="shot" type="button" data-index="4" aria-label="Шот 05">
+                  <img src="assets/scene-shot-05.png" alt="" />
+                  <span>05</span>
+                </button>
+                <button class="shot" type="button" data-index="5" aria-label="Шот 06">
+                  <img src="assets/scene-shot-06.png" alt="" />
+                  <span>06</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="video-panel" aria-label="Предпросмотр сцены">
+            <div class="video-frame" id="videoFrame">
+              <video
+                id="sceneVideo"
+                src="assets/scene.mp4"
+                poster="assets/scene-poster-full.jpg"
+                preload="auto"
+                playsinline
+                muted
+              ></video>
+              <div class="local-edit-layer" id="localEditLayer" aria-hidden="true">
+                <img class="local-edit-source" src="assets/local-edit-source-16x9.png" alt="" />
+                <img
+                  class="local-edit-selection-blur"
+                  id="localEditSelectionBlur"
+                  src="assets/local-edit-source-16x9.png"
+                  alt=""
+                />
+                <img
+                  class="local-edit-result"
+                  id="localEditResult"
+                  src="assets/local-edit-result-seamless-16x9.png"
+                  alt=""
+                />
+                <canvas
+                  class="local-edit-canvas"
+                  id="localEditCanvas"
+                  aria-label="Выделение области для локальной правки"
+                ></canvas>
+                <span class="local-edit-brush-cursor" id="localEditBrushCursor" aria-hidden="true">
+                  <img src="assets/paintbrush-cursor.svg" alt="" />
+                </span>
+              </div>
+              <div class="video-scrim" aria-hidden="true"></div>
+              <div class="video-state" id="videoState" aria-live="polite"></div>
+              <div class="video-controls">
+                <button class="icon-button play-button" id="playButton" type="button" aria-label="Воспроизвести">
+                  <img class="play-icon" src="assets/play.svg" alt="" />
+                  <span class="pause-icon" aria-hidden="true">Ⅱ</span>
+                </button>
+                <button class="icon-button" id="volumeButton" type="button" aria-label="Включить звук">
+                  <img src="assets/volume.svg" alt="" />
+                </button>
+                <span class="video-time"><span id="currentTime">00:00</span> / <span id="duration">00:14</span></span>
+                <button class="icon-button fullscreen-button" id="fullscreenButton" type="button" aria-label="На весь экран">
+                  <img src="assets/fullscreen.svg" alt="" />
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="timeline-panel" aria-label="Таймлайн сцены">
+            <div class="timeline-ruler" id="timelineRuler" aria-hidden="true"></div>
+            <div class="timeline-scale" id="timelineScale" aria-hidden="true"></div>
+            <button
+              class="timeline-track"
+              id="timelineTrack"
+              type="button"
+              role="slider"
+              aria-label="Позиция на таймлайне"
+              aria-valuemin="0"
+              aria-valuemax="14"
+              aria-valuenow="0"
+            >
+              <span class="timeline-image"></span>
+              <span class="timeline-progress" id="timelineProgress"></span>
+            </button>
+            <span class="playhead" id="playhead" aria-hidden="true"></span>
+          </section>
+
+          <div class="composer-row">
+            <section class="prompt-panel" id="promptPanel" aria-label="Правка выбранного шота">
+              <textarea id="prompt" rows="2" placeholder="Опиши правку для выбранного шота…"></textarea>
+              <div class="prompt-options">
+                <button class="chip image-chip" type="button" aria-label="Добавить изображение">
+                  <span class="chip-icon chip-icon-image"><img src="assets/image-plus.svg" alt="" /></span>
+                </button>
+                <button
+                  class="chip"
+                  id="directorChip"
+                  type="button"
+                  aria-pressed="false"
+                  aria-expanded="false"
+                  aria-controls="directorToolbar"
+                >
+                  <span class="chip-icon chip-icon-clapperboard"><img src="assets/clapperboard.svg" alt="" /></span>
+                  <span>Режиссура</span>
+                </button>
+                <button
+                  class="chip"
+                  id="cameraChip"
+                  type="button"
+                  aria-pressed="false"
+                  aria-expanded="false"
+                  aria-controls="cameraToolbar"
+                >
+                  <span class="chip-icon chip-icon-camera"><img src="assets/camera.svg" alt="" /></span>
+                  <span>Камера</span>
+                </button>
+                <button
+                  class="chip"
+                  id="localEditChip"
+                  type="button"
+                  aria-pressed="false"
+                  aria-expanded="false"
+                  aria-controls="localEditLayer"
+                >
+                  <span class="chip-icon chip-icon-paintbrush"><img src="assets/paintbrush.svg" alt="" /></span>
+                  <span>Локальная правка</span>
+                </button>
+              </div>
+              <button class="apply-button" id="applyButton" type="button" aria-label="ПРИМЕНИТЬ">
+                <span class="apply-button-label">ПРИМЕНИТЬ</span>
+                <span class="apply-spinner" aria-hidden="true">
+                  <img src="assets/spinner-white.svg" alt="" />
+                </span>
+              </button>
+            </section>
+            <button class="save-button" id="saveButton" type="button">СОХРАНИТЬ<br />ПРАВКИ</button>
+          </div>
+
+          <div class="director-toolbar-anchor">
+            <section
+              class="director-toolbar"
+              id="directorToolbar"
+              aria-label="Настройки режиссуры"
+              aria-hidden="true"
+            >
+          <article class="director-card director-camera-card">
+            <h2>Движение камеры</h2>
+            <div class="director-camera-control">
+              <button class="director-nav" id="cameraPrev" type="button" aria-label="Предыдущее движение камеры">
+                <img src="assets/director-chevron-left.svg" alt="" />
+              </button>
+              <div class="director-camera-visual" id="cameraMotionVisual" data-camera-mode="smooth" aria-hidden="true">
+                <svg viewBox="0 0 291 62" preserveAspectRatio="none">
+                  <path
+                    class="camera-motion-path"
+                    id="cameraMotionPath"
+                    d="M10.5 17 C38.5 29 61.5 44 89.5 47 C121.5 51 145.5 44 168.5 34 C194.5 23 215.5 9 238.5 7 C256.5 7 270.5 14 280.5 17"
+                  />
+                  <g class="camera-motion-nodes" id="cameraMotionNodes">
+                    <circle cx="10.5" cy="17" r="4.5" />
+                    <circle cx="89.5" cy="47" r="4.5" />
+                    <circle cx="168.5" cy="34" r="4.5" />
+                    <circle cx="238.5" cy="7" r="4.5" />
+                    <circle cx="280.5" cy="17" r="4.5" />
+                  </g>
+                </svg>
+              </div>
+              <button class="director-nav" id="cameraNext" type="button" aria-label="Следующее движение камеры">
+                <img src="assets/director-chevron-right.svg" alt="" />
+              </button>
+            </div>
+            <p class="director-value" id="cameraMode" aria-live="polite">Плавное</p>
+          </article>
+
+          <article class="director-card director-mood-card">
+            <h2>Настроение</h2>
+            <div class="director-mood-control">
+              <button class="director-nav" id="moodPrev" type="button" aria-label="Предыдущее настроение">
+                <img src="assets/director-chevron-left.svg" alt="" />
+              </button>
+              <div class="director-mood-art" id="moodArt" data-mood="calm" aria-hidden="true">
+                <img id="moodImage" src="assets/mood-calm.png" alt="" />
+              </div>
+              <button class="director-nav" id="moodNext" type="button" aria-label="Следующее настроение">
+                <img src="assets/director-chevron-right.svg" alt="" />
+              </button>
+            </div>
+            <p class="director-value" id="moodValue" aria-live="polite">Спокойное</p>
+          </article>
+
+          <div class="director-slider-stack">
+            <label class="director-slider-card">
+              <span>Драматургия</span>
+              <input class="director-slider" type="range" min="0" max="100" value="60" aria-label="Драматургия" />
+            </label>
+            <label class="director-slider-card">
+              <span>Плотность кадра</span>
+              <input class="director-slider" type="range" min="0" max="100" value="42" aria-label="Плотность кадра" />
+            </label>
+          </div>
+            </section>
+          </div>
+
+          <div class="camera-toolbar-anchor">
+            <section
+              class="camera-toolbar"
+              id="cameraToolbar"
+              aria-label="Настройки камеры"
+              aria-hidden="true"
+            >
+              <article class="camera-setting-card" data-camera-control="camera">
+                <h2>Камера</h2>
+                <div class="camera-setting-control">
+                  <button class="camera-setting-nav" type="button" data-direction="-1" aria-label="Предыдущая камера">
+                    <img src="assets/director-chevron-left.svg" alt="" />
+                  </button>
+                  <div class="camera-setting-visual" aria-hidden="true">
+                    <img class="camera-setting-image" alt="" />
+                  </div>
+                  <button class="camera-setting-nav" type="button" data-direction="1" aria-label="Следующая камера">
+                    <img src="assets/director-chevron-right.svg" alt="" />
+                  </button>
+                </div>
+                <p class="camera-setting-value" aria-live="polite"></p>
+              </article>
+
+              <article class="camera-setting-card" data-camera-control="lens">
+                <h2>Объектив</h2>
+                <div class="camera-setting-control">
+                  <button class="camera-setting-nav" type="button" data-direction="-1" aria-label="Предыдущий объектив">
+                    <img src="assets/director-chevron-left.svg" alt="" />
+                  </button>
+                  <div class="camera-setting-visual" aria-hidden="true">
+                    <img class="camera-setting-image" alt="" />
+                  </div>
+                  <button class="camera-setting-nav" type="button" data-direction="1" aria-label="Следующий объектив">
+                    <img src="assets/director-chevron-right.svg" alt="" />
+                  </button>
+                </div>
+                <p class="camera-setting-value" aria-live="polite"></p>
+              </article>
+
+              <article class="camera-setting-card" data-camera-control="focus">
+                <h2>Фокус</h2>
+                <div class="camera-setting-control">
+                  <button class="camera-setting-nav" type="button" data-direction="-1" aria-label="Предыдущее фокусное расстояние">
+                    <img src="assets/director-chevron-left.svg" alt="" />
+                  </button>
+                  <div class="camera-setting-visual camera-setting-number" aria-hidden="true"></div>
+                  <button class="camera-setting-nav" type="button" data-direction="1" aria-label="Следующее фокусное расстояние">
+                    <img src="assets/director-chevron-right.svg" alt="" />
+                  </button>
+                </div>
+                <p class="camera-setting-value" aria-live="polite"></p>
+              </article>
+
+              <article class="camera-setting-card" data-camera-control="aperture">
+                <h2>Диафрагма</h2>
+                <div class="camera-setting-control">
+                  <button class="camera-setting-nav" type="button" data-direction="-1" aria-label="Предыдущее значение диафрагмы">
+                    <img src="assets/director-chevron-left.svg" alt="" />
+                  </button>
+                  <div class="camera-setting-visual" aria-hidden="true">
+                    <img class="camera-setting-image" alt="" />
+                  </div>
+                  <button class="camera-setting-nav" type="button" data-direction="1" aria-label="Следующее значение диафрагмы">
+                    <img src="assets/director-chevron-right.svg" alt="" />
+                  </button>
+                </div>
+                <p class="camera-setting-value" aria-live="polite"></p>
+              </article>
+
+              <article class="camera-setting-card" data-camera-control="light">
+                <h2>Освещение</h2>
+                <div class="camera-setting-control">
+                  <button class="camera-setting-nav" type="button" data-direction="-1" aria-label="Предыдущее освещение">
+                    <img src="assets/director-chevron-left.svg" alt="" />
+                  </button>
+                  <div class="camera-setting-visual" aria-hidden="true">
+                    <img class="camera-setting-image" alt="" />
+                  </div>
+                  <button class="camera-setting-nav" type="button" data-direction="1" aria-label="Следующее освещение">
+                    <img src="assets/director-chevron-right.svg" alt="" />
+                  </button>
+                </div>
+                <p class="camera-setting-value" aria-live="polite"></p>
+              </article>
+            </section>
+          </div>
+        </div>
+
+        <div class="toast" id="toast" role="status" aria-live="polite">
+          <span>Правки сохранены</span>
+          <button id="toastClose" type="button" aria-label="Закрыть">×</button>
+        </div>
+      </section>
+    </main>
+  <script src="script.js?v=29"></script>
+  </body>
+</html>

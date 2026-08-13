@@ -1,0 +1,5 @@
+.DS_Store
+node_modules/
+
+# отладочные скриншоты выравнивания, пересоздаются
+prototype/**/test-*.png

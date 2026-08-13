@@ -1,0 +1,21 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1073" height="9" viewBox="0 0 1073 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Timeline">
+<line id="Line 8" x1="536.5" y1="2.1856e-08" x2="536.5" y2="8" stroke="#838383"/>
+<line id="Line 20" x1="670.5" y1="2.1856e-08" x2="670.5" y2="8" stroke="#838383"/>
+<line id="Line 22" x1="804.5" y1="2.1856e-08" x2="804.5" y2="8" stroke="#838383"/>
+<line id="Line 24" x1="938.5" y1="2.1856e-08" x2="938.5" y2="8" stroke="#838383"/>
+<line id="Line 21" x1="737.25" y1="1" x2="737.25" y2="7" stroke="#838383" stroke-width="0.5"/>
+<line id="Line 23" x1="871.25" y1="1.09281e-08" x2="871.25" y2="6" stroke="#838383" stroke-width="0.5"/>
+<line id="Line 25" x1="1005.25" y1="1.09281e-08" x2="1005.25" y2="6" stroke="#838383" stroke-width="0.5"/>
+<line id="Line 10" x1="603.25" y1="1.09281e-08" x2="603.25" y2="6" stroke="#838383" stroke-width="0.5"/>
+<line id="Line 18" x1="402.5" y1="2.1856e-08" x2="402.5" y2="8" stroke="#838383"/>
+<line id="Line 14" x1="268.5" y1="2.1856e-08" x2="268.5" y2="8" stroke="#838383"/>
+<line id="Line 13" x1="67.25" y1="1.09281e-08" x2="67.25" y2="6" stroke="#838383" stroke-width="0.5"/>
+<line id="Line 7" x1="134.5" y1="2.1856e-08" x2="134.5" y2="8" stroke="#838383"/>
+<line id="Line 16" x1="201.25" y1="1.09281e-08" x2="201.25" y2="6" stroke="#838383" stroke-width="0.5"/>
+<line id="Line 17" x1="335.25" y1="1.09281e-08" x2="335.25" y2="6" stroke="#838383" stroke-width="0.5"/>
+<line id="Line 19" x1="469.25" y1="1.09281e-08" x2="469.25" y2="6" stroke="#838383" stroke-width="0.5"/>
+<line id="Line 26" x1="1072.5" y1="2.1856e-08" x2="1072.5" y2="8" stroke="#838383"/>
+<path id="Line 4" d="M2 1L1072 1" stroke="#C9C5C5" stroke-width="2"/>
+</g>
+</svg>
