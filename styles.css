@@ -386,7 +386,7 @@ a:active .icon-arrow svg { fill: var(--color-text-inverse); }
 .browser-mockup {
   height: 408px;
   width: 690px;
-  border-radius: 12px;
+  border-radius: 20px;
   overflow: hidden;
   background: #f7f7f7;
 }
