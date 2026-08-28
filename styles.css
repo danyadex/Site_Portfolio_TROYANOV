@@ -58,7 +58,7 @@
   --text-heading-m-size: 32px;   --text-heading-m-lh: 40px;
 
   /* ---------- прочее из компонентов ---------- */
-  --button-radius: 16px;    /* сохранено из референсной кнопки, вне шкалы отступов */
+  --button-radius: 24px;
   --button-pad: 10px;
   --content-width: 1200px;
   /* Figma: 1200px content inside a 1440px frame = 120px left edge.
@@ -98,12 +98,26 @@ a { color: inherit; }
   z-index: 10;
   opacity: 0.95;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   height: 78px;
   padding: 20px var(--content-edge-right) 20px var(--content-margin);
   background: rgba(255, 255, 255, 0.34);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+}
+
+.site-logo {
+  display: block;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+}
+
+.site-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 @media (prefers-reduced-transparency: reduce) {
@@ -386,7 +400,7 @@ a:active .icon-arrow svg { fill: var(--color-text-inverse); }
 .browser-mockup {
   height: 408px;
   width: 690px;
-  border-radius: 20px;
+  border-radius: 12px;
   overflow: hidden;
   background: #f7f7f7;
 }
@@ -637,7 +651,7 @@ a:active .icon-arrow svg { fill: var(--color-text-inverse); }
 .ui-shot--wide {
   width: 845px;
   height: 574px;
-  border-radius: 24px;
+  border-radius: 12px;
 }
 
 .ui-shot--wide img {
@@ -670,7 +684,7 @@ a:active .icon-arrow svg { fill: var(--color-text-inverse); }
   width: 1025px;
   height: 573px;
   border: 0.1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 24px;
+  border-radius: 12px;
 }
 
 .ui-shot--landscape img {
@@ -859,6 +873,10 @@ a:active .icon-arrow svg { fill: var(--color-text-inverse); }
     height: 164px;
     padding: 60px var(--mobile-gutter);
     justify-content: stretch;
+  }
+
+  .site-logo {
+    display: none;
   }
 
   .nav {
@@ -1149,7 +1167,7 @@ a:active .icon-arrow svg { fill: var(--color-text-inverse); }
   .ui-shot--wide {
     width: 94.522%;
     height: var(--mobile-ui-shot-height);
-    border-radius: 16px;
+    border-radius: 12px;
   }
 
   .ui-shot--portrait {
@@ -1160,7 +1178,7 @@ a:active .icon-arrow svg { fill: var(--color-text-inverse); }
   .ui-shot--landscape {
     width: 114.7%;
     height: var(--mobile-ui-shot-height);
-    border-radius: 16px;
+    border-radius: 12px;
   }
 
   .mobile-divider--footer {
