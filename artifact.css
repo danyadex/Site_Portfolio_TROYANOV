@@ -71,6 +71,29 @@
   object-fit: cover;
 }
 
+/* Figma 1891:571: the Create carousel fades into a narrow right-edge mask. */
+.artifact-scroll-blur {
+  position: absolute;
+  z-index: 1;
+  left: 95.58%;
+  top: 17.81%;
+  width: 4.56%;
+  height: 11.84%;
+  overflow: visible;
+  background: #000;
+  filter: blur(2.65px);
+  pointer-events: none;
+}
+
+.artifact-scroll-blur::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: #000;
+  -webkit-backdrop-filter: blur(11.7px);
+  backdrop-filter: blur(11.7px);
+}
+
 .artifact-device-frame {
   z-index: 1;
   left: -1.65%;
@@ -433,6 +456,22 @@
   border-radius: 26px;
 }
 
+.artifact-screen-media {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 282 / 610;
+  overflow: hidden;
+  border-radius: 26px;
+}
+
+.artifact-screen-media > img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: inherit;
+}
+
 .architecture-arrow {
   background: var(--color-text-accent);
 }
@@ -581,6 +620,21 @@
 .testing-images img {
   display: block;
   object-fit: cover;
+}
+
+.testing-screen-media {
+  width: 217px;
+  height: 471px;
+  flex: 0 0 217px;
+  aspect-ratio: auto;
+  border-radius: 22px;
+}
+
+.testing-screen-media > img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: inherit;
 }
 
 .testing-images--pair {
@@ -818,6 +872,18 @@
     aspect-ratio: 217 / 471;
   }
 
+  .testing-images--pair .testing-screen-media {
+    width: calc((100% - 95px) / 2);
+    height: auto;
+    flex-basis: calc((100% - 95px) / 2);
+    aspect-ratio: 217 / 471;
+  }
+
+  .testing-images--pair .testing-screen-media > img {
+    width: 100%;
+    height: 100%;
+  }
+
   .testing-images--split {
     width: 100%;
   }
@@ -928,6 +994,10 @@
   }
 
   .architecture-stage img {
+    width: min(100%, 282px);
+  }
+
+  .architecture-stage .artifact-screen-media {
     width: min(100%, 282px);
   }
 
