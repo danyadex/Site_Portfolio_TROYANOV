@@ -1,0 +1,1169 @@
+/* Troyanov portfolio — design tokens
+   Источник: Figma SITE_PORTFOLIO. TROYANOV (urnwqlmbMmlXtvo36amBhe)
+   Значения синхронизированы с локальными переменными Figma —
+   при правке дизайна поправь и здесь, и там.
+*/
+
+@font-face {
+  font-family: "Bounded";
+  src: url("assets/bounded-variable.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- primitives ---------- */
+  --white: #ffffff;
+  --black-950: #111111;
+  --gray-600: #6d6d68;
+  --gray-100: #d8d8d2;
+  --gray-150: #ebebe8;
+  --magenta-500: #c3009e;
+
+  /* ---------- semantic ---------- */
+  --color-bg-base: var(--white);
+  --color-text-primary: var(--black-950);
+  --color-text-secondary: var(--gray-600);
+  --color-text-muted: #bcbcbc;
+  --color-text-accent: var(--magenta-500);
+  --color-text-inverse: var(--white);
+  --color-icon-primary: var(--black-950);
+  --color-icon-secondary: var(--gray-600);
+  --color-border-subtle: var(--gray-100);
+  --color-border-divider: var(--gray-150);
+
+  /* ---------- spacing (модуль 8px) ---------- */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-96: 96px;
+  --space-128: 128px;
+  --space-160: 160px;
+  --space-224: 224px;
+
+  /* ---------- typography ---------- */
+  --font-bounded: "Bounded", -apple-system, sans-serif;
+
+  --text-caption-s-size: 13px;   --text-caption-s-lh: 18px;
+  --text-caption-m-size: 13px;   --text-caption-m-lh: 20px;
+  --text-body-s-size: 14px;      --text-body-s-lh: 18px;
+  --text-body-m-size: 16px;      --text-body-m-lh: 24px;
+  --text-label-l-size: 20px;     --text-label-l-lh: 28px;
+  --text-body-l-size: 20px;      --text-body-l-lh: 32px;
+  --text-heading-m-size: 32px;   --text-heading-m-lh: 40px;
+
+  /* ---------- прочее из компонентов ---------- */
+  --button-radius: 16px;    /* сохранено из референсной кнопки, вне шкалы отступов */
+  --button-pad: 10px;
+  --content-width: 1200px;
+  --content-margin: max(40px, calc((100vw - var(--content-width)) / 2));
+  --content-edge-right: calc(var(--content-margin) - (100vw - 100%));
+}
+
+* { box-sizing: border-box; }
+
+html { overflow-x: clip; }
+
+body {
+  margin: 0;
+  overflow-x: clip;
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-bounded);
+  font-size: var(--text-body-m-size);
+  line-height: var(--text-body-m-lh);
+}
+
+img, video { max-width: 100%; display: block; }
+
+a { color: inherit; }
+
+.nowrap {
+  white-space: nowrap;
+}
+
+/* ---------- header ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  opacity: 0.95;
+  display: flex;
+  justify-content: flex-end;
+  height: 78px;
+  padding: 20px var(--content-edge-right) 20px var(--content-margin);
+  background: rgba(255, 255, 255, 0.34);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .site-header {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-24);
+}
+
+/* ---------- Button (см. компонент в Figma, node 1700:321) ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 38px;
+  padding: 0;
+  border-radius: var(--button-radius);
+  border: 1px solid var(--color-text-primary);
+  background: transparent;
+  font-family: var(--font-bounded);
+  font-size: var(--text-body-s-size);
+  line-height: var(--text-body-s-lh);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn:hover {
+  border-color: var(--color-text-accent);
+  color: var(--color-text-accent);
+}
+
+.btn:active {
+  background: var(--color-text-accent);
+  border-color: var(--color-text-accent);
+  color: var(--color-text-inverse);
+}
+
+.btn:disabled {
+  border-color: var(--color-text-muted);
+  color: var(--color-text-muted);
+  cursor: default;
+}
+
+/* ---------- Arrow Right Up (node 1707:308) ---------- */
+
+.icon-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease;
+}
+
+.icon-arrow svg { width: 48px; height: 48px; fill: var(--color-text-primary); transition: fill 0.15s ease; }
+
+.icon-arrow img { width: 48px; height: 48px; display: block; }
+
+a:hover .icon-arrow svg { fill: var(--color-text-accent); }
+a:active .icon-arrow { background: var(--color-text-accent); }
+a:active .icon-arrow svg { fill: var(--color-text-inverse); }
+
+/* состояние Disabled — статично, без интеракций (используется у TAYA, пока нет кейса) */
+.icon-arrow.is-disabled svg { fill: var(--color-text-muted); }
+
+/* ---------- close icon (node 1772:330) ---------- */
+
+.icon-close {
+  position: relative;
+  display: block;
+  width: 20.276px;
+  height: 20.276px;
+  flex: 0 0 20.276px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.icon-close img {
+  position: absolute;
+  top: 4.319px;
+  left: 4.319px;
+  width: 11.638px;
+  height: 11.638px;
+}
+.icon-close:hover { opacity: 0.72; }
+.icon-close:active { opacity: 0.56; }
+.icon-close:focus-visible {
+  outline: 2px solid var(--color-text-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- layout ---------- */
+
+.content {
+  width: min(var(--content-width), calc(100vw - 80px));
+  margin: 0 0 0 var(--content-margin);
+  padding: 0;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 792px) 384px;
+  width: 100%;
+  height: 351px;
+  margin-top: 130px;
+  column-gap: var(--space-24);
+  align-items: center;
+}
+
+.hero-intro { min-width: 0; }
+
+.hero-name {
+  font-size: var(--text-body-m-size);
+  line-height: var(--text-body-m-lh);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-12);
+}
+
+.hero-bio {
+  font-size: var(--text-label-l-size);
+  line-height: var(--text-label-l-lh);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-32);
+  max-width: 792px;
+  text-wrap: pretty;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.hero-meta {
+  display: flex;
+  gap: var(--space-32);
+}
+
+.hero-meta dt {
+  font-size: var(--text-body-s-size);
+  line-height: var(--text-body-s-lh);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.hero-meta dd {
+  font-size: var(--text-body-s-size);
+  line-height: var(--text-body-s-lh);
+  color: var(--color-text-primary);
+  margin: var(--space-4) 0 0;
+}
+
+.hero-portrait {
+  width: 384px;
+  height: 351px;
+  border-radius: 150px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: transparent;
+}
+.hero-portrait video, .hero-portrait img { width: 100%; height: 100%; object-fit: cover; }
+.hero-portrait video { transform: scale(1.2); transform-origin: center; }
+
+/* ---------- project rows ---------- */
+
+.project {
+  display: grid;
+  align-items: center;
+  width: 100%;
+  margin-top: var(--space-224);
+}
+
+.project--phone {
+  grid-template-columns: 384px minmax(0, 486px);
+  column-gap: 228px;
+  min-height: 802px;
+}
+
+.project--taya {
+  min-height: 802px;
+}
+
+.project--browser {
+  grid-template-columns: minmax(0, 486px) 690px;
+  column-gap: var(--space-24);
+  min-height: 408px;
+}
+
+.project-media {
+  min-width: 0;
+}
+
+.project--phone .project-media { width: 384px; }
+.project--taya .project-media { width: 384px; }
+.project--browser .project-media { width: 690px; }
+
+/* ---------- телефонный мокап (ARTIFACT, TAYA) ----------
+   Рамка (PNG) поверх, видео/картинка — внутри выреза экрана.
+   Смещения и радиус — точные значения из Figma, не на глаз. */
+
+.phone-mockup {
+  position: relative;
+  width: 384px;
+  height: 802px;
+  aspect-ratio: 384 / 802;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.phone-bezel {
+  position: absolute;
+  left: -1.14%;
+  top: -0.76%;
+  width: 102.28%;
+  height: 101.53%;
+  max-width: none;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.phone-mockup .phone-screen {
+  position: absolute;
+  z-index: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.phone-mockup .phone-screen video,
+.phone-mockup .phone-screen .phone-screen-static {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.phone-mockup--artifact .phone-screen {
+  left: 3.232082%;
+  top: 1.466268%;
+  width: 93.570735%;
+  height: 96.952506%;
+  border-radius: 16.332523% / 7.546226%;
+}
+
+.project--taya .phone-mockup,
+.phone-mockup--taya {
+  width: 384px;
+  height: 802px;
+  aspect-ratio: 384 / 802;
+}
+
+.phone-mockup--taya .phone-screen {
+  left: 3.125%;
+  top: 1.620948%;
+  width: 93.75%;
+  height: 97.381546%;
+  border-radius: 11.111111% / 5.121639%;
+}
+
+/* ---------- браузерный мокап (AI PRODUCER) ---------- */
+
+.browser-mockup {
+  height: 408px;
+  width: 690px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f7f7f7;
+}
+
+.browser-titlebar {
+  position: relative;
+  height: 23px;
+  flex: 0 0 23px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.browser-titlebar img {
+  position: absolute;
+  top: -68.42%;
+  left: -2.83%;
+  display: block;
+  width: 105.66%;
+  height: 257.89%;
+  max-width: none;
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
+}
+
+
+.browser-mockup video {
+  display: block;
+  width: 100%;
+  height: 386px;
+  object-fit: cover;
+}
+
+.project-info {
+  min-width: 0;
+  width: 486px;
+  align-self: center;
+}
+
+/* AI Producer: повторяет вложенные авто-лейауты исходного блока. */
+.project--ai-producer .project-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.project--ai-producer .project-content-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 60px;
+  width: 100%;
+}
+
+.project--ai-producer .project-description-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  width: 100%;
+}
+
+.project-meta {
+  display: flex;
+  gap: var(--space-16);
+  font-size: var(--text-body-m-size);
+  line-height: var(--text-body-m-lh);
+  color: var(--color-text-secondary);
+  height: 24px;
+  margin: 0 0 60px;
+  white-space: nowrap;
+}
+
+.project--ai-producer .project-meta {
+  align-items: flex-start;
+  margin: 0;
+}
+
+.project-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  min-height: 48px;
+  margin: 0 0 18px;
+}
+
+.project--ai-producer .project-header {
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+}
+
+.project--ai-producer .project-title {
+  gap: 6.903px;
+}
+
+/* Keep the desktop copy measure aligned with the Figma composition. */
+.project--ai-producer .project-desc {
+  max-width: 360px;
+}
+
+/* ---------- статус-бейдж (Soon / NDA / Concept — node 1797:301) ---------- */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 26px;
+  padding: 4px 10px;
+  border: 0.5px solid var(--color-border-subtle);
+  border-radius: 100px;
+  font-size: var(--text-caption-s-size);
+  line-height: var(--text-caption-s-lh);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.project-title {
+  height: 48px;
+  font-size: var(--text-heading-m-size);
+  line-height: var(--text-heading-m-lh);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+.project-title:hover { color: var(--color-text-secondary); }
+.project-title-label.is-disabled {
+  color: var(--color-text-muted);
+  cursor: default;
+  pointer-events: none;
+}
+
+.project-desc {
+  font-size: var(--text-label-l-size);
+  line-height: var(--text-label-l-lh);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* ---------- UI shots ---------- */
+
+.ui-shots {
+  margin-top: var(--space-224);
+}
+
+.ui-shots-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-24);
+  margin-bottom: 34px;
+}
+
+.ui-shots h2 {
+  font-size: var(--text-heading-m-size);
+  line-height: var(--text-heading-m-lh);
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  margin: 0;
+}
+
+.ui-shots-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.ui-shots-gallery {
+  position: relative;
+  width: calc(100vw - var(--content-margin));
+  margin-left: var(--content-margin);
+}
+
+.ui-shots-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-48);
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  cursor: grab;
+  scrollbar-width: none;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.ui-shots-row::-webkit-scrollbar { display: none; }
+.ui-shots-row.is-dragging { cursor: grabbing; }
+
+.ui-shots-prev,
+.ui-shots-next {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  place-items: center;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-text-primary);
+  border-radius: var(--button-radius);
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  opacity: 1;
+  transition: color 180ms cubic-bezier(0.22, 1, 0.36, 1), border-color 180ms cubic-bezier(0.22, 1, 0.36, 1), transform 220ms cubic-bezier(0.22, 1, 0.36, 1), background-color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ui-shots-prev svg,
+.ui-shots-next svg { width: 20px; height: 20px; }
+.ui-shots-prev:hover,
+.ui-shots-next:hover {
+  color: var(--color-text-accent);
+  border-color: var(--color-text-accent);
+}
+.ui-shots-prev:active,
+.ui-shots-next:active {
+  color: var(--color-text-inverse);
+  border-color: var(--color-text-accent);
+  background: var(--color-text-accent);
+  transform: scale(0.96);
+}
+.ui-shots-prev:focus-visible,
+.ui-shots-next:focus-visible { outline: 2px solid var(--color-text-accent); outline-offset: 3px; }
+.ui-shots-prev[hidden],
+.ui-shots-next[hidden] { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-shots-prev,
+  .ui-shots-next { transition: none; }
+}
+
+.ui-shot {
+  position: relative;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+.ui-shot img {
+  position: absolute;
+  display: block;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.ui-shot--wide {
+  width: 845px;
+  height: 574px;
+  border-radius: 24px;
+}
+
+.ui-shot--wide img {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ui-shot--portrait {
+  width: 282px;
+  height: 574px;
+}
+
+.ui-shot--portrait-first img {
+  top: -1.08%;
+  left: -2.16%;
+  width: 103.65%;
+  height: 102.34%;
+}
+
+.ui-shot--portrait-second img {
+  top: -1.11%;
+  left: -1.46%;
+  width: 102.92%;
+  height: 103.84%;
+}
+
+.ui-shot--landscape {
+  width: 1025px;
+  height: 573px;
+  border: 0.1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 24px;
+}
+
+.ui-shot--landscape img {
+  top: -4.21%;
+  left: -2.68%;
+  width: 105.4%;
+  height: 104.54%;
+}
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  width: 100%;
+  margin-top: 320px;
+  height: 80px;
+  padding: 0 var(--content-edge-right) 0 var(--content-margin);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-24);
+  font-size: var(--text-body-s-size);
+  line-height: var(--text-body-s-lh);
+  box-sizing: border-box;
+}
+
+.site-footer a { text-decoration: underline; }
+
+/* ---------- contacts popover ---------- */
+
+.popover {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  padding: var(--space-24);
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 20;
+}
+.popover.is-open { display: grid; }
+
+.popover-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-32);
+  width: min(368px, 100%);
+  min-height: 167px;
+  box-sizing: border-box;
+  background: var(--color-bg-base);
+  border-radius: 24px;
+  padding: 28px;
+}
+
+.popover-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.popover-header h3 {
+  flex: 1;
+  margin: 0;
+  font-size: 20px;
+  line-height: normal;
+  font-weight: 400;
+}
+
+.popover-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin: 0;
+}
+
+.popover-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-24);
+  padding: 0;
+  font-size: 14px;
+  line-height: normal;
+}
+.popover-row dt { color: var(--color-text-secondary); margin: 0; }
+.popover-row dd { color: var(--color-text-primary); margin: 0; }
+.popover-row a { color: inherit; text-decoration: none; }
+.popover-row--telegram a { text-decoration: underline; text-underline-position: from-font; }
+
+/* ---------- desktop adaptation ---------- */
+
+@media (min-width: 768px) and (max-width: 1279px) {
+  .content {
+    width: calc(100vw - 80px);
+    margin-left: var(--content-margin);
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr) clamp(280px, 32vw, 384px);
+  }
+
+  .hero-bio {
+    font-size: clamp(18px, 1.6vw, var(--text-label-l-size));
+    line-height: clamp(26px, 2.2vw, var(--text-label-l-lh));
+  }
+
+  .hero-portrait {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 384 / 351;
+    border-radius: clamp(117px, 13.4vw, 150px);
+  }
+
+  .project--phone {
+    grid-template-columns: minmax(280px, 384px) minmax(0, 486px);
+    column-gap: 24px;
+    justify-content: space-between;
+  }
+
+  .project--phone .project-media,
+  .project--phone .phone-mockup {
+    width: min(384px, 100%);
+  }
+
+  .project--taya .project-media,
+  .project--taya .phone-mockup {
+    width: min(383px, 100%);
+  }
+
+  .project--phone .phone-mockup {
+    height: auto;
+  }
+
+  .project--browser {
+    /* At intermediate desktop widths, keep the Figma copy block readable
+       while keeping the browser preview at a usable minimum width. */
+    grid-template-columns: clamp(344px, 42%, 486px) minmax(320px, 1fr);
+  }
+
+  .project--browser .project-media,
+  .project--browser .project-info,
+  .project--browser .browser-mockup {
+    width: 100%;
+  }
+
+  .browser-mockup {
+    height: auto;
+    aspect-ratio: 690 / 408;
+  }
+
+  .browser-titlebar {
+    height: 5.882%;
+  }
+
+  .browser-mockup video {
+    height: 94.118%;
+  }
+
+  .project-info {
+    width: 100%;
+  }
+}
+
+/* ---------- mobile main frame (Figma 1691:639) ----------
+   The mobile composition is a vertical auto-layout, not a scaled desktop row.
+   Media widths stay fluid while the 16px page gutter and section rhythm remain stable. */
+
+.mobile-divider { display: none; }
+
+@media (max-width: 767px) {
+  :root {
+    --mobile-gutter: 16px;
+    --mobile-media-width: calc(100vw - (var(--mobile-gutter) * 2));
+    --mobile-ui-shot-height: calc(var(--mobile-media-width) * 230 / 358);
+  }
+
+  html,
+  body {
+    min-width: 0;
+    overflow-x: clip;
+  }
+
+  body { width: 100%; }
+
+  .site-header {
+    position: sticky;
+    height: 164px;
+    padding: 60px var(--mobile-gutter);
+    justify-content: stretch;
+  }
+
+  .nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: var(--space-16);
+  }
+
+  .btn {
+    flex: 1 1 0;
+    width: auto;
+    max-width: 102px;
+    min-width: 0;
+    height: 44px;
+    padding: 13px var(--button-pad);
+  }
+
+  .content {
+    width: 100%;
+    margin: 0;
+    padding: 0 var(--mobile-gutter);
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    gap: 40px;
+  }
+
+  .hero-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 20px;
+    order: 2;
+  }
+
+  .hero-name,
+  .hero-bio {
+    margin: 0;
+  }
+
+  .hero-name {
+    font-size: var(--text-body-m-size);
+    line-height: var(--text-body-m-lh);
+  }
+
+  .hero-bio {
+    max-width: none;
+    font-size: var(--text-body-m-size);
+    line-height: var(--text-body-m-lh);
+  }
+
+  .hero-break-desktop { display: none; }
+
+  .hero-meta {
+    display: flex;
+    gap: var(--space-32);
+    margin: 0;
+  }
+
+  .hero-meta dt {
+    font-size: var(--text-caption-s-size);
+    line-height: var(--text-caption-s-lh);
+  }
+
+  .hero-meta dd {
+    margin-top: var(--space-4);
+    font-size: var(--text-body-s-size);
+    line-height: var(--text-body-s-lh);
+  }
+
+  .hero-portrait {
+    order: 1;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 358 / 327;
+    border-radius: clamp(0px, calc(41.9vw - 13.4px), 150px);
+  }
+
+  .mobile-divider {
+    display: block;
+    width: 100%;
+    height: 2px;
+    margin: 59px 0;
+    flex: 0 0 2px;
+    background: var(--color-border-divider);
+  }
+
+  .project,
+  .project--phone,
+  .project--browser,
+  .project--taya {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  .project-info {
+    align-self: stretch;
+    width: 100%;
+    order: 1;
+  }
+
+  .project-media,
+  .project--phone .project-media,
+  .project--taya .project-media,
+  .project--browser .project-media {
+    align-self: stretch;
+    width: 100%;
+    order: 2;
+  }
+
+  .project-meta {
+    height: auto;
+    min-height: 18px;
+    margin: 0 0 20px;
+    gap: var(--space-16);
+    font-size: var(--text-caption-s-size);
+    line-height: var(--text-caption-s-lh);
+  }
+
+  .project-header,
+  .project--ai-producer .project-header {
+    min-height: 28px;
+    height: 28px;
+    margin: 0 0 8px;
+    gap: var(--space-8);
+  }
+
+  .project-title {
+    height: 28px;
+    font-size: var(--text-label-l-size);
+    line-height: var(--text-label-l-lh);
+    gap: 6.903px;
+  }
+
+  .icon-arrow {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+  }
+
+  .icon-arrow svg,
+  .icon-arrow img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .project-desc {
+    max-width: none;
+    font-size: var(--text-body-m-size);
+    line-height: var(--text-body-m-lh);
+  }
+
+  .project--artifact .project-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .project--artifact .project-media {
+    margin-top: 60px;
+  }
+
+  .project--phone .phone-mockup,
+  .project--taya .phone-mockup {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 384 / 802;
+  }
+
+  .project--ai-producer .project-info {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .project--ai-producer .project-content-stack {
+    width: 100%;
+    gap: 20px;
+  }
+
+  .project--ai-producer .project-description-stack {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .project--ai-producer .project-header {
+    margin-bottom: 0;
+  }
+
+  .project--ai-producer .project-meta {
+    margin: 0;
+  }
+
+  .project--ai-producer .project-media {
+    margin-top: 60px;
+  }
+
+  .project--ai-producer .project-desc {
+    max-width: none;
+  }
+
+  .project--taya .project-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .project--taya .project-meta {
+    margin-bottom: 20px;
+  }
+
+  .project--taya .project-header {
+    display: contents;
+  }
+
+  .project--taya .project-title {
+    margin-bottom: 8px;
+  }
+
+  .project--taya .status-badge {
+    width: 60px;
+    height: 26px;
+    margin-bottom: 8px;
+  }
+
+  .project--taya .project-media {
+    margin-top: 60px;
+  }
+
+  .browser-mockup {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 690 / 408;
+  }
+
+  .browser-titlebar {
+    height: 5.882%;
+  }
+
+  .browser-mockup video {
+    height: 94.118%;
+  }
+
+  .ui-shots {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .ui-shots-heading {
+    width: 100%;
+    margin: 0 0 20px;
+    padding: 0 var(--mobile-gutter);
+  }
+
+  .ui-shots h2 {
+    font-size: var(--text-label-l-size);
+    line-height: var(--text-label-l-lh);
+  }
+
+  .ui-shots-controls {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .ui-shots-gallery {
+    width: 100%;
+    margin: 0;
+  }
+
+  .ui-shots-row {
+    width: 100%;
+    gap: 19.233px;
+    padding: 0 var(--mobile-gutter);
+    touch-action: pan-x pan-y;
+  }
+
+  .ui-shot--wide {
+    width: 94.522%;
+    height: var(--mobile-ui-shot-height);
+    border-radius: 16px;
+  }
+
+  .ui-shot--portrait {
+    width: 31.563%;
+    height: var(--mobile-ui-shot-height);
+  }
+
+  .ui-shot--landscape {
+    width: 114.7%;
+    height: var(--mobile-ui-shot-height);
+    border-radius: 16px;
+  }
+
+  .mobile-divider--footer {
+    width: calc(100% - (var(--mobile-gutter) * 2));
+    margin: 59px var(--mobile-gutter);
+  }
+
+  .site-footer {
+    height: 120px;
+    margin: 0;
+    padding: 60px var(--mobile-gutter);
+    gap: var(--space-24);
+    font-size: var(--text-body-s-size);
+    line-height: var(--text-body-s-lh);
+  }
+}
