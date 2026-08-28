@@ -34,7 +34,7 @@
 }
 
 .artifact-device--single {
-  aspect-ratio: 381.743 / 789.265;
+  aspect-ratio: 380.512 / 789.76;
 }
 
 .artifact-device-screen,
@@ -75,10 +75,10 @@
 .artifact-scroll-blur {
   position: absolute;
   z-index: 1;
-  left: 95.58%;
-  top: 17.81%;
-  width: 4.56%;
-  height: 11.84%;
+  left: 95.41%;
+  top: 18.03%;
+  width: 4.54%;
+  height: 11.8%;
   overflow: visible;
   background: #000;
   filter: blur(2.65px);
@@ -749,8 +749,8 @@
   }
 
   .artifact-device--single {
-    width: 381.743px;
-    height: 789.265px;
+    width: 380.512px;
+    height: 789.76px;
   }
 
   .artifact-device-screen--explore {
