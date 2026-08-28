@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ARTIFACT — кейс Даниила Троянова</title>
-  <link rel="stylesheet" href="styles.css?v=ui-shot-arrows-mobile" />
-  <link rel="stylesheet" href="artifact.css?v=artifact-v1" />
+  <link rel="stylesheet" href="styles.css?v=artifact-source-sync" />
+  <link rel="stylesheet" href="artifact.css?v=artifact-source-sync" />
 </head>
-<body class="case-body">
+<body class="case-body" id="top">
   <header class="site-header">
+    <a class="site-logo" href="#top" aria-label="На главную">
+      <img src="assets/home/troyanov-monogram.svg" alt="" />
+    </a>
     <nav class="nav">
       <button class="btn" type="button" data-open-popover="about">О себе</button>
       <button class="btn" type="button" data-open-popover="cv">CV</button>
@@ -19,21 +22,24 @@
   <main class="artifact-page">
     <section class="artifact-devices" data-node-id="1386:3538" aria-label="Основные экраны ARTIFACT">
       <div class="artifact-device-row">
-        <figure class="artifact-device artifact-device--layered">
-          <div class="artifact-device-screen artifact-device-screen--explore">
+        <figure class="artifact-device">
+          <div class="artifact-device-screen">
             <img src="assets/cases/artifact/explore.png" alt="Экран Explore приложения ARTIFACT" />
           </div>
-          <img class="artifact-device-frame" src="assets/cases/artifact/iphone-16.png" alt="" aria-hidden="true" />
+          <img class="artifact-device-frame" src="assets/cases/artifact/iphone-16.png?v=2" alt="" aria-hidden="true" />
         </figure>
-        <figure class="artifact-device artifact-device--layered">
-          <div class="artifact-device-screen artifact-device-screen--create">
+        <figure class="artifact-device">
+          <div class="artifact-device-screen">
             <img src="assets/cases/artifact/create.png" alt="Экран Create Image приложения ARTIFACT" />
             <span class="artifact-scroll-blur" data-node-id="1891:571" aria-hidden="true"></span>
           </div>
-          <img class="artifact-device-frame" src="assets/cases/artifact/iphone-16.png" alt="" aria-hidden="true" />
+          <img class="artifact-device-frame" src="assets/cases/artifact/iphone-16.png?v=2" alt="" aria-hidden="true" />
         </figure>
-        <figure class="artifact-device artifact-device--single">
-          <img src="assets/cases/artifact/iphone-17-mockup.png" alt="Экран генерации изображения в ARTIFACT" />
+        <figure class="artifact-device">
+          <div class="artifact-device-screen">
+            <img src="assets/cases/artifact/create-img3.png" alt="Экран генерации изображения в ARTIFACT" />
+          </div>
+          <img class="artifact-device-frame" src="assets/cases/artifact/iphone-16.png?v=2" alt="" aria-hidden="true" />
         </figure>
       </div>
     </section>
@@ -106,7 +112,7 @@
         </div>
       </div>
       <div class="pathway-arrow" aria-hidden="true">
-        <img src="assets/cases/artifact/architecture/down.svg" alt="" />
+        <img src="assets/cases/artifact/pathway-down.svg" alt="" />
       </div>
       <p class="pathway-conclusion">Нужен короткий путь от&nbsp;идеи к&nbsp;результату</p>
     </section>

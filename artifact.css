@@ -6,11 +6,11 @@
   background: var(--color-bg-base);
 }
 
+/* Figma 856:26: 1200px content on a 1440px frame. */
 .artifact-page {
-  width: min(var(--content-width), calc(100vw - 80px));
-  margin: 0 auto;
-  padding-top: 120px;
-  padding-bottom: 80px;
+  width: 100%;
+  margin: 0;
+  padding: 120px var(--content-edge-right) 80px var(--content-margin);
 }
 
 .artifact-devices {
@@ -25,21 +25,16 @@
   width: 100%;
 }
 
+/* Responsive fallback; desktop devices use exact per-frame geometry below. */
 .artifact-device {
   position: relative;
   width: 100%;
-  aspect-ratio: 380.512 / 789.76;
+  aspect-ratio: 381 / 790;
   margin: 0;
-  overflow: hidden;
-}
-
-.artifact-device--single {
-  aspect-ratio: 380.512 / 789.76;
 }
 
 .artifact-device-screen,
-.artifact-device-frame,
-.artifact-device--single > img {
+.artifact-device-frame {
   position: absolute;
   display: block;
   max-width: none;
@@ -47,28 +42,19 @@
 
 .artifact-device-screen {
   z-index: 0;
-  overflow: hidden;
-  border-radius: 10.2% / 4.85%;
-}
-
-.artifact-device-screen--explore {
-  left: 3.4%;
-  top: 2.01%;
-  width: 93%;
-  height: 96.6%;
-}
-
-.artifact-device-screen--create {
   left: 3.38%;
   top: 1.63%;
-  width: 93%;
-  height: 96.6%;
+  width: 92.65%;
+  height: 96.58%;
+  overflow: hidden;
+  border-radius: 0;
 }
 
 .artifact-device-screen img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
+  object-position: center;
 }
 
 /* Figma 1891:571: the Create carousel fades into a narrow right-edge mask. */
@@ -96,17 +82,10 @@
 
 .artifact-device-frame {
   z-index: 1;
-  left: -1.65%;
-  top: -1.27%;
-  width: 103.3%;
-  height: 102.4%;
-  pointer-events: none;
-}
-
-.artifact-device--single > img {
   inset: 0;
-  width: 100.02%;
+  width: 100%;
   height: 100%;
+  pointer-events: none;
 }
 
 .case-section {
@@ -473,7 +452,7 @@
 }
 
 .architecture-arrow {
-  background: var(--color-text-accent);
+  background: transparent;
 }
 
 .testing {
@@ -617,7 +596,8 @@
   width: 100%;
 }
 
-.testing-images img {
+.testing-images > img,
+.testing-screen-media > img {
   display: block;
   object-fit: cover;
 }
@@ -641,7 +621,7 @@
   gap: 11px;
 }
 
-.testing-images--pair img {
+.testing-images--pair > img {
   width: 217px;
   height: 471px;
   border-radius: 22px;
@@ -654,13 +634,13 @@
   align-self: center;
 }
 
-.testing-images--split img:first-of-type {
+.testing-images--split > img:first-of-type {
   width: 257px;
   height: 156px;
   border-radius: 22px;
 }
 
-.testing-images--split img:last-of-type {
+.testing-images--split > img:last-of-type {
   width: 400px;
   height: 243px;
   border-radius: 22px;
@@ -685,6 +665,7 @@
   width: 17.32px;
   height: 74.5px;
   max-width: none;
+  object-fit: fill;
   transform: translate(-50%, -50%) rotate(-90deg);
 }
 
@@ -701,6 +682,7 @@
   width: 17.32px;
   height: 74.5px;
   max-width: none;
+  object-fit: fill;
   transform: translateX(-50%);
 }
 
@@ -734,54 +716,60 @@
     display: flex;
     height: 789px;
     align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
   }
 
-  .artifact-device {
+  .artifact-device:first-child {
     flex: 0 0 auto;
     width: 378.53px;
     height: 789.76px;
     aspect-ratio: auto;
-    overflow: visible;
   }
 
-  .artifact-device:nth-child(2) {
-    width: 380.512px;
-  }
-
-  .artifact-device--single {
+  .artifact-device:nth-child(2),
+  .artifact-device:nth-child(3) {
+    flex: 0 0 auto;
     width: 380.512px;
     height: 789.76px;
+    aspect-ratio: auto;
   }
 
-  .artifact-device-screen--explore {
+  .artifact-device:first-child .artifact-device-screen {
     left: 12.88px;
     top: 15.85px;
     width: 352.766px;
     height: 763.006px;
   }
 
-  .artifact-device-screen--create {
+  .artifact-device:nth-child(2) .artifact-device-screen {
     left: 12.88px;
     top: 12.88px;
     width: 352.766px;
     height: 763.006px;
   }
 
-  .artifact-device-frame {
-    left: 0;
-    top: 0;
-    width: 380.512px;
-    height: 789.76px;
+  .artifact-device:nth-child(3) .artifact-device-screen {
+    left: 14px;
+    top: 15px;
+    width: 351px;
+    height: 760px;
   }
 
   .artifact-device:first-child .artifact-device-frame {
     left: -0.99px;
   }
+
+  .artifact-device-frame {
+    top: 0;
+    width: 380.512px;
+    height: 789.76px;
+  }
 }
 
 @media (max-width: 1279px) {
   .artifact-page {
-    width: calc(100vw - 80px);
+    width: 100%;
   }
 
   .case-meta-grid {
@@ -807,7 +795,7 @@
 
 @media (max-width: 900px) {
   .artifact-page {
-    width: calc(100vw - 48px);
+    width: 100%;
     padding-top: 72px;
   }
 
