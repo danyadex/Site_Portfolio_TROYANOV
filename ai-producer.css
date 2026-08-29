@@ -1,0 +1,650 @@
+/* AI PRODUCER case page
+   Source: Figma node 1029:2190, Desktop - 4. */
+
+.ai-producer-body {
+  background: var(--color-bg-base);
+}
+
+.ai-producer-page {
+  width: 100%;
+  margin: 0;
+  padding: 120px var(--content-edge-right) 80px var(--content-margin);
+}
+
+.ai-case-section {
+  width: 100%;
+}
+
+.ai-case-browser {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1200 / 725;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #272626;
+  box-shadow: 0 13px 40px rgba(0, 0, 0, 0.16);
+}
+
+.ai-case-browser-titlebar {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 6%;
+  overflow: hidden;
+  background: #272626;
+}
+
+.ai-case-browser-titlebar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+}
+
+.ai-case-browser-content {
+  position: absolute;
+  top: 6%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  background: #f2f1f0;
+}
+
+.ai-case-browser-content video,
+.ai-case-browser-content > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+}
+
+.ai-overview {
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+  height: 240px;
+  margin-top: 100px;
+}
+
+.ai-overview-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.ai-case-kicker,
+.ai-case-note {
+  margin: 0;
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 400;
+}
+
+.ai-case-kicker {
+  flex: 0 0 auto;
+  color: var(--color-text-accent);
+}
+
+.ai-case-note {
+  color: var(--color-text-secondary);
+}
+
+.ai-case-meta-grid {
+  display: grid;
+  grid-template-columns: 105px 85px minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+  width: 633px;
+  margin: 0;
+}
+
+.ai-case-meta-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ai-case-meta-grid dt,
+.ai-case-meta-grid dd {
+  margin: 0;
+  font-size: var(--text-caption-s-size);
+  line-height: var(--text-caption-s-lh);
+}
+
+.ai-case-meta-grid dt {
+  color: var(--color-text-secondary);
+}
+
+.ai-case-meta-grid dd {
+  color: var(--color-text-primary);
+}
+
+.ai-overview-title {
+  width: 100%;
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 400;
+}
+
+.ai-case-divider {
+  width: 100%;
+  height: 1px;
+  margin: 80px 0;
+  background: var(--color-border-divider);
+}
+
+.ai-case-divider--large {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.ai-case-divider--testing {
+  margin-bottom: 79px;
+}
+
+.ai-problem {
+  height: 703px;
+}
+
+.ai-problem-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 54px;
+  height: 254px;
+}
+
+.ai-problem-copy h1 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 64px;
+  line-height: 84px;
+  font-weight: 400;
+}
+
+.ai-nowrap {
+  white-space: nowrap;
+}
+
+.ai-trouble-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 80px;
+}
+
+.ai-trouble-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  margin: 0;
+}
+
+.ai-trouble-card figcaption {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 16px;
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+.ai-trouble-card figcaption span {
+  color: var(--color-text-secondary);
+}
+
+.ai-trouble-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 588 / 341;
+  margin: 0;
+  border-radius: 50px;
+  object-fit: cover;
+  box-shadow: 0 13px 40px rgba(0, 0, 0, 0.14);
+}
+
+.ai-research {
+  height: 858px;
+}
+
+.ai-research-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  height: 388px;
+}
+
+.ai-research-title {
+  width: 100%;
+  height: 230px;
+}
+
+.ai-research-title-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.ai-research-title h2 {
+  margin: 54px 0 0;
+  color: var(--color-text-primary);
+  font-size: 64px;
+  line-height: 84px;
+  font-weight: 400;
+}
+
+.ai-audience-list {
+  display: flex;
+  flex-direction: column;
+  width: 672px;
+  margin-top: 12px;
+}
+
+.ai-audience-list span {
+  display: flex;
+  align-items: center;
+  min-height: 88px;
+  padding: 24px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 60px;
+  color: var(--color-text-primary);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.ai-audience-list span + span {
+  margin-top: -30px;
+}
+
+.ai-insights {
+  height: 201px;
+  margin-top: 32px;
+}
+
+.ai-insight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.ai-insight-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  height: 163px;
+  padding: 24px;
+  border-radius: 24px;
+  background: var(--color-text-primary);
+  color: var(--color-text-inverse);
+}
+
+.ai-insight-card p,
+.ai-insight-card span {
+  margin: 0;
+}
+
+.ai-insight-card p {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.ai-insight-card span {
+  color: #a8a8a2;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.ai-research-conclusion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.ai-research-conclusion img {
+  width: 18px;
+  height: 75px;
+  max-width: none;
+}
+
+.ai-research-conclusion p {
+  margin: 50px 0 0;
+  color: var(--color-text-primary);
+  font-size: 32px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.ai-solution {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.ai-solution-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: min(1062px, 100%);
+  height: 186px;
+}
+
+.ai-solution-intro h2,
+.ai-solution-intro > p:last-child {
+  margin: 0;
+}
+
+.ai-solution-intro h2 {
+  color: var(--color-text-primary);
+  font-size: 64px;
+  line-height: 84px;
+  font-weight: 400;
+}
+
+.ai-solution-intro > p:last-child {
+  color: var(--color-text-secondary);
+  font-size: 20px;
+  line-height: 32px;
+}
+
+.ai-testing {
+  display: flex;
+  flex-direction: column;
+  height: 706px;
+}
+
+.ai-testing-head {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  width: 588px;
+}
+
+.ai-testing-head > p:last-child {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 20px;
+  line-height: 32px;
+}
+
+.ai-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  width: 588px;
+  margin-top: 80px;
+}
+
+.ai-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ai-metric strong {
+  color: var(--color-text-primary);
+  font-size: 96px;
+  line-height: 112px;
+  font-weight: 400;
+}
+
+.ai-metric span {
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.ai-development {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+  min-height: 192px;
+}
+
+.ai-development > p:last-child {
+  max-width: 588px;
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 20px;
+  line-height: 32px;
+}
+
+@media (min-width: 768px) and (max-width: 1279px) {
+  .ai-producer-page {
+    padding-right: var(--content-edge-right);
+    padding-left: var(--content-margin);
+  }
+
+  .ai-overview,
+  .ai-problem,
+  .ai-research,
+  .ai-testing {
+    height: auto;
+  }
+
+  .ai-problem {
+    min-height: 703px;
+  }
+
+  .ai-research {
+    min-height: 858px;
+  }
+
+  .ai-solution-intro h2,
+  .ai-problem-copy h1,
+  .ai-research-title h2 {
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: clamp(52px, 6.55vw, 84px);
+  }
+}
+
+@media (max-width: 767px) {
+  .ai-producer-page {
+    padding: 60px 16px 48px;
+  }
+
+  .ai-case-browser {
+    border-radius: 16px;
+  }
+
+  .ai-overview {
+    gap: 32px;
+    height: auto;
+    margin-top: 64px;
+  }
+
+  .ai-overview-head {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ai-case-kicker,
+  .ai-case-note {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .ai-case-meta-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 16px;
+    width: 100%;
+  }
+
+  .ai-case-meta-grid div:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .ai-overview-title {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .ai-desktop-break {
+    display: none;
+  }
+
+  .ai-case-divider {
+    margin: 48px 0;
+  }
+
+  .ai-case-divider--large {
+    margin-top: 64px;
+    margin-bottom: 64px;
+  }
+
+  .ai-problem {
+    height: auto;
+    min-height: 0;
+  }
+
+  .ai-problem-copy {
+    gap: 24px;
+    height: auto;
+  }
+
+  .ai-problem-copy h1,
+  .ai-research-title h2,
+  .ai-solution-intro h2 {
+    font-size: 40px;
+    line-height: 48px;
+  }
+
+  .ai-trouble-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .ai-trouble-card figcaption {
+    font-size: 13px;
+    line-height: 20px;
+    white-space: normal;
+  }
+
+  .ai-trouble-card img {
+    border-radius: 24px;
+  }
+
+  .ai-research {
+    height: auto;
+    min-height: 0;
+  }
+
+  .ai-research-top {
+    align-items: stretch;
+    height: auto;
+  }
+
+  .ai-research-title {
+    height: auto;
+  }
+
+  .ai-research-title-head {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-research-title h2 {
+    margin-top: 24px;
+  }
+
+  .ai-audience-list {
+    width: 100%;
+    margin-top: 32px;
+  }
+
+  .ai-audience-list span {
+    min-height: 64px;
+    padding: 16px 20px;
+  }
+
+  .ai-audience-list span + span {
+    margin-top: -16px;
+  }
+
+  .ai-insights {
+    height: auto;
+    margin-top: 64px;
+  }
+
+  .ai-insight-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .ai-insight-card {
+    height: auto;
+    min-height: 156px;
+    border-radius: 16px;
+  }
+
+  .ai-research-conclusion {
+    margin-top: 48px;
+  }
+
+  .ai-research-conclusion p {
+    margin-top: 32px;
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .ai-solution {
+    gap: 48px;
+  }
+
+  .ai-solution-intro {
+    gap: 24px;
+    height: auto;
+  }
+
+  .ai-solution-intro > p:last-child,
+  .ai-testing-head > p:last-child,
+  .ai-development > p:last-child {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .ai-testing {
+    height: auto;
+  }
+
+  .ai-testing-head,
+  .ai-metrics {
+    width: 100%;
+  }
+
+  .ai-testing-head {
+    gap: 32px;
+  }
+
+  .ai-metrics {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .ai-metric strong {
+    font-size: 72px;
+    line-height: 88px;
+  }
+
+  .ai-development {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: 0;
+  }
+}
