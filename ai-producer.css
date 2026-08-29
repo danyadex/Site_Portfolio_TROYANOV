@@ -45,26 +45,26 @@
   object-position: center;
 }
 
-.ai-case-browser-content--solution {
+.ai-case-browser-content--media {
   isolation: isolate;
 }
 
-.ai-case-browser-content--solution .ai-case-browser-base {
+.ai-case-browser-content--media .ai-case-browser-base {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
 
-.ai-case-browser-content--solution .ai-case-browser-motion {
+.ai-case-browser-content--media .ai-case-browser-motion {
   position: absolute;
   z-index: 1;
-  top: 29.66%;
-  left: 30.7%;
-  width: 40.7%;
-  height: 37.8%;
+  top: 6.07%;
+  left: 0;
+  width: 100%;
+  height: auto;
   max-width: none;
-  object-fit: cover;
-  object-position: center;
+  object-fit: fill;
+  object-position: center bottom;
 }
 
 .ai-overview {
