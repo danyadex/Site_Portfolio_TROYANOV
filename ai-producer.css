@@ -8,7 +8,7 @@
 .ai-producer-page {
   width: 100%;
   margin: 0;
-  padding: 120px var(--content-edge-right) 80px var(--content-margin);
+  padding: 120px var(--content-edge-right) 265px var(--content-margin);
 }
 
 .ai-case-section {
@@ -20,9 +20,9 @@
   width: 100%;
   aspect-ratio: 1200 / 725;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 22px;
   background: transparent;
-  box-shadow: none;
+  box-shadow: 0 13px 40px rgba(0, 0, 0, 0.35);
 }
 
 .ai-case-browser-content {
@@ -32,6 +32,7 @@
   bottom: 0;
   left: 0;
   overflow: hidden;
+  border-radius: inherit;
   background: #f2f1f0;
 }
 
@@ -151,10 +152,11 @@
 
 .ai-case-divider--large {
   margin-top: 100px;
-  margin-bottom: 100px;
+  margin-bottom: 99px;
 }
 
 .ai-case-divider--testing {
+  margin-top: 80px;
   margin-bottom: 79px;
 }
 
@@ -217,7 +219,7 @@
   margin: 0;
   border-radius: 50px;
   object-fit: cover;
-  box-shadow: 0 13px 40px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .ai-research {
@@ -245,8 +247,8 @@
 .ai-research-title h2 {
   margin: 54px 0 0;
   color: var(--color-text-primary);
-  font-size: 64px;
-  line-height: 84px;
+  font-size: 96px;
+  line-height: 144px;
   font-weight: 400;
 }
 
@@ -262,11 +264,11 @@
   align-items: center;
   min-height: 88px;
   padding: 24px;
-  border: 1px solid var(--color-border-subtle);
+  border: 0;
   border-radius: 60px;
-  color: var(--color-text-primary);
-  font-size: 16px;
-  line-height: 24px;
+  color: var(--color-text-secondary);
+  font-size: 32px;
+  line-height: 40px;
 }
 
 .ai-audience-list span + span {
@@ -276,6 +278,12 @@
 .ai-insights {
   height: 201px;
   margin-top: 32px;
+}
+
+.ai-insights > .ai-case-kicker {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  line-height: 18px;
 }
 
 .ai-insight-grid {
@@ -288,13 +296,26 @@
 .ai-insight-card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 6px;
   min-width: 0;
   height: 163px;
-  padding: 24px;
-  border-radius: 24px;
-  background: var(--color-text-primary);
+  padding: 28px;
+  border-radius: 32px;
+  background: #313131;
   color: var(--color-text-inverse);
+}
+
+.ai-insight-card::before {
+  content: "“";
+  width: 34px;
+  height: 38px;
+  color: #d8ff9d;
+  font-family: Georgia, serif;
+  font-size: 54px;
+  line-height: 46px;
+  transform: rotate(180deg);
+  transform-origin: center;
 }
 
 .ai-insight-card p,
@@ -308,7 +329,7 @@
 }
 
 .ai-insight-card span {
-  color: #a8a8a2;
+  color: var(--color-text-secondary);
   font-size: 13px;
   line-height: 18px;
 }
@@ -322,15 +343,15 @@
 
 .ai-research-conclusion img {
   width: 18px;
-  height: 75px;
+  height: 73px;
   max-width: none;
 }
 
 .ai-research-conclusion p {
   margin: 50px 0 0;
   color: var(--color-text-primary);
-  font-size: 32px;
-  line-height: 40px;
+  font-size: 20px;
+  line-height: 32px;
   text-align: center;
 }
 
@@ -343,24 +364,30 @@
 .ai-solution-intro {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 40px;
   width: min(1062px, 100%);
   height: 186px;
 }
 
-.ai-solution-intro h2,
-.ai-solution-intro > p:last-child {
+.ai-solution-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ai-solution-copy h2,
+.ai-solution-copy p {
   margin: 0;
 }
 
-.ai-solution-intro h2 {
+.ai-solution-copy h2 {
   color: var(--color-text-primary);
-  font-size: 64px;
-  line-height: 84px;
+  font-size: 32px;
+  line-height: 40px;
   font-weight: 400;
 }
 
-.ai-solution-intro > p:last-child {
+.ai-solution-copy p {
   color: var(--color-text-secondary);
   font-size: 20px;
   line-height: 32px;
@@ -369,68 +396,76 @@
 .ai-testing {
   display: flex;
   flex-direction: column;
-  height: 706px;
+  height: 429px;
 }
 
 .ai-testing-head {
   display: flex;
   flex-direction: column;
   gap: 60px;
-  width: 588px;
+  width: 100%;
 }
 
 .ai-testing-head > p:last-child {
   margin: 0;
-  color: var(--color-text-primary);
-  font-size: 20px;
-  line-height: 32px;
+  color: var(--color-text-secondary);
+  font-size: 32px;
+  line-height: 40px;
 }
 
 .ai-metrics {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-  width: 588px;
-  margin-top: 80px;
+  grid-template-columns: 489px minmax(0, 1fr);
+  gap: 159px;
+  width: 100%;
+  margin-top: 60px;
 }
 
 .ai-metric {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
+  min-width: 0;
 }
 
 .ai-metric strong {
-  color: var(--color-text-primary);
-  font-size: 96px;
-  line-height: 112px;
+  color: var(--color-text-accent);
+  font-size: 128px;
+  line-height: 157px;
   font-weight: 400;
 }
 
 .ai-metric span {
-  color: var(--color-text-secondary);
-  font-size: 16px;
-  line-height: 24px;
+  color: var(--color-text-primary);
+  font-size: 32px;
+  line-height: 40px;
+}
+
+.ai-metric:last-child span {
+  width: 572px;
+  max-width: none;
 }
 
 .ai-development {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
   min-height: 192px;
 }
 
 .ai-development > p:last-child {
-  max-width: 588px;
+  max-width: none;
   margin: 0;
   color: var(--color-text-primary);
-  font-size: 20px;
-  line-height: 32px;
+  font-size: 32px;
+  line-height: 40px;
 }
 
 @media (min-width: 768px) and (max-width: 1279px) {
   .ai-producer-page {
+    padding-top: clamp(80px, 9vw, 120px);
     padding-right: var(--content-edge-right);
+    padding-bottom: clamp(120px, 18vw, 265px);
     padding-left: var(--content-margin);
   }
 
@@ -441,19 +476,103 @@
     height: auto;
   }
 
+  .ai-overview {
+    gap: clamp(64px, 9vw, 120px);
+  }
+
   .ai-problem {
-    min-height: 703px;
+    min-height: 0;
   }
 
   .ai-research {
-    min-height: 858px;
+    min-height: 0;
   }
 
-  .ai-solution-intro h2,
-  .ai-problem-copy h1,
-  .ai-research-title h2 {
+  .ai-problem-copy {
+    gap: clamp(32px, 5vw, 54px);
+    height: auto;
+  }
+
+  .ai-problem-copy h1 {
     font-size: clamp(40px, 5vw, 64px);
     line-height: clamp(52px, 6.55vw, 84px);
+  }
+
+  .ai-trouble-grid {
+    margin-top: clamp(48px, 7vw, 80px);
+  }
+
+  .ai-trouble-card figcaption {
+    min-height: 40px;
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  .ai-research-top,
+  .ai-research-title {
+    height: auto;
+  }
+
+  .ai-research-title h2 {
+    font-size: clamp(56px, 8vw, 96px);
+    line-height: 1.5;
+  }
+
+  .ai-audience-list {
+    width: min(672px, 100%);
+  }
+
+  .ai-audience-list span {
+    font-size: clamp(20px, 3vw, 32px);
+    line-height: 1.25;
+  }
+
+  .ai-solution-intro {
+    height: auto;
+  }
+
+  .ai-testing-head > p:last-child,
+  .ai-development > p:last-child {
+    font-size: clamp(24px, 3vw, 32px);
+    line-height: 1.25;
+  }
+
+  .ai-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .ai-metric strong {
+    font-size: clamp(96px, 10vw, 128px);
+    line-height: 1.23;
+  }
+
+  .ai-metric span {
+    font-size: clamp(20px, 2.5vw, 32px);
+    line-height: 1.25;
+  }
+
+  .ai-metric:last-child span {
+    width: auto;
+    max-width: 100%;
+  }
+
+  .ai-development {
+    gap: 60px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 960px) {
+  .ai-insight-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-insights {
+    height: auto;
+  }
+
+  .ai-insight-card {
+    width: 100%;
   }
 }
 
@@ -464,6 +583,7 @@
 
   .ai-case-browser {
     border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   }
 
   .ai-overview {
@@ -521,11 +641,19 @@
     height: auto;
   }
 
-  .ai-problem-copy h1,
-  .ai-research-title h2,
-  .ai-solution-intro h2 {
-    font-size: 40px;
-    line-height: 48px;
+  .ai-problem-copy h1 {
+    font-size: 34px;
+    line-height: 44px;
+  }
+
+  .ai-research-title h2 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .ai-solution-copy h2 {
+    font-size: 28px;
+    line-height: 36px;
   }
 
   .ai-trouble-grid {
@@ -576,6 +704,8 @@
   .ai-audience-list span {
     min-height: 64px;
     padding: 16px 20px;
+    font-size: 20px;
+    line-height: 28px;
   }
 
   .ai-audience-list span + span {
@@ -605,8 +735,8 @@
 
   .ai-research-conclusion p {
     margin-top: 32px;
-    font-size: 24px;
-    line-height: 32px;
+    font-size: 16px;
+    line-height: 24px;
   }
 
   .ai-solution {
@@ -614,11 +744,15 @@
   }
 
   .ai-solution-intro {
-    gap: 24px;
+    gap: 32px;
     height: auto;
   }
 
-  .ai-solution-intro > p:last-child,
+  .ai-solution-copy {
+    gap: 8px;
+  }
+
+  .ai-solution-copy p,
   .ai-testing-head > p:last-child,
   .ai-development > p:last-child {
     font-size: 16px;
@@ -645,8 +779,18 @@
   }
 
   .ai-metric strong {
-    font-size: 72px;
-    line-height: 88px;
+    font-size: 64px;
+    line-height: 80px;
+  }
+
+  .ai-metric span {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .ai-metric:last-child span {
+    width: auto;
+    max-width: 100%;
   }
 
   .ai-development {
@@ -654,5 +798,10 @@
     flex-direction: column;
     gap: 24px;
     min-height: 0;
+  }
+
+  .ai-case-divider--testing {
+    margin-top: 64px;
+    margin-bottom: 64px;
   }
 }
