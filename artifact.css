@@ -530,6 +530,11 @@
   line-height: 20px;
 }
 
+.artifact-copy-mobile,
+.artifact-mobile-only {
+  display: none;
+}
+
 .metric-value-row {
   display: flex;
   align-items: center;
@@ -895,129 +900,655 @@
 
 @media (max-width: 767px) {
   .artifact-page {
-    width: 100%;
-    padding: 60px 16px 48px;
+    width: 100vw;
+    padding: 40px 16px 80px;
+    overflow: visible;
+  }
+
+  .case-body .site-header {
+    width: 100vw;
+  }
+
+  /* The source keeps the first three screens as a horizontal composition. */
+  .artifact-devices {
+    width: 827px;
+    height: 551px;
+    overflow: visible;
   }
 
   .artifact-device-row {
-    grid-template-columns: repeat(3, 78vw);
+    display: flex;
+    align-items: center;
+    width: 827px;
+    height: 551px;
     gap: 16px;
-    margin-right: -16px;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  .artifact-device {
+    flex: 0 0 265px;
+    width: 265px;
+    height: 551px;
+    aspect-ratio: auto;
+  }
+
+  .artifact-device-screen {
+    border-radius: 0;
+  }
+
+  .artifact-device:first-child .artifact-device-screen {
+    left: 10px;
+    top: 11px;
+    width: 246px;
+    height: 532px;
+  }
+
+  .artifact-device:nth-child(2) .artifact-device-screen {
+    left: 9px;
+    top: 9px;
+    width: 246px;
+    height: 532px;
+  }
+
+  .artifact-device-frame-mask {
+    top: 0;
+    left: 0;
+    width: 265px;
+    height: 551px;
+  }
+
+  .artifact-device:nth-child(3) > .artifact-device-screen,
+  .artifact-device:nth-child(3) > .artifact-device-frame-mask {
+    display: none;
+  }
+
+  .artifact-device:nth-child(3)::before {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    content: "";
+    background: url("assets/cases/artifact/iphone-17-mockup.png") center / 100% 100% no-repeat;
+  }
+
+  /* The mobile source already contains the clean clipped carousel artwork. */
+  .artifact-page .artifact-scroll-blur {
+    display: none;
   }
 
   .artifact-overview {
-    gap: 32px;
-    margin-top: 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    height: 376px;
+    margin-top: 80px;
+  }
+
+  .artifact-overview .case-section-head {
+    display: contents;
+  }
+
+  .artifact-overview .case-kicker {
+    order: 1;
+    height: 32px;
+    margin: 0;
+  }
+
+  .artifact-overview-title {
+    order: 2;
+    width: 100%;
+    margin: 20px 0 0;
+    font-size: 20px;
+    line-height: 28px;
   }
 
   .case-meta-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: 16px;
-  }
-
-  .case-meta-grid div:last-child {
-    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    order: 3;
+    gap: 20px;
+    width: 100%;
+    height: 160px;
+    margin-top: 52px;
   }
 
   .case-kicker {
+    font-size: 20px;
+    line-height: 32px;
+  }
+
+  .case-divider,
+  .case-divider--hairline {
+    margin: 60px 0 59px;
+  }
+
+  .case-problem {
+    width: 358px;
+    height: 694px;
+    min-height: 0;
+  }
+
+  .case-problem > .case-kicker {
+    margin: 0;
+  }
+
+  .problem-content {
+    align-items: flex-start;
+    gap: 40px;
+    margin-top: 80px;
+  }
+
+  .problem-visual {
+    width: 358px;
+    height: 458.65px;
+    transform: none;
+  }
+
+  .problem-word--all {
+    top: 65px;
+    left: 98px;
+    font-size: 64px;
+    line-height: 84px;
+  }
+
+  .problem-symbol {
+    top: 218.65px;
+    left: 0;
+    width: 358px;
+    font-size: 96px;
+    line-height: 144px;
+    text-align: center;
+  }
+
+  .problem-word--simple {
+    top: 374.65px;
+    left: 0;
+    width: 358px;
+    font-size: 64px;
+    line-height: 84px;
+    text-align: center;
+  }
+
+  .problem-icon,
+  .problem-mark {
+    width: 24px;
+    height: 24px;
+  }
+
+  .problem-icon--one {
+    top: 22px;
+    left: 14.8%;
+    border-radius: 8.732px;
+  }
+
+  .problem-icon--two {
+    top: 140px;
+    left: 0;
+    border-radius: 4px;
+  }
+
+  .problem-icon--three {
+    top: 0;
+    left: 167px;
+  }
+
+  .problem-icon--four {
+    top: 140px;
+    left: 334px;
+  }
+
+  .problem-icon--five {
+    top: 22px;
+    left: 281px;
+  }
+
+  .problem-mark {
+    top: 183px;
+    left: 167px;
+  }
+
+  .problem-description {
+    width: 100%;
+    font-size: 20px;
+    line-height: 28px;
+    text-align: center;
+  }
+
+  .pathway-summary {
+    position: relative;
+    display: block;
+    width: 827px;
+    height: 558px;
+    min-height: 0;
+  }
+
+  .pathway-main {
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+    width: 827px;
+    height: auto;
+  }
+
+  .pathway-intro {
+    display: block;
+    width: 358px;
+    height: 172px;
+  }
+
+  .pathway-intro > div {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 358px;
+    height: 104px;
+  }
+
+  .pathway-intro h1 {
+    font-size: 32px;
+    line-height: 48px;
+  }
+
+  .audience-pill {
+    width: 358px;
+    height: 56px;
+    margin-top: 12px;
+    padding: 16px;
+    border-radius: 24px;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: left;
+  }
+
+  .pathway-respondents {
+    position: relative;
+    display: flex;
+    gap: 16px;
+    width: 827px;
+    height: 148px;
+    padding-top: 30px;
+  }
+
+  .pathway-respondents::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "ИНСАЙТЫ";
+    color: var(--color-text-muted);
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .respondent-card {
+    flex: 0 0 265px;
+    width: 265px;
+    height: 118px;
+    min-height: 118px;
+    padding: 28px;
+    border-radius: 32px;
+  }
+
+  .respondent-card p {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .respondent-card .respondent-index {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .respondent-card:nth-child(3) p:last-child {
     font-size: 16px;
     line-height: 24px;
   }
 
-  .artifact-overview-title,
-  .problem-description,
-  .pathway-conclusion,
-  .testing-task blockquote {
-    width: 100%;
-    font-size: 24px;
-    line-height: 32px;
+  .pathway-arrow {
+    position: absolute;
+    top: 411px;
+    left: 170.34px;
+    width: 17.32px;
+    height: 73px;
+    margin: 0;
   }
 
-  .case-divider {
-    margin: 48px 0;
+  .pathway-conclusion {
+    position: absolute;
+    top: 502px;
+    left: 179px;
+    width: 292px;
+    margin: 0;
+    font-size: 20px;
+    line-height: 28px;
+    transform: translateX(-50%);
   }
 
-  .case-problem {
-    height: auto;
-    min-height: 470px;
-  }
-
-  .problem-content {
-    gap: 16px;
-    margin-top: 48px;
-  }
-
-  .problem-visual {
-    height: 206px;
-    transform: scale(0.46);
-    width: 217.4%;
-  }
-
-  .pathway-summary,
-  .architecture,
-  .testing {
+  .architecture {
+    width: 1108px;
+    height: 1495px;
     min-height: 0;
   }
 
-  .pathway-summary,
-  .testing {
-    height: auto;
+  .architecture > .case-section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    width: 358px;
+    height: 102px;
+    min-height: 0;
   }
 
-  .pathway-main {
-    height: auto;
+  .architecture > .case-section-head .case-kicker {
+    margin: 0;
   }
 
-  .pathway-intro > div {
-    gap: 24px;
+  .architecture .case-section-note,
+  .testing .case-section-note {
+    align-items: flex-end;
+    width: 100%;
+    text-align: right;
+    font-size: 13px;
+    line-height: 18px;
   }
 
-  .pathway-intro h1 {
-    font-size: 40px;
-    line-height: 48px;
-  }
-
-  .pathway-respondents,
-  .architecture-grid,
-  .testing-process {
-    grid-template-columns: 1fr;
+  .architecture-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 265px);
+    gap: 16px;
+    width: 1108px;
+    margin-top: 58px;
   }
 
   .architecture-column:last-child {
     grid-column: auto;
   }
 
-  .architecture-grid {
-    margin-top: 64px;
+  .architecture-column {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 265px;
+    min-width: 265px;
   }
 
-  .architecture-stage img {
-    width: min(100%, 282px);
+  .architecture-stage,
+  .architecture-stage--result {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 265px;
   }
 
+  .architecture-stage p {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .architecture-stage img,
   .architecture-stage .artifact-screen-media {
-    width: min(100%, 282px);
+    width: 265px;
+    height: auto;
+    aspect-ratio: 1128 / 2440;
+    border-radius: 0;
+  }
+
+  .architecture-stage .artifact-screen-media > img {
+    border-radius: 0;
+  }
+
+  .architecture-arrow {
+    width: 17.32px;
+    height: 73px;
+    margin: 0 auto;
+    flex: 0 0 73px;
+  }
+
+  .testing {
+    position: relative;
+    display: block;
+    width: 639px;
+    height: 1772px;
+    min-height: 0;
+  }
+
+  .testing::before {
+    position: absolute;
+    top: 556px;
+    left: 0;
+    width: 358px;
+    height: 1px;
+    content: "";
+    background: var(--color-border-divider);
+  }
+
+  .testing > .case-section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    width: 358px;
+    height: 86px;
+    min-height: 0;
+  }
+
+  .testing > .case-section-head .case-kicker {
+    margin: 0;
   }
 
   .testing-task {
-    margin-top: 24px;
+    width: 358px;
+    height: 84px;
+    margin-top: 74px;
+    flex: 0 0 84px;
+  }
+
+  .testing-task > p {
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  .testing-task blockquote {
+    width: 326px;
+    height: 56px;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .metric-card--wide,
+  .metric-card--second {
+    width: 358px;
+    height: 202px;
+    min-height: 0;
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .metric-card--wide {
+    margin-top: 28px;
+    flex: 0 0 202px;
+  }
+
+  .metric-card--wide > div:first-child,
+  .metric-card--second > div:first-child {
+    display: contents;
+  }
+
+  .metric-card {
+    gap: 24px;
+  }
+
+  .metric-label {
+    margin: 0;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .metric-caption {
+    margin: 0;
+    height: 18px;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .artifact-copy-desktop {
+    display: none;
+  }
+
+  .artifact-copy-mobile,
+  .artifact-mobile-only {
+    display: inline;
+  }
+
+  .metric-value-row {
+    min-height: 84px;
+    height: 84px;
   }
 
   .metric-value-row strong {
-    font-size: 82px;
-    line-height: 100px;
+    font-size: 64px;
+    line-height: 84px;
   }
 
   .metric-value-row span {
-    font-size: 24px;
-    line-height: 32px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .testing-process {
+    position: relative;
+    display: block;
+    width: 639px;
+    height: 932px;
+    margin-top: 100px;
+  }
+
+  .testing-process-column {
+    display: block;
+    width: 639px;
+    height: 660px;
+    min-width: 639px;
+  }
+
+  .testing-process-column > p {
+    width: 358px;
+    height: 20px;
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  .testing-process-column ul {
+    width: 358px;
+    height: 18px;
+    min-height: 18px;
+    margin: 0 0 15px;
+    padding-left: 21px;
+    line-height: 18px;
+  }
+
+  .testing-process-column li {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .testing-process-column:first-child > ul {
+    margin-top: 32px;
+  }
+
+  .testing-images {
+    width: 639px;
+    gap: 16px;
+  }
+
+  .testing-images--pair {
+    height: 575px;
+  }
+
+  .testing-images--pair .testing-screen-media,
+  .testing-images--pair > img {
+    width: 265px;
+    height: 575px;
+    flex: 0 0 265px;
+    aspect-ratio: auto;
+    border-radius: 0;
+  }
+
+  .testing-images--pair .testing-screen-media > img {
+    border-radius: 0;
+  }
+
+  .testing-arrow--right {
+    width: 77px;
+    height: 17.32px;
+    flex: 0 0 77px;
+  }
+
+  .testing-images--pair .testing-arrow--right img,
+  .testing-images--split .testing-arrow--down img {
+    width: 17.32px;
+    height: 74.5px;
+    max-width: none;
   }
 
   .testing-process-column--balance {
-    min-height: 480px;
+    width: 639px;
+    height: 192px;
+    min-height: 0;
+    margin-top: 80px;
   }
 
-  .artifact-next-row {
-    margin-top: 48px;
+  .testing-process-column--balance ul {
+    width: 358px;
+    height: 18px;
+    min-height: 18px;
+    margin: 0 0 12px;
+  }
+
+  .testing-images--split {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 639px;
+    height: 162px;
+    gap: 16px;
+  }
+
+  .testing-images--split > img:first-of-type,
+  .testing-images--split > img:last-of-type {
+    width: 265px;
+    height: auto;
+    flex: 0 0 265px;
+    border-radius: 0;
+  }
+
+  .testing-images--split > img:first-of-type {
+    height: 162px;
+  }
+
+  .testing-images--split > img:last-of-type {
+    height: 161px;
+  }
+
+  .testing-arrow--down {
+    width: 77px;
+    height: 17.32px;
+    flex: 0 0 77px;
+  }
+
+  .testing-arrow--down img {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+  }
+
+  .metric-card--second {
+    position: absolute;
+    top: 1568px;
+    left: 0;
+    margin: 0;
+  }
+
+  .artifact-next {
+    display: none;
   }
 }
