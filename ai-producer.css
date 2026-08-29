@@ -20,9 +20,9 @@
   width: 100%;
   aspect-ratio: 1200 / 725;
   overflow: hidden;
-  border-radius: 22px;
-  background: #272626;
-  box-shadow: 0 13px 40px rgba(0, 0, 0, 0.16);
+  border-radius: 16px;
+  background: transparent;
+  box-shadow: none;
 }
 
 .ai-case-browser-content {
