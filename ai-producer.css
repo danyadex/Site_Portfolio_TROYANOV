@@ -178,16 +178,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
-  align-self: stretch;
   gap: 4px;
   color: var(--color-text-accent);
   font-size: 13px;
   line-height: 18px;
-  text-align: right;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
   transition: color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ai-case-reference-link::before {
+  position: absolute;
+  right: 0;
+  bottom: -3px;
+  left: 0;
+  height: 1px;
+  content: "";
+  background: currentColor;
 }
 
 .ai-case-reference-link::after {
