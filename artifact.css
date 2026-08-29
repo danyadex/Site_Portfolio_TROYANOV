@@ -908,8 +908,9 @@
 
 @media (max-width: 767px) {
   .artifact-page {
-    --mobile-content-width: min(358px, calc(100vw - 32px));
-    --mobile-scale: calc(var(--mobile-content-width) / 358px);
+    --mobile-content-width: 100%;
+    --mobile-reference-width: min(358px, calc(100vw - 32px));
+    --mobile-scale: min(1, calc((100vw - 32px) / 358px));
     width: 100vw;
     padding: 40px 16px 80px;
     overflow: visible;
@@ -1055,13 +1056,13 @@
   }
 
   .problem-content {
-    align-items: flex-start;
+    align-items: center;
     gap: 40px;
     margin-top: 80px;
   }
 
   .problem-visual {
-    width: 100%;
+    width: var(--mobile-reference-width);
     height: calc(458.65px * var(--mobile-scale));
     transform: none;
   }
@@ -1607,5 +1608,489 @@
 
   .artifact-next {
     display: none;
+  }
+}
+
+/* Tablet and compact-desktop layout.
+   Keep media at a useful intrinsic size and reveal more items as space grows. */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .artifact-page {
+    --tablet-device-width: clamp(280px, 30vw, 380px);
+    width: 100%;
+    padding-block: clamp(72px, 9vw, 116px) 80px;
+    padding-inline: var(--content-margin) var(--content-edge-right);
+  }
+
+  .artifact-devices,
+  .artifact-device-row {
+    width: 100%;
+    height: auto;
+  }
+
+  .artifact-device-row {
+    display: flex;
+    grid-template-columns: none;
+    align-items: center;
+    gap: 30px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+  }
+
+  .artifact-device-row::-webkit-scrollbar,
+  .pathway-respondents::-webkit-scrollbar,
+  .architecture-grid::-webkit-scrollbar,
+  .testing-images::-webkit-scrollbar {
+    display: none;
+  }
+
+  .artifact-device-row:focus-visible,
+  .pathway-respondents:focus-visible,
+  .architecture-grid:focus-visible,
+  .testing-images:focus-visible {
+    outline: 2px solid var(--color-text-accent);
+    outline-offset: 4px;
+  }
+
+  .artifact-device {
+    flex: 0 0 var(--tablet-device-width);
+    width: var(--tablet-device-width);
+    height: auto;
+    aspect-ratio: 381 / 790;
+    scroll-snap-align: start;
+  }
+
+  .artifact-overview {
+    height: auto;
+    gap: clamp(40px, 6vw, 60px);
+    margin-top: clamp(96px, 10vw, 128px);
+  }
+
+  .case-section-head,
+  .artifact-overview .case-section-head,
+  .architecture > .case-section-head,
+  .testing > .case-section-head {
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    height: auto;
+    min-height: 40px;
+  }
+
+  .case-meta-grid {
+    width: min(633px, 68%);
+    grid-template-columns: 105px 85px minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .artifact-overview-title,
+  .problem-description,
+  .pathway-conclusion,
+  .testing-task blockquote {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .case-divider,
+  .case-divider--hairline {
+    width: 100%;
+    margin-block: clamp(72px, 8vw, 80px);
+  }
+
+  .case-problem {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+  }
+
+  .problem-content {
+    align-items: center;
+    gap: 40px;
+    margin-top: 64px;
+  }
+
+  .problem-visual {
+    width: 358px;
+    height: 458.65px;
+    transform: none;
+  }
+
+  .problem-word--all {
+    top: 65px;
+    left: 98px;
+    font-size: 64px;
+    line-height: 84px;
+  }
+
+  .problem-symbol {
+    top: 218.65px;
+    left: 0;
+    width: 358px;
+    font-size: 96px;
+    line-height: 144px;
+    text-align: center;
+  }
+
+  .problem-word--simple {
+    top: 374.65px;
+    left: 0;
+    right: auto;
+    width: 358px;
+    font-size: 64px;
+    line-height: 84px;
+    text-align: center;
+  }
+
+  .problem-icon,
+  .problem-mark {
+    width: 24px;
+    height: 24px;
+  }
+
+  .problem-icon--one { top: 22px; left: 14.8%; border-radius: 8.732px; }
+  .problem-icon--two { top: 140px; left: 0; border-radius: 4px; }
+  .problem-icon--three { top: 0; left: 167px; }
+  .problem-icon--four { top: 140px; left: 334px; }
+  .problem-icon--five { top: 22px; left: 281px; }
+  .problem-mark { top: 183px; left: 167px; }
+
+  .problem-description {
+    width: min(642px, 100%);
+    text-align: center;
+  }
+
+  .pathway-summary {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    gap: 24px;
+  }
+
+  .pathway-main,
+  .pathway-intro,
+  .pathway-intro > div {
+    width: 100%;
+    height: auto;
+  }
+
+  .pathway-main {
+    gap: 52px;
+  }
+
+  .pathway-intro {
+    align-items: flex-end;
+    gap: 16px;
+  }
+
+  .pathway-intro > div {
+    gap: 40px;
+  }
+
+  .pathway-intro h1 {
+    font-size: 48px;
+    line-height: 64px;
+  }
+
+  .audience-pill {
+    align-self: flex-end;
+    width: min(663px, 72%);
+    height: 72px;
+    margin: 0;
+    padding: 20px 24px;
+    font-size: 24px;
+    line-height: 32px;
+    text-align: right;
+    white-space: normal;
+  }
+
+  .pathway-respondents {
+    display: flex;
+    grid-template-columns: none;
+    gap: 24px;
+    width: 100%;
+    height: 163px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+  }
+
+  .respondent-card {
+    flex: 0 0 clamp(300px, calc((100% - 48px) / 3), 384px);
+    min-width: 0;
+    min-height: 163px;
+    scroll-snap-align: start;
+  }
+
+  .pathway-conclusion {
+    width: min(520px, 100%);
+  }
+
+  .architecture {
+    width: 100%;
+    min-height: 0;
+  }
+
+  .architecture-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(265px, 1fr));
+    gap: 24px;
+    width: 100%;
+    margin-top: 80px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+  }
+
+  .architecture-column,
+  .architecture-column:last-child {
+    grid-column: auto;
+    grid-template-rows: auto 73px auto;
+    row-gap: 28px;
+    min-width: 265px;
+    scroll-snap-align: start;
+  }
+
+  .architecture-stage,
+  .architecture-stage--result {
+    gap: 12px;
+  }
+
+  .architecture-stage img,
+  .architecture-stage .artifact-screen-media {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1128 / 2440;
+    border-radius: 12px;
+  }
+
+  .testing {
+    display: flex;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+  }
+
+  .testing-task {
+    width: min(1020px, 100%);
+    height: auto;
+    margin-top: 64px;
+    flex: 0 0 auto;
+  }
+
+  .testing-task blockquote {
+    width: min(720px, 100%);
+    height: auto;
+  }
+
+  .metric-card--wide,
+  .metric-card--second {
+    position: static;
+    width: 100%;
+    height: auto;
+    min-height: 220px;
+    flex: 0 0 auto;
+    margin-top: 32px;
+  }
+
+  .metric-label {
+    margin-bottom: 20px;
+  }
+
+  .metric-value-row {
+    min-height: 112px;
+  }
+
+  .metric-value-row strong {
+    font-size: 96px;
+    line-height: 112px;
+  }
+
+  .metric-value-row span {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .testing-process {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    gap: 64px;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin-top: 80px;
+    flex: 0 0 auto;
+  }
+
+  .testing-process-column,
+  .testing-process-column--balance {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .testing-process-column > p,
+  .testing-process-column ul {
+    width: 100%;
+    height: auto;
+  }
+
+  .testing-process-column ul,
+  .testing-process-column--balance ul {
+    min-height: 18px;
+    margin: 24px 0 16px;
+    padding-left: 21px;
+    line-height: 18px;
+  }
+
+  .testing-process-column--balance ul {
+    margin-top: 0;
+  }
+
+  .testing-images {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+  }
+
+  .testing-images--pair {
+    gap: 16px;
+    height: 575px;
+  }
+
+  .testing-images--pair .testing-screen-media,
+  .testing-images--pair > img {
+    width: 265px;
+    height: 575px;
+    flex: 0 0 265px;
+    aspect-ratio: auto;
+    border-radius: 12px;
+    scroll-snap-align: start;
+  }
+
+  .testing-images--pair .testing-arrow--right {
+    width: 77px;
+    height: 17.32px;
+    flex: 0 0 77px;
+  }
+
+  .testing-process-column--balance .testing-images--split {
+    margin-top: 12px;
+  }
+
+  .testing-images--split {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: stretch;
+    gap: 16px;
+    width: 100%;
+    height: 162px;
+  }
+
+  .testing-images--split > img:first-of-type,
+  .testing-images--split > img:last-of-type {
+    width: 265px;
+    height: 162px;
+    flex: 0 0 265px;
+    border-radius: 12px;
+    scroll-snap-align: start;
+  }
+
+  .testing-arrow--down {
+    width: 77px;
+    height: 17.32px;
+    flex: 0 0 77px;
+  }
+
+  .testing-arrow--down img {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+  }
+
+  .metric-card--second {
+    margin-top: 80px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .artifact-overview-title {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .problem-content {
+    align-items: flex-end;
+  }
+
+  .problem-visual {
+    width: 100%;
+    height: 300px;
+  }
+
+  .problem-word--all {
+    top: 58px;
+    left: 6%;
+    font-size: 96px;
+    line-height: 112px;
+  }
+
+  .problem-symbol {
+    top: 54px;
+    left: 43%;
+    width: 9%;
+    font-size: 80px;
+    line-height: 112px;
+  }
+
+  .problem-word--simple {
+    top: 166px;
+    left: auto;
+    right: 0;
+    width: 48%;
+    font-size: 72px;
+    line-height: 100px;
+  }
+
+  .problem-icon,
+  .problem-mark {
+    width: 40px;
+    height: 40px;
+  }
+
+  .problem-icon--one { top: 24px; left: 2%; border-radius: 10px; }
+  .problem-icon--two { top: 160px; left: 0; border-radius: 12px; }
+  .problem-icon--three { top: 0; left: 18%; }
+  .problem-icon--four { top: 160px; left: 38%; }
+  .problem-icon--five { top: 24px; left: 36%; }
+  .problem-mark { top: 192px; left: 18%; }
+
+  .problem-description {
+    width: min(642px, 70%);
+    text-align: left;
   }
 }
