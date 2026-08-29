@@ -823,6 +823,14 @@
 
   .artifact-device-row::-webkit-scrollbar { display: none; }
 
+  .artifact-device-row:focus-visible,
+  .pathway-respondents:focus-visible,
+  .architecture-grid:focus-visible,
+  .testing-images:focus-visible {
+    outline: 2px solid var(--color-text-accent);
+    outline-offset: 4px;
+  }
+
   .case-section-head,
   .pathway-intro {
     align-items: flex-start;
@@ -900,6 +908,8 @@
 
 @media (max-width: 767px) {
   .artifact-page {
+    --mobile-content-width: min(358px, calc(100vw - 32px));
+    --mobile-scale: calc(var(--mobile-content-width) / 358px);
     width: 100vw;
     padding: 40px 16px 80px;
     overflow: visible;
@@ -911,7 +921,7 @@
 
   /* The source keeps the first three screens as a horizontal composition. */
   .artifact-devices {
-    width: 827px;
+    width: var(--mobile-content-width);
     height: 551px;
     overflow: visible;
   }
@@ -919,18 +929,28 @@
   .artifact-device-row {
     display: flex;
     align-items: center;
-    width: 827px;
+    width: var(--mobile-content-width);
     height: 551px;
     gap: 16px;
-    overflow: visible;
+    overflow-x: auto;
+    overflow-y: visible;
     padding-bottom: 0;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
   }
+
+  .artifact-device-row::-webkit-scrollbar { display: none; }
 
   .artifact-device {
     flex: 0 0 265px;
     width: 265px;
     height: 551px;
     aspect-ratio: auto;
+    scroll-snap-align: start;
   }
 
   .artifact-device-screen {
@@ -980,6 +1000,7 @@
     display: flex;
     flex-direction: column;
     gap: 0;
+    width: var(--mobile-content-width);
     height: 376px;
     margin-top: 80px;
   }
@@ -1019,11 +1040,12 @@
 
   .case-divider,
   .case-divider--hairline {
+    width: var(--mobile-content-width);
     margin: 60px 0 59px;
   }
 
   .case-problem {
-    width: 358px;
+    width: var(--mobile-content-width);
     height: 694px;
     min-height: 0;
   }
@@ -1039,72 +1061,72 @@
   }
 
   .problem-visual {
-    width: 358px;
-    height: 458.65px;
+    width: 100%;
+    height: calc(458.65px * var(--mobile-scale));
     transform: none;
   }
 
   .problem-word--all {
-    top: 65px;
-    left: 98px;
-    font-size: 64px;
-    line-height: 84px;
+    top: calc(65px * var(--mobile-scale));
+    left: calc(98px * var(--mobile-scale));
+    font-size: calc(64px * var(--mobile-scale));
+    line-height: calc(84px * var(--mobile-scale));
   }
 
   .problem-symbol {
-    top: 218.65px;
+    top: calc(218.65px * var(--mobile-scale));
     left: 0;
-    width: 358px;
-    font-size: 96px;
-    line-height: 144px;
+    width: 100%;
+    font-size: calc(96px * var(--mobile-scale));
+    line-height: calc(144px * var(--mobile-scale));
     text-align: center;
   }
 
   .problem-word--simple {
-    top: 374.65px;
+    top: calc(374.65px * var(--mobile-scale));
     left: 0;
-    width: 358px;
-    font-size: 64px;
-    line-height: 84px;
+    width: 100%;
+    font-size: calc(64px * var(--mobile-scale));
+    line-height: calc(84px * var(--mobile-scale));
     text-align: center;
   }
 
   .problem-icon,
   .problem-mark {
-    width: 24px;
-    height: 24px;
+    width: calc(24px * var(--mobile-scale));
+    height: calc(24px * var(--mobile-scale));
   }
 
   .problem-icon--one {
-    top: 22px;
+    top: calc(22px * var(--mobile-scale));
     left: 14.8%;
-    border-radius: 8.732px;
+    border-radius: calc(8.732px * var(--mobile-scale));
   }
 
   .problem-icon--two {
-    top: 140px;
+    top: calc(140px * var(--mobile-scale));
     left: 0;
-    border-radius: 4px;
+    border-radius: calc(4px * var(--mobile-scale));
   }
 
   .problem-icon--three {
     top: 0;
-    left: 167px;
+    left: calc(167px * var(--mobile-scale));
   }
 
   .problem-icon--four {
-    top: 140px;
-    left: 334px;
+    top: calc(140px * var(--mobile-scale));
+    left: calc(334px * var(--mobile-scale));
   }
 
   .problem-icon--five {
-    top: 22px;
-    left: 281px;
+    top: calc(22px * var(--mobile-scale));
+    left: calc(281px * var(--mobile-scale));
   }
 
   .problem-mark {
-    top: 183px;
-    left: 167px;
+    top: calc(183px * var(--mobile-scale));
+    left: calc(167px * var(--mobile-scale));
   }
 
   .problem-description {
@@ -1117,7 +1139,7 @@
   .pathway-summary {
     position: relative;
     display: block;
-    width: 827px;
+    width: var(--mobile-content-width);
     height: 558px;
     min-height: 0;
   }
@@ -1126,13 +1148,13 @@
     display: flex;
     flex-direction: column;
     gap: 44px;
-    width: 827px;
+    width: var(--mobile-content-width);
     height: auto;
   }
 
   .pathway-intro {
     display: block;
-    width: 358px;
+    width: var(--mobile-content-width);
     height: 172px;
   }
 
@@ -1140,7 +1162,7 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    width: 358px;
+    width: var(--mobile-content-width);
     height: 104px;
   }
 
@@ -1150,7 +1172,7 @@
   }
 
   .audience-pill {
-    width: 358px;
+    width: var(--mobile-content-width);
     height: 56px;
     margin-top: 12px;
     padding: 16px;
@@ -1158,16 +1180,27 @@
     font-size: 16px;
     line-height: 24px;
     text-align: left;
+    white-space: normal;
   }
 
   .pathway-respondents {
     position: relative;
     display: flex;
     gap: 16px;
-    width: 827px;
+    width: var(--mobile-content-width);
     height: 148px;
     padding-top: 30px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
   }
+
+  .pathway-respondents::-webkit-scrollbar { display: none; }
 
   .pathway-respondents::before {
     position: absolute;
@@ -1186,6 +1219,7 @@
     min-height: 118px;
     padding: 28px;
     border-radius: 32px;
+    scroll-snap-align: start;
   }
 
   .respondent-card p {
@@ -1206,7 +1240,7 @@
   .pathway-arrow {
     position: absolute;
     top: 411px;
-    left: 170.34px;
+    left: calc((var(--mobile-content-width) - 17.32px) / 2);
     width: 17.32px;
     height: 73px;
     margin: 0;
@@ -1215,8 +1249,8 @@
   .pathway-conclusion {
     position: absolute;
     top: 502px;
-    left: 179px;
-    width: 292px;
+    left: calc(var(--mobile-content-width) / 2);
+    width: min(292px, calc(100% - 32px));
     margin: 0;
     font-size: 20px;
     line-height: 28px;
@@ -1224,7 +1258,7 @@
   }
 
   .architecture {
-    width: 1108px;
+    width: var(--mobile-content-width);
     height: 1495px;
     min-height: 0;
   }
@@ -1234,7 +1268,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 30px;
-    width: 358px;
+    width: var(--mobile-content-width);
     height: 102px;
     min-height: 0;
   }
@@ -1256,9 +1290,19 @@
     display: grid;
     grid-template-columns: repeat(4, 265px);
     gap: 16px;
-    width: 1108px;
+    width: var(--mobile-content-width);
     margin-top: 58px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
   }
+
+  .architecture-grid::-webkit-scrollbar { display: none; }
 
   .architecture-column:last-child {
     grid-column: auto;
@@ -1270,6 +1314,7 @@
     gap: 28px;
     width: 265px;
     min-width: 265px;
+    scroll-snap-align: start;
   }
 
   .architecture-stage,
@@ -1307,7 +1352,7 @@
   .testing {
     position: relative;
     display: block;
-    width: 639px;
+    width: var(--mobile-content-width);
     height: 1772px;
     min-height: 0;
   }
@@ -1316,7 +1361,7 @@
     position: absolute;
     top: 556px;
     left: 0;
-    width: 358px;
+    width: var(--mobile-content-width);
     height: 1px;
     content: "";
     background: var(--color-border-divider);
@@ -1327,7 +1372,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
-    width: 358px;
+    width: var(--mobile-content-width);
     height: 86px;
     min-height: 0;
   }
@@ -1337,7 +1382,7 @@
   }
 
   .testing-task {
-    width: 358px;
+    width: var(--mobile-content-width);
     height: 84px;
     margin-top: 74px;
     flex: 0 0 84px;
@@ -1349,7 +1394,7 @@
   }
 
   .testing-task blockquote {
-    width: 326px;
+    width: calc(var(--mobile-content-width) - 32px);
     height: 56px;
     font-size: 20px;
     line-height: 28px;
@@ -1357,7 +1402,7 @@
 
   .metric-card--wide,
   .metric-card--second {
-    width: 358px;
+    width: var(--mobile-content-width);
     height: 202px;
     min-height: 0;
     padding: 24px;
@@ -1419,27 +1464,27 @@
   .testing-process {
     position: relative;
     display: block;
-    width: 639px;
+    width: var(--mobile-content-width);
     height: 932px;
     margin-top: 100px;
   }
 
   .testing-process-column {
     display: block;
-    width: 639px;
+    width: var(--mobile-content-width);
     height: 660px;
-    min-width: 639px;
+    min-width: 0;
   }
 
   .testing-process-column > p {
-    width: 358px;
+    width: var(--mobile-content-width);
     height: 20px;
     font-size: 13px;
     line-height: 20px;
   }
 
   .testing-process-column ul {
-    width: 358px;
+    width: var(--mobile-content-width);
     height: 18px;
     min-height: 18px;
     margin: 0 0 15px;
@@ -1457,9 +1502,19 @@
   }
 
   .testing-images {
-    width: 639px;
+    width: var(--mobile-content-width);
     gap: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
   }
+
+  .testing-images::-webkit-scrollbar { display: none; }
 
   .testing-images--pair {
     height: 575px;
@@ -1472,6 +1527,7 @@
     flex: 0 0 265px;
     aspect-ratio: auto;
     border-radius: 0;
+    scroll-snap-align: start;
   }
 
   .testing-images--pair .testing-screen-media > img {
@@ -1492,14 +1548,14 @@
   }
 
   .testing-process-column--balance {
-    width: 639px;
+    width: var(--mobile-content-width);
     height: 192px;
     min-height: 0;
     margin-top: 80px;
   }
 
   .testing-process-column--balance ul {
-    width: 358px;
+    width: var(--mobile-content-width);
     height: 18px;
     min-height: 18px;
     margin: 0 0 12px;
@@ -1509,7 +1565,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 639px;
+    width: var(--mobile-content-width);
     height: 162px;
     gap: 16px;
   }
@@ -1520,6 +1576,7 @@
     height: auto;
     flex: 0 0 265px;
     border-radius: 0;
+    scroll-snap-align: start;
   }
 
   .testing-images--split > img:first-of-type {
