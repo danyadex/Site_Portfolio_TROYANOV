@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import "../assets/vendor/liquid-glass.js";
 
 const HOME = "/assets/home";
 const FIGMA_HOME = `${HOME}/figma`;
+const AVATAR_VIDEO = `${HOME}/hero-portrait.mp4?v=2046-558`;
 
 function AutoVideo({ src, className = "", label, poster }) {
   const videoRef = useRef(null);
@@ -80,50 +82,29 @@ function useVideoTexture(src) {
 }
 
 function AvatarPlane({ src }) {
-  const meshRef = useRef(null);
   const texture = useVideoTexture(src);
   const { viewport } = useThree();
 
   useEffect(() => {
-    const video = texture?.image;
-    if (!texture || !video?.videoWidth || !video?.videoHeight) return;
-
-    const imageAspect = video.videoWidth / video.videoHeight;
-    const frameAspect = viewport.width / viewport.height;
-    const cover = imageAspect > frameAspect
-      ? [frameAspect / imageAspect, 1]
-      : [1, imageAspect / frameAspect];
+    if (!texture) return;
 
     texture.wrapS = THREE.ClampToEdgeWrapping;
     texture.wrapT = THREE.ClampToEdgeWrapping;
-    texture.repeat.set(cover[0], cover[1]);
-    texture.offset.set((1 - cover[0]) / 2, (1 - cover[1]) / 2);
+    texture.repeat.set(0.9350454807, 1);
+    texture.offset.set(0.031304311, 0.0007102044);
     texture.needsUpdate = true;
-  }, [texture, viewport.width, viewport.height]);
+  }, [texture]);
 
-  useFrame(({ pointer }) => {
-    if (!meshRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
+  useFrame(() => {
     if (texture) texture.needsUpdate = true;
-
-    meshRef.current.rotation.y = THREE.MathUtils.lerp(
-      meshRef.current.rotation.y,
-      pointer.x * 0.035,
-      0.08,
-    );
-    meshRef.current.rotation.x = THREE.MathUtils.lerp(
-      meshRef.current.rotation.x,
-      -pointer.y * 0.025,
-      0.08,
-    );
   });
 
   if (!texture) return null;
 
   return (
-    <mesh ref={meshRef} scale={[viewport.width, viewport.height, 1]}>
-      <planeGeometry args={[2, 2]} />
-      <meshBasicMaterial map={texture} />
+    <mesh scale={[viewport.width, viewport.height, 1]}>
+      <planeGeometry args={[1, 1]} />
+      <meshBasicMaterial map={texture} toneMapped={false} />
     </mesh>
   );
 }
@@ -133,7 +114,7 @@ function Avatar() {
     <div className="avatar-frame" role="img" aria-label="Портрет Даниила Троянова">
       <AutoVideo
         className="avatar-fallback"
-        src={`${HOME}/hero-portrait.mp4`}
+        src={AVATAR_VIDEO}
         label="Портрет Даниила Троянова"
       />
       <Canvas
@@ -143,7 +124,7 @@ function Avatar() {
         camera={{ position: [0, 0, 5], zoom: 1 }}
         gl={{ antialias: true, alpha: true }}
       >
-        <AvatarPlane src={`${HOME}/hero-portrait.mp4`} />
+        <AvatarPlane src={AVATAR_VIDEO} />
       </Canvas>
     </div>
   );
@@ -405,6 +386,29 @@ function ContactDialog({ onClose }) {
 }
 
 function BottomNavigation({ onContacts }) {
+  const glassRef = useRef(null);
+
+  useEffect(() => {
+    const element = glassRef.current;
+    const reduceTransparency = window.matchMedia("(prefers-reduced-transparency: reduce)");
+    if (!element || reduceTransparency.matches || typeof window.liquidGlass !== "function") {
+      return undefined;
+    }
+
+    const glass = window.liquidGlass(element, {
+      scale: -64,
+      chroma: 4,
+      border: 0.08,
+      mapBlur: 10,
+      blur: 3,
+      saturate: 1.45,
+      radius: 24,
+      fallbackBlur: 22,
+    });
+
+    return () => glass.destroy();
+  }, []);
+
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
@@ -413,7 +417,7 @@ function BottomNavigation({ onContacts }) {
   };
 
   return (
-    <nav className="bottom-navigation" aria-label="Навигация по портфолио">
+    <nav ref={glassRef} className="bottom-navigation" aria-label="Навигация по портфолио">
       <div className="bottom-navigation-inner">
         <button type="button" className="nav-button" onClick={() => scrollTo("about")}>О себе</button>
         <button type="button" className="nav-button" onClick={() => scrollTo("projects")}>CV</button>
