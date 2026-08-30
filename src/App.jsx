@@ -6,21 +6,23 @@ import "../assets/vendor/liquid-glass.js";
 const HOME = "/assets/home";
 const FIGMA_HOME = `${HOME}/figma`;
 const AVATAR_VIDEO = `${HOME}/hero-portrait.mp4?v=2046-558`;
+const ABOUT_CANVAS = { width: 588, height: 509.60113525390625 };
 
 const ABOUT_MEDIA = [
   { id: "painting", src: "painting.mp4", x: 0, y: 0, width: 138, height: 245, fit: "cover" },
   { id: "grill", src: "grill.mp4", x: 150, y: 0, width: 88, height: 155, crop: [0.9551309347, 0.9461766481, 0.0094919363, 0.0252536461] },
   { id: "camera", src: "camera.mp4", x: 250, y: 0, width: 88, height: 85, crop: [1, 0.5294811726, 0, 0.3125] },
   { id: "guitar", src: "guitar.mp4", x: 350, y: 0, width: 88, height: 103, crop: [1, 0.6440383196, 0, 0.0011987907] },
-  { id: "gallery", src: "gallery.mp4", x: 450, y: 0, width: 138, height: 245, crop: [0.9579018354, 0.9627407789, 0.0221282821, 0.0115298303] },
+  { id: "statue", src: "statue.mp4", x: 450, y: 0, width: 138, height: 245, crop: [1, 0.9714246988, 0, 0.0004101723] },
   { id: "bridge", src: "bridge.mp4", x: 350, y: 115, width: 88, height: 130, crop: [0.999895215, 0.8115502, 0.0000524, 0] },
   { id: "sea", src: "sea.mp4", x: 150, y: 167, width: 88, height: 78, crop: [1, 0.5, 0, 0] },
   { id: "waves", src: "waves.mp4", x: 0, y: 257, width: 138, height: 127, crop: [1, 0.5025424957, 0, 0.2487287521] },
-  { id: "laptop", src: "laptop.mp4", x: 150, y: 257, width: 88, height: 135, crop: [0.999895215, 0.84194529, 0.0000524, 0] },
+  { id: "laptop", src: "laptop.mp4", x: 150, y: 257, width: 88, height: 135, crop: [0.9976278543, 0.8374170661, 0.0007332705, -0.0015507723] },
   { id: "bones", src: "bones.mp4", x: 250, y: 257, width: 186.514, height: 102, crop: [0.9994611144, 1, 0.0002693602, 0] },
-  { id: "stage", src: "stage.mp4", x: 448, y: 257, width: 138, height: 252, fit: "cover" },
-  { id: "daw", src: "daw.mp4", x: 0, y: 396, width: 123, height: 111, crop: [0.99999988, 0.491476059, 0, 0.1641604602] },
-  { id: "forest", src: "forest.mp4", x: 350, y: 373, width: 88, height: 136, crop: [1, 0.8481131792, 0, 0.0014675052] },
+  { id: "river", src: "river.mp4", x: 448, y: 257, width: 138, height: 252, fit: "cover" },
+  { id: "daw", src: "daw.mp4", x: 0, y: 396, width: 138, height: 111, crop: [1, 0.4380548, 0, 0.1463169456] },
+  { id: "museum", src: "museum.mp4", x: 250, y: 371, width: 86, height: 138, crop: [0.9695084095, 0.8507232666, 0.0018566962, 0.0013247912], blendMode: "hard-light" },
+  { id: "forest", src: "forest.mp4", x: 348, y: 371, width: 88, height: 138, crop: [1, 0.8605854511, 0, 0.0014675052] },
 ];
 
 function AutoVideo({ src, className = "", label, poster, style, onLoadedData }) {
@@ -363,10 +365,10 @@ function Shots() {
 function AboutMediaTile({ item }) {
   const [ready, setReady] = useState(false);
   const tileStyle = {
-    left: `${(item.x / 588) * 100}%`,
-    top: `${(item.y / 509) * 100}%`,
-    width: `${(item.width / 588) * 100}%`,
-    height: `${(item.height / 509) * 100}%`,
+    left: `${(item.x / ABOUT_CANVAS.width) * 100}%`,
+    top: `${(item.y / ABOUT_CANVAS.height) * 100}%`,
+    width: `${(item.width / ABOUT_CANVAS.width) * 100}%`,
+    height: `${(item.height / ABOUT_CANVAS.height) * 100}%`,
   };
 
   let mediaStyle = {
@@ -374,6 +376,7 @@ function AboutMediaTile({ item }) {
     width: "100%",
     height: "100%",
     objectFit: item.fit || "fill",
+    mixBlendMode: item.blendMode,
   };
 
   if (item.crop) {
@@ -384,6 +387,7 @@ function AboutMediaTile({ item }) {
       width: `${100 / scaleX}%`,
       height: `${100 / scaleY}%`,
       objectFit: "fill",
+      mixBlendMode: item.blendMode,
     };
   }
 
@@ -415,7 +419,12 @@ function About() {
         ))}
         <div
           className="about-media-tile about-media-tile--portrait"
-          style={{ left: "42.517%", top: "19.057%", width: "14.966%", height: "29.077%" }}
+          style={{
+            left: `${(250 / ABOUT_CANVAS.width) * 100}%`,
+            top: `${(97 / ABOUT_CANVAS.height) * 100}%`,
+            width: `${(88 / ABOUT_CANVAS.width) * 100}%`,
+            height: `${(148 / ABOUT_CANVAS.height) * 100}%`,
+          }}
         >
           <img src={`${HOME}/about/portrait.jpg`} alt="Даниил Троянов" />
         </div>
