@@ -7,7 +7,23 @@ const HOME = "/assets/home";
 const FIGMA_HOME = `${HOME}/figma`;
 const AVATAR_VIDEO = `${HOME}/hero-portrait.mp4?v=2046-558`;
 
-function AutoVideo({ src, className = "", label, poster }) {
+const ABOUT_MEDIA = [
+  { id: "painting", src: "painting.mp4", x: 0, y: 0, width: 138, height: 245, fit: "cover" },
+  { id: "grill", src: "grill.mp4", x: 150, y: 0, width: 88, height: 155, crop: [0.9551309347, 0.9461766481, 0.0094919363, 0.0252536461] },
+  { id: "camera", src: "camera.mp4", x: 250, y: 0, width: 88, height: 85, crop: [1, 0.5294811726, 0, 0.3125] },
+  { id: "guitar", src: "guitar.mp4", x: 350, y: 0, width: 88, height: 103, crop: [1, 0.6440383196, 0, 0.0011987907] },
+  { id: "gallery", src: "gallery.mp4", x: 450, y: 0, width: 138, height: 245, crop: [0.9579018354, 0.9627407789, 0.0221282821, 0.0115298303] },
+  { id: "bridge", src: "bridge.mp4", x: 350, y: 115, width: 88, height: 130, crop: [0.999895215, 0.8115502, 0.0000524, 0] },
+  { id: "sea", src: "sea.mp4", x: 150, y: 167, width: 88, height: 78, crop: [1, 0.5, 0, 0] },
+  { id: "waves", src: "waves.mp4", x: 0, y: 257, width: 138, height: 127, crop: [1, 0.5025424957, 0, 0.2487287521] },
+  { id: "laptop", src: "laptop.mp4", x: 150, y: 257, width: 88, height: 135, crop: [0.999895215, 0.84194529, 0.0000524, 0] },
+  { id: "bones", src: "bones.mp4", x: 250, y: 257, width: 186.514, height: 102, crop: [0.9994611144, 1, 0.0002693602, 0] },
+  { id: "stage", src: "stage.mp4", x: 448, y: 257, width: 138, height: 252, fit: "cover" },
+  { id: "daw", src: "daw.mp4", x: 0, y: 396, width: 123, height: 111, crop: [0.99999988, 0.491476059, 0, 0.1641604602] },
+  { id: "forest", src: "forest.mp4", x: 350, y: 373, width: 88, height: 136, crop: [1, 0.8481131792, 0, 0.0014675052] },
+];
+
+function AutoVideo({ src, className = "", label, poster, style, onLoadedData }) {
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -40,6 +56,8 @@ function AutoVideo({ src, className = "", label, poster }) {
       preload="metadata"
       poster={poster}
       aria-label={label}
+      style={style}
+      onLoadedData={onLoadedData}
     >
       <source src={src} type="video/mp4" />
     </video>
@@ -168,9 +186,9 @@ function ProjectDescription({ children }) {
   return <p className="project-description">{children}</p>;
 }
 
-function PhoneMockup({ src, label }) {
+function PhoneMockup({ src, label, variant = "default" }) {
   return (
-    <div className="phone-stage">
+    <div className={`phone-stage phone-stage--${variant}`}>
       <div className="phone-screen">
         <AutoVideo src={src} label={label} />
       </div>
@@ -202,7 +220,7 @@ function BrowserMockup() {
   return (
     <div className="browser-stage">
       <div className="browser-titlebar" aria-hidden="true">
-        <img src={`${FIGMA_HOME}/figma-home-browser-titlebar.png`} alt="" />
+        <img src={`${FIGMA_HOME}/figma-home-browser-titlebar-cropped.png`} alt="" />
       </div>
       <div className="browser-content">
         <AutoVideo
@@ -238,7 +256,7 @@ function TayaProject() {
   return (
     <article className="home-project home-project--taya">
       <div className="home-project-media home-project-media--phone">
-        <PhoneMockup src={`${HOME}/taya-screen.mp4`} label="Аниматик экрана TAYA AI" />
+        <PhoneMockup src={`${HOME}/taya-screen.mp4`} label="Аниматик экрана TAYA AI" variant="taya" />
       </div>
       <div className="home-project-info">
         <ProjectHeader disabled title="Taya AI" tags={["App", "Design & Research"]} />
@@ -342,16 +360,65 @@ function Shots() {
   );
 }
 
+function AboutMediaTile({ item }) {
+  const [ready, setReady] = useState(false);
+  const tileStyle = {
+    left: `${(item.x / 588) * 100}%`,
+    top: `${(item.y / 509) * 100}%`,
+    width: `${(item.width / 588) * 100}%`,
+    height: `${(item.height / 509) * 100}%`,
+  };
+
+  let mediaStyle = {
+    inset: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: item.fit || "fill",
+  };
+
+  if (item.crop) {
+    const [scaleX, scaleY, translateX, translateY] = item.crop;
+    mediaStyle = {
+      left: `${(-100 * translateX) / scaleX}%`,
+      top: `${(-100 * translateY) / scaleY}%`,
+      width: `${100 / scaleX}%`,
+      height: `${100 / scaleY}%`,
+      objectFit: "fill",
+    };
+  }
+
+  return (
+    <div className="about-media-tile" style={tileStyle}>
+      <AutoVideo
+        className={ready ? "is-ready" : ""}
+        src={`${HOME}/about/${item.src}`}
+        label={`Видео из личного архива: ${item.id}`}
+        style={mediaStyle}
+        onLoadedData={() => setReady(true)}
+      />
+    </div>
+  );
+}
+
 function About() {
   return (
     <section className="about-section" id="about" aria-labelledby="about-title">
       <p className="section-label" id="about-title">О Себе</p>
-      <div className="about-collage">
+      <div className="about-collage" aria-label="Живой визуальный архив Даниила Троянова">
         <img
-          className="about-collage-image"
+          className="about-collage-placeholder"
           src={`${FIGMA_HOME}/figma-home-about-collage.png`}
-          alt="Фрагменты визуального архива Даниила Троянова"
+          alt=""
         />
+        {ABOUT_MEDIA.map((item) => (
+          <AboutMediaTile key={item.id} item={item} />
+        ))}
+        <div
+          className="about-media-tile about-media-tile--portrait"
+          style={{ left: "42.517%", top: "19.057%", width: "14.966%", height: "29.077%" }}
+        >
+          <img src={`${HOME}/about/portrait.jpg`} alt="Даниил Троянов" />
+        </div>
       </div>
     </section>
   );
