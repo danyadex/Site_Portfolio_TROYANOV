@@ -715,10 +715,10 @@ function BottomNavigation({ onContacts }) {
       chroma: 4,
       border: 0.08,
       mapBlur: 10,
-      blur: 3,
+      blur: 12,
       saturate: 1.45,
       radius: 24,
-      fallbackBlur: 22,
+      fallbackBlur: 28,
     });
 
     return () => glass.destroy();
