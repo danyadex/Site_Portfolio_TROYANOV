@@ -18,7 +18,18 @@ const ABOUT_MEDIA = [
   { id: "sea", src: "sea.mp4", x: 150, y: 167, width: 88, height: 78, crop: [1, 0.5, 0, 0] },
   { id: "waves", src: "waves.mp4", x: 0, y: 257, width: 138, height: 127, crop: [1, 0.5025424957, 0, 0.2487287521] },
   { id: "laptop", src: "laptop.mp4", x: 150, y: 257, width: 88, height: 135, crop: [0.9976278543, 0.8374170661, 0.0007332705, -0.0015507723] },
-  { id: "bones", src: "bones.mp4", x: 250, y: 257, width: 186.514, height: 102, crop: [0.9994611144, 1, 0.0002693602, 0] },
+  {
+    id: "bones",
+    src: "bones.mp4",
+    x: 250,
+    y: 257,
+    width: 186.514,
+    height: 102,
+    fit: "cover",
+    rotate: -90,
+    mediaWidth: 102,
+    mediaHeight: 186.514,
+  },
   { id: "river", src: "river.mp4", x: 448, y: 257, width: 138, height: 252, fit: "cover" },
   { id: "daw", src: "daw.mp4", x: 0, y: 396, width: 138, height: 111, crop: [1, 0.4380548, 0, 0.1463169456] },
   { id: "window", src: "window.mp4", x: 150, y: 404, width: 88, height: 103, crop: [0.998929143, 0.6397516727, -0.002105447, 0.1249386966] },
@@ -590,15 +601,37 @@ function AboutMediaTile({ item }) {
     };
   }
 
+  const video = (
+    <AutoVideo
+      className={ready ? "is-ready" : ""}
+      src={`${HOME}/about/${item.src}`}
+      label={`Видео из личного архива: ${item.id}`}
+      style={mediaStyle}
+      onLoadedData={() => setReady(true)}
+    />
+  );
+
+  if (item.rotate) {
+    const rotatedFrameStyle = {
+      top: "50%",
+      left: "50%",
+      width: `${(item.mediaWidth / item.width) * 100}%`,
+      height: `${(item.mediaHeight / item.height) * 100}%`,
+      transform: `translate(-50%, -50%) rotate(${item.rotate}deg)`,
+    };
+
+    return (
+      <div className="about-media-tile" style={tileStyle}>
+        <div className="about-media-rotated-frame" style={rotatedFrameStyle}>
+          {video}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="about-media-tile" style={tileStyle}>
-      <AutoVideo
-        className={ready ? "is-ready" : ""}
-        src={`${HOME}/about/${item.src}`}
-        label={`Видео из личного архива: ${item.id}`}
-        style={mediaStyle}
-        onLoadedData={() => setReady(true)}
-      />
+      {video}
     </div>
   );
 }
@@ -607,6 +640,13 @@ function About() {
   return (
     <section className="about-section" id="about" aria-labelledby="about-title">
       <p className="section-label" id="about-title">О Себе</p>
+      <p className="about-copy">
+        Путешествия, живопись, музыка, театры и музеи —
+        <br />
+        основа моей насмотренности.
+        <br />
+        Где-то между ними живёт мой дизайн
+      </p>
       <div className="about-collage" aria-label="Живой визуальный архив Даниила Троянова">
         <img
           className="about-collage-placeholder"

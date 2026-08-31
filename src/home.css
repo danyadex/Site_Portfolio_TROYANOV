@@ -522,9 +522,27 @@ a:focus-visible {
 }
 
 .about-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
-  height: 553.601px;
+  height: auto;
+  gap: 28px;
   margin-top: 120px;
+}
+
+.about-section .section-label {
+  width: 100%;
+  margin: 0;
+}
+
+.about-copy {
+  width: 360px;
+  margin: 0;
+  color: var(--home-gray);
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
 }
 
 .about-collage {
@@ -548,6 +566,13 @@ a:focus-visible {
   border-radius: 12px;
   background: transparent;
   isolation: isolate;
+}
+
+.about-media-rotated-frame {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 12px;
+  transform-origin: center;
 }
 
 .about-media-tile video,
@@ -838,6 +863,10 @@ a:focus-visible {
   .about-section {
     height: auto;
     margin-top: 112px;
+  }
+
+  .about-copy {
+    width: min(360px, 100%);
   }
 
   .about-collage {
