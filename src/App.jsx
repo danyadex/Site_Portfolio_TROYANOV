@@ -21,6 +21,7 @@ const ABOUT_MEDIA = [
   { id: "bones", src: "bones.mp4", x: 250, y: 257, width: 186.514, height: 102, crop: [0.9994611144, 1, 0.0002693602, 0] },
   { id: "river", src: "river.mp4", x: 448, y: 257, width: 138, height: 252, fit: "cover" },
   { id: "daw", src: "daw.mp4", x: 0, y: 396, width: 138, height: 111, crop: [1, 0.4380548, 0, 0.1463169456] },
+  { id: "window", src: "window.mp4", x: 150, y: 404, width: 88, height: 103, crop: [0.998929143, 0.6397516727, -0.002105447, 0.1249386966] },
   { id: "museum", src: "museum.mp4", x: 250, y: 371, width: 86, height: 138, crop: [0.9695084095, 0.8507232666, 0.0018566962, 0.0013247912], blendMode: "hard-light" },
   { id: "forest", src: "forest.mp4", x: 348, y: 371, width: 88, height: 138, crop: [1, 0.8605854511, 0, 0.0014675052] },
 ];
