@@ -200,6 +200,10 @@ function ProjectDescription({ children }) {
   return <p className="project-description">{children}</p>;
 }
 
+function RhythmDot({ className = "" }) {
+  return <span className={`rhythm-dot ${className}`.trim()} aria-hidden="true">•</span>;
+}
+
 function PhoneMockup({ src, label, variant = "default" }) {
   return (
     <div className={`phone-stage phone-stage--${variant}`}>
@@ -219,7 +223,7 @@ function ArtifactProject() {
       </div>
       <div className="home-project-info">
         <ProjectHeader href="/artifact.html" title="Artifact" tags={["App", "Lead Designer"]} />
-        <span className="project-dot" aria-hidden="true">•</span>
+        <RhythmDot />
         <ProjectDescription>
           Мобильный инструмент
           <br />
@@ -255,7 +259,7 @@ function AIProducerProject() {
       </div>
       <div className="home-project-info">
         <ProjectHeader href="/ai-producer.html" title="AI Producer" tags={["Web", "Builder"]} />
-        <span className="project-dot" aria-hidden="true">•</span>
+        <RhythmDot />
         <ProjectDescription>
           Веб-платформа
           <br />
@@ -274,7 +278,7 @@ function TayaProject() {
       </div>
       <div className="home-project-info">
         <ProjectHeader disabled title="Taya AI" tags={["App", "Design & Research"]} />
-        <span className="project-dot" aria-hidden="true">•</span>
+        <RhythmDot />
         <ProjectDescription>
           Мобильный ассистент
           <br />
@@ -640,32 +644,35 @@ function About() {
   return (
     <section className="about-section" id="about" aria-labelledby="about-title">
       <p className="section-label" id="about-title">О Себе</p>
-      <p className="about-copy">
-        Путешествия, живопись, музыка, театры и музеи —
-        <br />
-        основа моей насмотренности.
-        <br />
-        Где-то между ними живёт мой дизайн
-      </p>
-      <div className="about-collage" aria-label="Живой визуальный архив Даниила Троянова">
-        <img
-          className="about-collage-placeholder"
-          src={`${FIGMA_HOME}/figma-home-about-collage.png`}
-          alt=""
-        />
-        {ABOUT_MEDIA.map((item) => (
-          <AboutMediaTile key={item.id} item={item} />
-        ))}
-        <div
-          className="about-media-tile about-media-tile--portrait"
-          style={{
-            left: `${(250 / ABOUT_CANVAS.width) * 100}%`,
-            top: `${(97 / ABOUT_CANVAS.height) * 100}%`,
-            width: `${(88 / ABOUT_CANVAS.width) * 100}%`,
-            height: `${(148 / ABOUT_CANVAS.height) * 100}%`,
-          }}
-        >
-          <img src={`${HOME}/about/portrait.jpg`} alt="Даниил Троянов" />
+      <RhythmDot />
+      <div className="about-content">
+        <p className="about-copy">
+          Путешествия, живопись, музыка, театры и музеи —
+          <br />
+          основа моей насмотренности.
+          <br />
+          Где-то между ними живёт мой дизайн
+        </p>
+        <div className="about-collage" aria-label="Живой визуальный архив Даниила Троянова">
+          <img
+            className="about-collage-placeholder"
+            src={`${FIGMA_HOME}/figma-home-about-collage.png`}
+            alt=""
+          />
+          {ABOUT_MEDIA.map((item) => (
+            <AboutMediaTile key={item.id} item={item} />
+          ))}
+          <div
+            className="about-media-tile about-media-tile--portrait"
+            style={{
+              left: `${(250 / ABOUT_CANVAS.width) * 100}%`,
+              top: `${(97 / ABOUT_CANVAS.height) * 100}%`,
+              width: `${(88 / ABOUT_CANVAS.width) * 100}%`,
+              height: `${(148 / ABOUT_CANVAS.height) * 100}%`,
+            }}
+          >
+            <img src={`${HOME}/about/portrait.jpg`} alt="Даниил Троянов" />
+          </div>
         </div>
       </div>
     </section>
@@ -751,16 +758,16 @@ function App() {
         <section className="intro-section" aria-labelledby="intro-title">
           <div className="personal-meta">
             <p className="personal-name">Даниил Троянов</p>
-            <dl>
-              <div>
+            <div className="personal-details">
+              <dl>
                 <dt>Локация</dt>
                 <dd>Санкт-Петербург</dd>
-              </div>
-              <div>
+              </dl>
+              <dl>
                 <dt>Опыт</dt>
                 <dd>2 года</dd>
-              </div>
-            </dl>
+              </dl>
+            </div>
           </div>
           <div className="intro-content">
             <Avatar />
@@ -769,9 +776,8 @@ function App() {
                 Продуктовый AI-дизайнер
                 <br />
                 с художественным бэкграундом
-                <br />
-                <br />
               </span>
+              <RhythmDot />
               <span className="intro-copy-muted">
                 Проектирую B2C AI-продукты с нуля —
                 <br />
