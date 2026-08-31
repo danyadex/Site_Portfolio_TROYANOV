@@ -1521,7 +1521,7 @@
   }
 
   .bottom-navigation {
-    padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+    padding: 16px 16px calc(8px + env(safe-area-inset-bottom, 0px));
   }
 
   .bottom-navigation-inner {
