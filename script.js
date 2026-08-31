@@ -130,21 +130,20 @@ document.querySelectorAll(".ui-shots-controls").forEach((controls) => {
   updateButtons();
 });
 
-// Figma node 1529:296 uses a native GLASS effect that design-context export omits.
-// These optics map its raw Plugin API values into the web refraction model.
-const siteHeader = document.querySelector(".site-header");
+// Keep the case navigation on the same glass treatment as the React home page.
+const bottomNavigation = document.querySelector(".bottom-navigation");
 
-if (siteHeader && window.liquidGlass) {
-  const figmaGlass = window.liquidGlass(siteHeader, {
-    scale: -115,       // refraction 1 × depth 23
-    chroma: 4.1,       // dispersion 0.18 × depth 23
-    border: 0.072,     // splay 0.79
-    mapBlur: 10,       // glass radius 10
-    blur: 10,
-    saturate: 1,
-    radius: 0,
-    fallbackBlur: 10,
+if (bottomNavigation && window.liquidGlass) {
+  const figmaGlass = window.liquidGlass(bottomNavigation, {
+    scale: -64,
+    chroma: 4,
+    border: 0.08,
+    mapBlur: 10,
+    blur: 12,
+    saturate: 1.45,
+    radius: 24,
+    fallbackBlur: 28,
   });
 
-  siteHeader.dataset.glassRenderer = figmaGlass.supported ? "refraction" : "frosted";
+  bottomNavigation.dataset.glassRenderer = figmaGlass.supported ? "refraction" : "frosted";
 }
