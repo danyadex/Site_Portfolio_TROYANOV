@@ -281,22 +281,144 @@ function DragScroll({ children, className = "" }) {
     const scroller = scrollerRef.current;
     if (!scroller) return undefined;
 
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const media = [...scroller.querySelectorAll(".shot img")];
+    const clampScroll = (value) => Math.max(0, Math.min(value, scroller.scrollWidth - scroller.clientWidth));
+
     let pointerId = null;
     let startX = 0;
+    let startY = 0;
     let startScrollLeft = 0;
     let dragged = false;
+    let suppressClick = false;
+    let pointerVelocity = 0;
+    let lastPointerScroll = 0;
+    let lastPointerTime = 0;
+    let lastScrollLeft = scroller.scrollLeft;
+    let lastScrollTime = performance.now();
+    let wheelTarget = scroller.scrollLeft;
+    let inertiaFrame = 0;
+    let wheelFrame = 0;
+    let parallaxFrame = 0;
+    let parallaxShift = 0;
 
-    const endDrag = () => {
+    const cancelInertia = () => {
+      if (!inertiaFrame) return;
+      cancelAnimationFrame(inertiaFrame);
+      inertiaFrame = 0;
+    };
+
+    const cancelWheel = () => {
+      if (wheelFrame) cancelAnimationFrame(wheelFrame);
+      wheelFrame = 0;
+      wheelTarget = scroller.scrollLeft;
+    };
+
+    const renderParallax = () => {
+      if (reducedMotionQuery.matches) return;
+
+      if (Math.abs(parallaxShift) < 0.08) {
+        parallaxShift = 0;
+        media.forEach((element) => element.style.removeProperty("transform"));
+        scroller.classList.remove("is-parallaxing");
+        parallaxFrame = 0;
+        return;
+      }
+
+      scroller.classList.add("is-parallaxing");
+      media.forEach((element, index) => {
+        const depth = 0.68 + index * 0.1;
+        element.style.transform = `translate3d(${(parallaxShift * depth).toFixed(2)}px, 0, 0)`;
+      });
+    };
+
+    const decayParallax = () => {
+      parallaxShift *= 0.86;
+      renderParallax();
+      if (parallaxShift) parallaxFrame = requestAnimationFrame(decayParallax);
+    };
+
+    const pulseParallax = (velocity) => {
+      if (reducedMotionQuery.matches || Math.abs(velocity) < 0.01) return;
+      parallaxShift = Math.max(-8, Math.min(8, velocity * 18));
+      if (parallaxFrame) cancelAnimationFrame(parallaxFrame);
+      renderParallax();
+      parallaxFrame = requestAnimationFrame(decayParallax);
+    };
+
+    const startInertia = (initialVelocity) => {
+      if (reducedMotionQuery.matches || Math.abs(initialVelocity) < 0.02) return;
+
+      let velocity = initialVelocity;
+      let previousTime = performance.now();
+      const step = (now) => {
+        const deltaTime = Math.min(32, now - previousTime);
+        previousTime = now;
+        const current = scroller.scrollLeft;
+        const next = clampScroll(current + velocity * deltaTime);
+
+        if (next === current) {
+          velocity = 0;
+        } else {
+          scroller.scrollLeft = next;
+          velocity *= Math.pow(0.92, deltaTime / 16);
+        }
+
+        if (Math.abs(velocity) < 0.02) {
+          inertiaFrame = 0;
+          return;
+        }
+        inertiaFrame = requestAnimationFrame(step);
+      };
+
+      inertiaFrame = requestAnimationFrame(step);
+    };
+
+    const stepWheel = () => {
+      const difference = wheelTarget - scroller.scrollLeft;
+      if (Math.abs(difference) < 0.5) {
+        scroller.scrollLeft = wheelTarget;
+        wheelFrame = 0;
+        return;
+      }
+
+      scroller.scrollLeft += difference * 0.18;
+      wheelFrame = requestAnimationFrame(stepWheel);
+    };
+
+    const onScroll = () => {
+      const now = performance.now();
+      const current = scroller.scrollLeft;
+      const deltaTime = Math.max(8, now - lastScrollTime);
+      const velocity = (current - lastScrollLeft) / deltaTime;
+      lastScrollLeft = current;
+      lastScrollTime = now;
+
+      if (!wheelFrame) wheelTarget = current;
+      pulseParallax(velocity);
+    };
+
+    const endDrag = (withMomentum = false) => {
       if (pointerId === null) return;
+      const releaseId = pointerId;
+      const shouldContinue = withMomentum && dragged;
       scroller.classList.remove("is-dragging");
       pointerId = null;
+      if (scroller.hasPointerCapture(releaseId)) scroller.releasePointerCapture(releaseId);
+      if (shouldContinue) startInertia(pointerVelocity);
     };
 
     const onPointerDown = (event) => {
-      if (event.pointerType !== "mouse" || event.button !== 0) return;
+      if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
+      cancelInertia();
+      cancelWheel();
       pointerId = event.pointerId;
       startX = event.clientX;
+      startY = event.clientY;
       startScrollLeft = scroller.scrollLeft;
+      lastPointerScroll = startScrollLeft;
+      lastPointerTime = performance.now();
+      pointerVelocity = 0;
       dragged = false;
       scroller.setPointerCapture(pointerId);
       scroller.classList.add("is-dragging");
@@ -305,37 +427,113 @@ function DragScroll({ children, className = "" }) {
     const onPointerMove = (event) => {
       if (event.pointerId !== pointerId) return;
       const distance = event.clientX - startX;
-      if (Math.abs(distance) > 3) dragged = true;
-      if (dragged) event.preventDefault();
-      scroller.scrollLeft = startScrollLeft - distance;
+      const verticalDistance = event.clientY - startY;
+
+      if (
+        !dragged &&
+        event.pointerType !== "mouse" &&
+        Math.abs(verticalDistance) > 8 &&
+        Math.abs(verticalDistance) > Math.abs(distance)
+      ) {
+        endDrag();
+        return;
+      }
+
+      if (Math.abs(distance) <= 3) return;
+      dragged = true;
+      suppressClick = true;
+      event.preventDefault();
+
+      const nextScrollLeft = clampScroll(startScrollLeft - distance);
+      const now = performance.now();
+      const deltaTime = Math.max(8, now - lastPointerTime);
+      pointerVelocity = (nextScrollLeft - lastPointerScroll) / deltaTime;
+      lastPointerScroll = nextScrollLeft;
+      lastPointerTime = now;
+      scroller.scrollLeft = nextScrollLeft;
     };
 
     const onClick = (event) => {
-      if (!dragged) return;
+      if (!suppressClick) return;
       event.preventDefault();
       event.stopPropagation();
-      dragged = false;
+      suppressClick = false;
+    };
+
+    const onPointerUp = () => endDrag(true);
+    const onPointerCancel = () => endDrag(true);
+
+    const onWheel = (event) => {
+      if (event.ctrlKey) return;
+
+      const rawDelta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+      if (!rawDelta) return;
+
+      const multiplier = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? scroller.clientWidth : 1;
+      const currentTarget = wheelFrame ? wheelTarget : scroller.scrollLeft;
+      const nextTarget = clampScroll(currentTarget + rawDelta * multiplier);
+      if (Math.abs(nextTarget - currentTarget) < 0.5) return;
+
+      event.preventDefault();
+      wheelTarget = nextTarget;
+      if (reducedMotionQuery.matches) {
+        scroller.scrollLeft = nextTarget;
+        wheelTarget = nextTarget;
+        return;
+      }
+      if (!wheelFrame) wheelFrame = requestAnimationFrame(stepWheel);
+    };
+
+    const onKeyDown = (event) => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      const step = Math.max(160, scroller.clientWidth * 0.72);
+      const current = scroller.scrollLeft;
+      const next = event.key === "Home"
+        ? 0
+        : event.key === "End"
+          ? scroller.scrollWidth
+          : current + (event.key === "ArrowRight" ? step : -step);
+      event.preventDefault();
+      cancelInertia();
+      cancelWheel();
+      scroller.scrollLeft = clampScroll(next);
     };
 
     scroller.addEventListener("pointerdown", onPointerDown);
     scroller.addEventListener("pointermove", onPointerMove);
-    scroller.addEventListener("pointerup", endDrag);
-    scroller.addEventListener("pointercancel", endDrag);
+    scroller.addEventListener("pointerup", onPointerUp);
+    scroller.addEventListener("pointercancel", onPointerCancel);
     scroller.addEventListener("lostpointercapture", endDrag);
     scroller.addEventListener("click", onClick, true);
+    scroller.addEventListener("wheel", onWheel, { passive: false });
+    scroller.addEventListener("scroll", onScroll, { passive: true });
+    scroller.addEventListener("keydown", onKeyDown);
 
     return () => {
+      cancelInertia();
+      cancelWheel();
+      if (parallaxFrame) cancelAnimationFrame(parallaxFrame);
       scroller.removeEventListener("pointerdown", onPointerDown);
       scroller.removeEventListener("pointermove", onPointerMove);
-      scroller.removeEventListener("pointerup", endDrag);
-      scroller.removeEventListener("pointercancel", endDrag);
+      scroller.removeEventListener("pointerup", onPointerUp);
+      scroller.removeEventListener("pointercancel", onPointerCancel);
       scroller.removeEventListener("lostpointercapture", endDrag);
       scroller.removeEventListener("click", onClick, true);
+      scroller.removeEventListener("wheel", onWheel);
+      scroller.removeEventListener("scroll", onScroll);
+      scroller.removeEventListener("keydown", onKeyDown);
+      media.forEach((element) => element.style.removeProperty("transform"));
     };
   }, []);
 
   return (
-    <div ref={scrollerRef} className={`drag-scroll ${className}`}>
+    <div
+      ref={scrollerRef}
+      className={`drag-scroll ${className}`}
+      role="region"
+      aria-label="Горизонтальная лента шотов"
+      tabIndex={0}
+    >
       {children}
     </div>
   );
@@ -352,7 +550,7 @@ function Shots() {
         <figure className="shot shot--portrait">
           <img src={`${FIGMA_HOME}/figma-home-shot-portrait-a.png`} alt="Мобильный экран музыкального события" />
         </figure>
-        <figure className="shot shot--portrait">
+        <figure className="shot shot--portrait shot--portrait-b">
           <img src={`${FIGMA_HOME}/figma-home-shot-portrait-b.png`} alt="Мобильный экран профиля артиста" />
         </figure>
         <figure className="shot shot--browser">

@@ -433,15 +433,35 @@ a:focus-visible {
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   cursor: grab;
+  touch-action: pan-y pinch-zoom;
+  scroll-behavior: auto;
 }
 
 .drag-scroll::-webkit-scrollbar {
   display: none;
 }
 
+.drag-scroll:focus {
+  outline: none;
+}
+
+.drag-scroll:focus-visible {
+  outline: 2px solid rgba(195, 0, 158, 0.56);
+  outline-offset: 5px;
+}
+
 .drag-scroll.is-dragging {
   cursor: grabbing;
   user-select: none;
+}
+
+.drag-scroll.is-dragging .shot img {
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.drag-scroll.is-parallaxing .shot img {
+  will-change: transform;
 }
 
 .shot {
@@ -454,6 +474,10 @@ a:focus-visible {
 }
 
 .shot img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
   width: 100%;
   height: 100%;
   max-width: none;
@@ -473,13 +497,15 @@ a:focus-visible {
 .shot--portrait img {
   width: 103.65%;
   height: 102.34%;
-  margin: -1.08% 0 0 -2.16%;
+  top: -1.08%;
+  left: -2.16%;
 }
 
-.shot--portrait:nth-of-type(3) img {
+.shot--portrait-b img {
   width: 102.92%;
   height: 103.84%;
-  margin: -1.11% 0 0 -1.46%;
+  top: -1.11%;
+  left: -1.46%;
 }
 
 .shot--browser {
@@ -491,7 +517,8 @@ a:focus-visible {
 .shot--browser img {
   width: 105.4%;
   height: 104.54%;
-  margin: -4.21% 0 0 -2.68%;
+  top: -4.21%;
+  left: -2.68%;
 }
 
 .about-section {
@@ -882,8 +909,14 @@ a:focus-visible {
 
   .project-link,
   .project-arrow img,
-  .nav-button {
+  .nav-button,
+  .drag-scroll {
     transition: none;
+  }
+
+  .drag-scroll.is-parallaxing .shot img {
+    will-change: auto;
+    transform: none !important;
   }
 }
 
