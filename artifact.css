@@ -1987,8 +1987,11 @@
 
   .testing {
     position: relative;
+    width: min(100%, 358px);
     height: 1922px;
     min-height: 0;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   .testing > .case-section-head {
