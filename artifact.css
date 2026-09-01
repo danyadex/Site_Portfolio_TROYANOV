@@ -895,6 +895,10 @@
   display: none;
 }
 
+.pathway-insights-label {
+  display: none;
+}
+
 /* Shared bottom navigation */
 
 .bottom-navigation {
@@ -1548,7 +1552,15 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 899px) {
+  .case-body {
+    scrollbar-width: none;
+  }
+
+  .case-body::-webkit-scrollbar {
+    display: none;
+  }
+
   .artifact-page {
     padding-right: 16px;
     padding-left: 16px;
@@ -1572,5 +1584,697 @@
 
   .architecture-grid {
     padding-right: 16px;
+  }
+}
+
+/* Source-frame mobile composition: Figma 1029:3809, 390 x 6497. */
+
+@media (max-width: 899px) {
+  .artifact-page {
+    width: 100%;
+    margin: 0;
+    padding: 100px 16px 29px;
+    overflow: visible;
+  }
+
+  .artifact-devices {
+    width: calc(100vw - 16px);
+    height: 551px;
+  }
+
+  .artifact-device-row {
+    width: 100%;
+    height: 551px;
+    gap: 16px;
+    padding: 0;
+    scroll-padding-left: 0;
+    scroll-snap-type: x proximity;
+  }
+
+  .artifact-device {
+    width: 265px;
+    height: 551px;
+    flex: 0 0 265px;
+    scroll-snap-align: start;
+  }
+
+  .artifact-overview {
+    display: flex;
+    height: 384px;
+    min-height: 0;
+    flex-direction: column;
+    margin-top: 60px;
+  }
+
+  .artifact-overview-head {
+    display: contents;
+  }
+
+  .artifact-overview-head > .case-kicker {
+    order: 1;
+    width: 100%;
+    height: 32px;
+    font-size: 20px;
+    line-height: 32px;
+  }
+
+  .artifact-overview-title {
+    order: 2;
+    width: 330px;
+    max-width: 100%;
+    height: 112px;
+    align-self: center;
+    margin: 20px 0 0;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .case-meta-grid {
+    position: static;
+    display: flex;
+    order: 3;
+    width: 100%;
+    height: 160px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin: 60px 0 0;
+    transform: none;
+    text-align: center;
+  }
+
+  .case-meta-grid div {
+    width: 100%;
+    height: 40px;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .case-meta-grid dt,
+  .case-meta-grid dd {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .case-divider {
+    height: 1px;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .artifact-overview + .case-divider {
+    margin-top: 100px;
+    margin-bottom: 19px;
+  }
+
+  .case-problem + .case-divider {
+    margin-top: 176px;
+    margin-bottom: 19px;
+  }
+
+  .pathway-summary + .case-divider,
+  .architecture + .case-divider,
+  .testing + .case-divider {
+    margin-top: 100px;
+    margin-bottom: 19px;
+  }
+
+  .case-problem {
+    height: 694px;
+    min-height: 0;
+  }
+
+  .case-problem > .case-kicker {
+    height: 32px;
+    font-size: 20px;
+    line-height: 32px;
+  }
+
+  .problem-content {
+    width: 100%;
+    height: 583px;
+    margin-top: 80px;
+  }
+
+  .problem-visual {
+    width: 358px;
+    max-width: 100%;
+    height: 459px;
+    aspect-ratio: auto;
+  }
+
+  .problem-word,
+  .problem-symbol {
+    left: 0;
+    width: 100%;
+    font-weight: 400;
+  }
+
+  .problem-word {
+    font-size: 64px;
+    line-height: 84px;
+  }
+
+  .problem-word--all {
+    top: 65px;
+  }
+
+  .problem-symbol {
+    top: 219px;
+    font-size: 96px;
+    line-height: 144px;
+  }
+
+  .problem-word--simple {
+    top: 375px;
+  }
+
+  .problem-icon,
+  .problem-mark {
+    width: 24px;
+    height: 24px;
+  }
+
+  .problem-icon--one { top: 22px; left: 53px; }
+  .problem-icon--two { top: 140px; left: 0; }
+  .problem-icon--three { top: 0; left: 167px; }
+  .problem-icon--four { top: 140px; left: 334px; }
+  .problem-icon--five { top: 22px; left: 281px; }
+  .problem-mark { top: 183px; left: 167px; }
+
+  .problem-description {
+    width: 100%;
+    height: 56px;
+    margin: 40px 0 0;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .pathway-summary {
+    position: relative;
+    height: 558px;
+    min-height: 0;
+  }
+
+  .pathway-main {
+    position: static;
+    width: auto;
+    height: auto;
+  }
+
+  .pathway-intro {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 172px;
+  }
+
+  .pathway-intro .case-kicker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 32px;
+    font-size: 20px;
+    line-height: 32px;
+  }
+
+  .pathway-intro h2 {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    width: 100%;
+    height: 48px;
+    margin: 0;
+    font-size: 32px;
+    line-height: 48px;
+  }
+
+  .audience-pill {
+    position: absolute;
+    top: 116px;
+    left: 0;
+    width: 100%;
+    height: 56px;
+    min-height: 0;
+    margin: 0;
+    padding: 16px;
+    border-radius: 24px;
+    font-size: 16px;
+    line-height: 24px;
+    transform: none;
+  }
+
+  .pathway-insights-label {
+    position: absolute;
+    top: 232px;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 18px;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 13px;
+    line-height: 18px;
+    text-align: center;
+  }
+
+  .pathway-respondents {
+    position: absolute;
+    top: 262px;
+    left: 0;
+    display: flex;
+    width: calc(100vw - 16px);
+    height: 118px;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    scroll-padding-left: 0;
+    scroll-snap-type: x proximity;
+  }
+
+  .respondent-card {
+    width: 265px;
+    height: 118px;
+    flex: 0 0 265px;
+    padding: 28px;
+    border-radius: 32px;
+    scroll-snap-align: start;
+  }
+
+  .respondent-card p {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .respondent-card .respondent-index {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .pathway-arrow {
+    position: absolute;
+    top: 411px;
+    left: 50%;
+    width: 17.32px;
+    height: 73px;
+    margin: 0;
+    transform: translateX(-50%);
+  }
+
+  .pathway-conclusion {
+    position: absolute;
+    top: 502px;
+    left: 50%;
+    width: 292px;
+    height: 56px;
+    margin: 0;
+    font-size: 20px;
+    line-height: 28px;
+    transform: translateX(-50%);
+  }
+
+  .architecture {
+    position: relative;
+    height: 1495px;
+    min-height: 0;
+  }
+
+  .architecture > .case-section-head {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 102px;
+  }
+
+  .architecture .case-section-head > .case-kicker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 32px;
+    font-size: 20px;
+    line-height: 32px;
+  }
+
+  .architecture .case-section-note {
+    position: absolute;
+    top: 62px;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    gap: 4px;
+    transform: none;
+  }
+
+  .architecture-grid {
+    position: absolute;
+    top: 160px;
+    left: 0;
+    display: flex;
+    width: calc(100vw - 16px);
+    height: 1335px;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-padding-left: 0;
+    scroll-snap-type: x proximity;
+  }
+
+  .architecture-column {
+    display: grid;
+    width: 265px;
+    height: 1335px;
+    flex: 0 0 265px;
+    grid-template-rows: 603px 73px 603px;
+    row-gap: 28px;
+    scroll-snap-align: start;
+  }
+
+  .architecture-stage,
+  .architecture-stage--result {
+    width: 265px;
+    height: 603px;
+  }
+
+  .architecture-stage p {
+    width: 100%;
+    height: 18px;
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .architecture-stage > img,
+  .architecture-stage .artifact-screen-media,
+  .architecture-stage--result > img {
+    width: 265px;
+    height: 573px;
+    margin-top: 12px;
+    border-radius: 24px;
+  }
+
+  .architecture-stage > img {
+    width: 265px;
+    height: 573px;
+  }
+
+  .architecture-arrow {
+    width: 17.32px;
+    height: 73px;
+  }
+
+  .testing {
+    position: relative;
+    height: 1922px;
+    min-height: 0;
+  }
+
+  .testing > .case-section-head {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 86px;
+  }
+
+  .testing .case-section-head > .case-kicker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 32px;
+    font-size: 20px;
+    line-height: 32px;
+  }
+
+  .testing .case-section-note {
+    position: absolute;
+    top: 46px;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    gap: 4px;
+    transform: none;
+  }
+
+  .testing .artifact-copy-desktop {
+    display: none;
+  }
+
+  .testing .artifact-copy-mobile {
+    display: inline;
+  }
+
+  .testing-task {
+    position: absolute;
+    top: 160px;
+    left: 0;
+    width: 100%;
+    height: 84px;
+    margin: 0;
+  }
+
+  .testing-task > p {
+    height: 20px;
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  .testing-task blockquote {
+    width: 326px;
+    max-width: 100%;
+    height: 56px;
+    margin: 8px 0 0;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .metric-card--wide,
+  .metric-card--second {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 204px;
+    margin: 0;
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .metric-card--wide {
+    top: 272px;
+  }
+
+  .metric-card--wide > div:first-child {
+    width: 100%;
+    height: 70px;
+    gap: 24px;
+  }
+
+  .metric-label {
+    height: 28px;
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .metric-caption {
+    height: 18px;
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .metric-value-row {
+    width: 100%;
+    height: 84px;
+    margin: 0;
+  }
+
+  .metric-value-row strong {
+    font-size: 64px;
+    line-height: 84px;
+  }
+
+  .testing-process {
+    position: absolute;
+    top: 494px;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 1192px;
+    margin: 0;
+  }
+
+  .testing-transition-arrow {
+    position: absolute;
+    width: 11.55px;
+    height: 78px;
+    margin: 0;
+  }
+
+  .testing-transition-arrow--from-metric {
+    top: 0;
+    left: calc(50% - 5.775px);
+  }
+
+  .testing-process-column {
+    position: absolute;
+    top: 96px;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 458px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .testing-process-column > p {
+    width: 100%;
+    height: 20px;
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  .testing-process-content {
+    position: static;
+    display: flex;
+    width: 100%;
+    height: 406px;
+    flex-direction: column;
+    margin: 32px 0 0;
+  }
+
+  .testing-process-content ul,
+  .testing-balance-content ul {
+    width: 100%;
+    height: 18px;
+    min-height: 18px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .testing-process-content li,
+  .testing-balance-content li {
+    width: max-content;
+    max-width: calc(100% - 42px);
+    height: 18px;
+    min-height: 18px;
+    margin: 0 auto;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    line-height: 18px;
+    list-style-position: outside;
+    text-align: left;
+  }
+
+  .testing-images--pair {
+    position: relative;
+    top: auto;
+    left: auto;
+    display: flex;
+    width: 100%;
+    height: 370px;
+    min-height: 0;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0;
+    margin: 18px 0 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .testing-images--pair .testing-screen-media:first-child {
+    width: 123px;
+    height: 268px;
+    flex: 0 0 123px;
+    aspect-ratio: auto;
+  }
+
+  .testing-images--pair .testing-screen-media:last-child {
+    width: 171px;
+    height: 370px;
+    flex: 0 0 171px;
+    aspect-ratio: auto;
+  }
+
+  .testing-screen-media {
+    border-radius: 0;
+  }
+
+  .testing-arrow--diagonal {
+    top: 94px;
+    left: 131px;
+    width: 46px;
+    height: 46px;
+  }
+
+  .testing-arrow--diagonal img {
+    width: 11.55px;
+    height: 65px;
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .testing-process-column--balance {
+    top: 614px;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 469px;
+    margin: 0;
+  }
+
+  .testing-balance-content {
+    position: relative;
+    width: 100%;
+    height: 469px;
+    margin: 0;
+  }
+
+  .testing-images--split {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    height: 439px;
+    margin: 12px 0 0;
+  }
+
+  .testing-images--split > img:first-of-type {
+    top: 0;
+    left: 0;
+    width: 265px;
+    height: 162px;
+    transform: none;
+  }
+
+  .testing-images--split > img:last-of-type {
+    top: 222px;
+    left: 0;
+    width: 358px;
+    height: 217px;
+    transform: none;
+  }
+
+  .testing-arrow--curve {
+    top: 61px;
+    left: 281px;
+    width: 62px;
+    height: 215px;
+  }
+
+  .testing-transition-arrow--to-metric {
+    top: 1115px;
+    left: calc(50% - 5.775px);
+  }
+
+  .metric-card--second {
+    top: 1718px;
+  }
+
+  .artifact-next {
+    height: 28px;
+  }
+
+  .bottom-navigation {
+    padding: 16px 16px calc(8px + env(safe-area-inset-bottom, 0px));
   }
 }
