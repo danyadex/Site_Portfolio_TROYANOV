@@ -204,11 +204,12 @@ function RhythmDot({ className = "" }) {
   return <span className={`rhythm-dot ${className}`.trim()} aria-hidden="true">•</span>;
 }
 
-function PhoneMockup({ src, label, variant = "default" }) {
+function PhoneMockup({ src, label, variant = "default", staticSrc }) {
   return (
     <div className={`phone-stage phone-stage--${variant}`}>
       <div className="phone-screen">
-        <AutoVideo src={src} label={label} />
+        {staticSrc && <img className="phone-still" src={staticSrc} alt="" />}
+        <AutoVideo className={staticSrc ? "phone-motion" : ""} src={src} label={label} />
       </div>
       <img className="phone-bezel" src={`${FIGMA_HOME}/figma-home-iphone.png`} alt="" />
     </div>
@@ -219,7 +220,11 @@ function ArtifactProject() {
   return (
     <article className="home-project home-project--artifact" id="projects">
       <div className="home-project-media home-project-media--phone">
-        <PhoneMockup src={`${HOME}/artifact-screen.mp4`} label="Аниматик приложения ARTIFACT" />
+        <PhoneMockup
+          src={`${HOME}/artifact-screen.mp4`}
+          staticSrc={`${HOME}/artifact-screen-static.png`}
+          label="Аниматик приложения ARTIFACT"
+        />
       </div>
       <div className="home-project-info">
         <ProjectHeader href="/artifact.html" title="Artifact" tags={["App", "Lead Designer"]} />
@@ -651,7 +656,9 @@ function About() {
           <br />
           основа моей насмотренности.
           <br />
-          {"Где-то между ними живёт мой\u00a0дизайн"}
+          Где-то между ними
+          <br />
+          {"живёт мой\u00a0дизайн"}
         </p>
         <div className="about-collage" aria-label="Живой визуальный архив Даниила Троянова">
           <img
@@ -779,7 +786,7 @@ function App() {
               </span>
               <RhythmDot />
               <span className="intro-copy-muted">
-                Проектирую B2C AI-продукты с нуля —
+                Проектирую B2C AI-продукты —
                 <br />
                 от первого сценария
                 <br />
