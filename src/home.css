@@ -832,21 +832,22 @@ a:focus-visible {
   .intro-content {
     position: absolute;
     top: 304px;
-    left: 0;
-    width: 100%;
+    left: 50%;
+    width: min(384px, 100%);
     margin: 0;
     gap: 20px;
+    transform: translateX(-50%);
   }
 
   .avatar-frame {
-    height: 350px;
-    aspect-ratio: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 358 / 350;
   }
 
   .project-stack {
-    width: 100%;
-    margin-left: 0;
-    margin-top: 100px;
+    width: min(588px, 100%);
+    margin: 100px auto 0;
     gap: 100px;
   }
 
@@ -859,17 +860,21 @@ a:focus-visible {
     margin-top: 47px;
   }
 
-  .home-project-media--phone,
+  .home-project-media--phone {
+    height: auto;
+    aspect-ratio: auto;
+  }
+
   .phone-stage {
     height: auto;
     aspect-ratio: 384 / 802;
-  }
-
-  .phone-stage {
     width: min(384px, 100%);
   }
 
-  .home-project--taya .home-project-media--phone,
+  .home-project--taya .home-project-media--phone {
+    aspect-ratio: auto;
+  }
+
   .home-project--taya .phone-stage {
     aspect-ratio: 358 / 747;
   }
@@ -973,7 +978,7 @@ a:focus-visible {
   }
 
   .about-collage {
-    width: 100%;
+    width: min(588px, 100%);
     height: auto;
     aspect-ratio: 588 / 509.601;
   }
