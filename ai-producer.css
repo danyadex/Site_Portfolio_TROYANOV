@@ -17,6 +17,11 @@
   width: 100%;
 }
 
+.ai-solution {
+  width: 100vw;
+  margin-left: calc(-1 * var(--content-margin));
+}
+
 .ai-case-kicker {
   margin: 0;
   color: var(--color-text-muted);
@@ -984,6 +989,11 @@
   }
 
   /* Solution */
+
+  .ai-solution {
+    width: 100%;
+    margin-left: 0;
+  }
 
   .ai-solution-intro {
     height: 80px;
