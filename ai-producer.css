@@ -545,6 +545,11 @@
   font-weight: 400;
 }
 
+.ai-metric strong .ai-metric-scale {
+  font: inherit;
+  color: inherit;
+}
+
 .ai-metric small {
   display: none;
 }
