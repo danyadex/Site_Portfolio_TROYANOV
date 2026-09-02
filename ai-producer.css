@@ -32,7 +32,8 @@
 
 .ai-case-browser {
   position: relative;
-  width: 100%;
+  width: min(100%, var(--content-width));
+  margin-inline: auto;
   aspect-ratio: 1200 / 725;
   overflow: hidden;
   border-radius: 22px;
