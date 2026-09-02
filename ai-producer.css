@@ -8,8 +8,8 @@
 }
 
 .ai-producer-page {
-  width: min(var(--content-width), calc(100vw - 80px));
-  margin: 0 0 0 var(--content-margin);
+  width: 100%;
+  margin: 0;
   padding: 100px 0;
 }
 
@@ -18,8 +18,8 @@
 }
 
 .ai-solution {
-  width: 100vw;
-  margin-left: calc(-1 * var(--content-margin));
+  width: 100%;
+  margin-left: 0;
 }
 
 .ai-case-kicker {
