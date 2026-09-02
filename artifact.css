@@ -810,6 +810,10 @@
   transform: translate(-50%, -50%) rotate(-66.41deg);
 }
 
+.testing-arrow__mobile {
+  display: none;
+}
+
 .testing-process-column--balance {
   top: 645px;
   left: 357px;
@@ -1986,7 +1990,7 @@
   .testing {
     position: relative;
     width: min(100%, 358px);
-    height: 1922px;
+    height: 2426px;
     min-height: 0;
     margin-right: auto;
     margin-left: auto;
@@ -2123,7 +2127,7 @@
     left: 0;
     display: flex;
     width: 100%;
-    height: 458px;
+    height: 994px;
     flex-direction: column;
     align-items: center;
   }
@@ -2139,7 +2143,7 @@
     position: static;
     display: flex;
     width: 100%;
-    height: 406px;
+    height: 890px;
     flex-direction: column;
     margin: 32px 0 0;
   }
@@ -2173,49 +2177,57 @@
     left: auto;
     display: flex;
     width: 100%;
-    height: 370px;
+    height: 852px;
     min-height: 0;
-    align-items: flex-start;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     gap: 0;
-    margin: 18px 0 0;
+    margin: 20px 0 0;
     padding: 0;
     overflow: visible;
   }
 
   .testing-images--pair .testing-screen-media:first-child {
-    width: 123px;
-    height: 268px;
-    flex: 0 0 123px;
+    width: 173px;
+    height: 375px;
+    flex: 0 0 375px;
     aspect-ratio: auto;
   }
 
   .testing-images--pair .testing-screen-media:last-child {
     width: 171px;
-    height: 370px;
-    flex: 0 0 171px;
+    height: 372px;
+    flex: 0 0 372px;
     aspect-ratio: auto;
   }
 
   .testing-screen-media {
-    border-radius: 0;
+    border-radius: 24px;
   }
 
   .testing-arrow--diagonal {
-    top: 94px;
-    left: 131px;
-    width: 46px;
-    height: 46px;
+    position: static;
+    width: 11.547px;
+    height: 66px;
+    flex: 0 0 66px;
+    margin: 20px 0;
   }
 
-  .testing-arrow--diagonal img {
+  .testing-arrow--diagonal .testing-arrow__desktop {
+    display: none;
+  }
+
+  .testing-arrow--diagonal .testing-arrow__mobile {
+    position: static;
     width: 11.55px;
-    height: 65px;
-    transform: translate(-50%, -50%) rotate(-45deg);
+    height: 66px;
+    display: block;
+    transform: none;
   }
 
   .testing-process-column--balance {
-    top: 614px;
+    top: 1118px;
     left: 0;
     display: block;
     width: 100%;
@@ -2241,10 +2253,10 @@
 
   .testing-images--split > img:first-of-type {
     top: 0;
-    left: 0;
+    left: 50%;
     width: 265px;
     height: 162px;
-    transform: none;
+    transform: translateX(-50%);
   }
 
   .testing-images--split > img:last-of-type {
@@ -2264,13 +2276,13 @@
   }
 
   .testing-transition-arrow--to-metric {
-    top: 1115px;
+    top: 1619px;
     left: calc(50% - 5.775px);
     display: block;
   }
 
   .metric-card--second {
-    top: 1718px;
+    top: 2222px;
   }
 
   .artifact-next {
