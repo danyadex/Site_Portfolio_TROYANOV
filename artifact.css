@@ -708,6 +708,7 @@
 .testing-transition-arrow--to-metric {
   top: 1221px;
   left: 594.2px;
+  display: none;
 }
 
 .testing-process-column {
@@ -857,10 +858,7 @@
 }
 
 .testing-arrow--curve {
-  top: 72px;
-  left: 332.5px;
-  width: 128.456px;
-  height: 265.867px;
+  display: none;
 }
 
 .testing-arrow--curve img {
@@ -2258,15 +2256,17 @@
   }
 
   .testing-arrow--curve {
-    top: 61px;
-    left: 281px;
-    width: 62px;
-    height: 215px;
+    top: 59px;
+    left: 316px;
+    display: block;
+    width: 31px;
+    height: 153px;
   }
 
   .testing-transition-arrow--to-metric {
     top: 1115px;
     left: calc(50% - 5.775px);
+    display: block;
   }
 
   .metric-card--second {
