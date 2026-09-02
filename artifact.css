@@ -862,7 +862,11 @@
 }
 
 .testing-arrow--curve {
-  display: none;
+  top: 54px;
+  left: 333px;
+  display: block;
+  width: 37.0458px;
+  height: 153.865px;
 }
 
 .testing-arrow--curve img {
