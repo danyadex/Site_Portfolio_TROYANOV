@@ -8,8 +8,8 @@
 }
 
 .ai-producer-page {
-  width: 100%;
-  margin: 0;
+  width: min(var(--content-width), calc(100vw - var(--content-margin) - var(--content-edge-right)));
+  margin: 0 0 0 var(--content-margin);
   padding: 100px 0;
 }
 
@@ -68,8 +68,7 @@
   width: 100%;
   height: auto;
   max-width: none;
-  background: #000;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center top;
 }
 
