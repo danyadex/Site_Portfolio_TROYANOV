@@ -63,9 +63,10 @@
 .ai-case-browser-motion {
   position: absolute;
   top: 5.93%;
-  left: 0;
+  /* Both captures contain a dark 7px edge; overscan it beneath the frame mask. */
+  left: -0.42%;
   z-index: 1;
-  width: 100%;
+  width: 100.84%;
   height: auto;
   max-width: none;
   object-fit: cover;
