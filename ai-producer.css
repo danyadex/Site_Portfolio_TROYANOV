@@ -8,8 +8,8 @@
 }
 
 .ai-producer-page {
-  width: min(var(--content-width), calc(100vw - var(--content-margin) - var(--content-edge-right)));
-  margin: 0 0 0 var(--content-margin);
+  width: 100%;
+  margin: 0;
   padding: 100px 0;
 }
 
