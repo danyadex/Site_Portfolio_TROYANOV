@@ -8,8 +8,8 @@
 }
 
 .ai-producer-page {
-  width: 100%;
-  margin: 0;
+  width: min(var(--content-width), calc(100vw - var(--content-margin) - var(--content-edge-right)));
+  margin: 0 0 0 var(--content-margin);
   padding: 100px 0;
 }
 
@@ -32,8 +32,8 @@
 
 .ai-case-browser {
   position: relative;
-  width: min(var(--content-width), calc(100% - var(--content-margin) - var(--content-edge-right)));
-  margin-left: var(--content-margin);
+  width: 100%;
+  margin-left: 0;
   aspect-ratio: 1200 / 725;
   overflow: hidden;
   border-radius: 22px;
@@ -68,7 +68,8 @@
   width: 100%;
   height: auto;
   max-width: none;
-  object-fit: cover;
+  background: #000;
+  object-fit: contain;
   object-position: center top;
 }
 
