@@ -228,6 +228,34 @@
   object-fit: cover;
 }
 
+.ai-trouble-card .ai-video-loop {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 588 / 341;
+  overflow: hidden;
+  border-radius: 50px;
+  background: #d9e6f0;
+}
+
+.ai-trouble-card .ai-video-loop > video.ai-video-loop-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  aspect-ratio: auto;
+  border-radius: inherit;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 450ms ease;
+  will-change: opacity;
+}
+
+.ai-trouble-card .ai-video-loop > video.ai-video-loop-layer.is-active {
+  opacity: 1;
+}
+
 /* Research -------------------------------------------------------------- */
 
 .ai-research {
@@ -834,6 +862,11 @@
   }
 
   .ai-trouble-card video {
+    aspect-ratio: 358 / 207;
+    border-radius: 32px;
+  }
+
+  .ai-trouble-card .ai-video-loop {
     aspect-ratio: 358 / 207;
     border-radius: 32px;
   }
