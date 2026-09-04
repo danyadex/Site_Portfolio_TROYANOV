@@ -1,20 +1,54 @@
-document.querySelectorAll("video[data-loop-start]").forEach((video) => {
-  const loopStart = Number.parseFloat(video.dataset.loopStart);
+document.querySelectorAll("video[data-loop-start], video[data-loop-end]").forEach((video) => {
+  const configuredStart = Number.parseFloat(video.dataset.loopStart ?? "0");
+  const configuredEnd = Number.parseFloat(video.dataset.loopEnd ?? "");
+  const loopStart = Number.isFinite(configuredStart) && configuredStart >= 0 ? configuredStart : 0;
+  let loopEnd = Number.POSITIVE_INFINITY;
+  let frameCallbackId = null;
 
-  if (!Number.isFinite(loopStart) || loopStart < 0) return;
+  const syncLoopRange = () => {
+    if (!Number.isFinite(video.duration) || loopStart >= video.duration) return false;
 
-  const restartFromLoopStart = () => {
-    if (!Number.isFinite(video.duration) || loopStart >= video.duration) return;
+    loopEnd = Number.isFinite(configuredEnd)
+      ? Math.min(Math.max(configuredEnd, loopStart), video.duration)
+      : video.duration;
 
-    video.currentTime = loopStart;
-    video.play().catch(() => {});
+    if (video.currentTime < loopStart || video.currentTime >= loopEnd) {
+      video.currentTime = loopStart;
+    }
+
+    return loopEnd > loopStart;
   };
 
-  if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
-    restartFromLoopStart();
-  } else {
-    video.addEventListener("loadedmetadata", restartFromLoopStart, { once: true });
-  }
+  const restartLoop = () => {
+    if (!syncLoopRange()) return;
 
-  video.addEventListener("ended", restartFromLoopStart);
+    const shouldResume = !video.paused || video.ended;
+    video.currentTime = loopStart;
+    if (shouldResume) video.play().catch(() => {});
+  };
+
+  const scheduleFrameCheck = () => {
+    if (frameCallbackId !== null || video.paused || !("requestVideoFrameCallback" in video)) return;
+    frameCallbackId = video.requestVideoFrameCallback(checkFrame);
+  };
+
+  const checkFrame = () => {
+    frameCallbackId = null;
+    if (video.currentTime >= loopEnd) restartLoop();
+    scheduleFrameCheck();
+  };
+
+  const initializeLoop = () => {
+    if (!syncLoopRange()) return;
+    scheduleFrameCheck();
+  };
+
+  if (video.readyState >= HTMLMediaElement.HAVE_METADATA) initializeLoop();
+  else video.addEventListener("loadedmetadata", initializeLoop, { once: true });
+
+  video.addEventListener("play", scheduleFrameCheck);
+  video.addEventListener("timeupdate", () => {
+    if (video.currentTime >= loopEnd) restartLoop();
+  });
+  video.addEventListener("ended", restartLoop);
 });
