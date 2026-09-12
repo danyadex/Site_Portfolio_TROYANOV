@@ -648,8 +648,7 @@
   }
 }
 
-/* На мобильном подложка выключена: навигация остаётся прозрачной поверх страницы.
-   На desktop работает мягкий progressive fade из блока выше. */
+/* Desktop сохраняет мягкий progressive fade под нижним тулбаром. */
 @media (min-width: 900px) {
   :is(.home-page, .case-body) > .bottom-blur {
     height: calc(180px + var(--nav-safe-bottom, 0px));
@@ -662,8 +661,34 @@
   }
 }
 
-@media (max-width: 899px) {
+/* На мобильном тот же материал переезжает к верхнему хедеру. Градиент
+   разворачиваем, чтобы он был плотнее у статус-бара и мягко сходил в контент.
+   Слой остаётся pointer-events: none, поэтому свайпы и тапы проходят насквозь. */
+@media (max-width: 899px) and (prefers-reduced-transparency: no-preference) {
   :is(.home-page, .case-body) > .bottom-blur {
-    display: none !important;
+    display: block !important;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    height: calc(180px + env(safe-area-inset-top, 0px));
+    z-index: 19;
+    transform: rotate(180deg);
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(255, 255, 255, 0.02) 22%,
+      rgba(255, 255, 255, 0.08) 44%,
+      rgba(255, 255, 255, 0.24) 66%,
+      rgba(255, 255, 255, 0.58) 84%,
+      rgba(255, 255, 255, 0.82) 100%
+    );
+    opacity: 1;
+    transition: opacity 240ms cubic-bezier(.22, 1, .36, 1);
+  }
+
+  .bottom-blur-layer-1 {
+    -webkit-backdrop-filter: blur(44px);
+    backdrop-filter: blur(44px);
   }
 }
