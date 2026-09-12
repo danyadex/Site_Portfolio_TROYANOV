@@ -955,7 +955,7 @@ function HomeFooter() {
     <footer className="home-footer">
       <a href="mailto:danyadex@gmail.com">danyadex@gmail.com</a>
       <a href="https://t.me/danyatroyanov" target="_blank" rel="noreferrer">
-        @danyatroyanov
+        t.me/danyatroyanov
       </a>
     </footer>
   );
