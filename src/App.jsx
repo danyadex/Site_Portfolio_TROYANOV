@@ -946,6 +946,21 @@ function AboutMediaTile({ item }) {
   );
 }
 
+/* Футер только для мобильного: там меню уехало наверх, и внизу оставался
+   резерв в 112px ни подо что. На десктопе меню стоит внизу — футер не нужен,
+   он бы дублировал его по смыслу. Состав по макету (Figma 1724:304):
+   линия-разделитель, почта и телеграм. */
+function HomeFooter() {
+  return (
+    <footer className="home-footer">
+      <a href="mailto:danyadex@gmail.com">danyadex@gmail.com</a>
+      <a href="https://t.me/danyatroyanov" target="_blank" rel="noreferrer">
+        @danyatroyanov
+      </a>
+    </footer>
+  );
+}
+
 function About() {
   const collageRef = useRef(null);
   const previousRects = useRef(null);
@@ -1175,6 +1190,7 @@ function App() {
 
         <Shots />
         <About />
+        <HomeFooter />
       </main>
 
       <ProgressiveBlur />

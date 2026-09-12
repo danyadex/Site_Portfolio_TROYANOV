@@ -281,6 +281,12 @@ a:focus-visible {
   color: var(--home-gray);
 }
 
+/* Футер живёт только на мобильном брейкпоинте: на десктопе нижнее меню стоит
+   внизу экрана и закрывает ту же задачу. */
+.home-footer {
+  display: none;
+}
+
 .project-stack {
   display: flex;
   flex-direction: column;
@@ -990,7 +996,31 @@ a:focus-visible {
 
   .home-main {
     width: calc(100% - (2 * var(--home-edge)));
-    padding-bottom: calc(112px + var(--home-safe-bottom));
+    /* Было 112 — резерв под нижнее меню, которое здесь стоит сверху.
+       Теперь низ занимает футер, странице хватает его собственного поля. */
+    padding-bottom: calc(24px + var(--home-safe-bottom));
+  }
+
+  .home-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--home-line);
+    color: var(--home-gray);
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .home-footer a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .home-footer a:active {
+    color: var(--home-black);
   }
 
   .intro-section {
