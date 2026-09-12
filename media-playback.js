@@ -1,12 +1,17 @@
 export function observeVisibility(target, onChange, options = {}) {
   let intersects = false;
   let suspended = false;
+  const { minRatio = 0, threshold: requestedThreshold, ...observerOptions } = options;
+  const threshold = requestedThreshold ?? (minRatio > 0 ? [0, minRatio] : 0.01);
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const update = () => onChange(intersects && !document.hidden && !suspended && !reducedMotion.matches);
   const observer = new IntersectionObserver(([entry]) => {
-    intersects = entry.isIntersecting;
+    const intersectionRatio = Number.isFinite(entry.intersectionRatio)
+      ? entry.intersectionRatio
+      : (entry.isIntersecting ? 1 : 0);
+    intersects = entry.isIntersecting && intersectionRatio >= minRatio;
     update();
-  }, { threshold: 0.01, rootMargin: "120px 0px", ...options });
+  }, { threshold, rootMargin: "120px 0px", ...observerOptions });
   const hide = () => { suspended = true; update(); };
   const show = () => { suspended = false; update(); };
 
@@ -31,6 +36,7 @@ export function manageVideoPlayback(video, target = video, options = {}) {
   let disposed = false;
   let loadRequested = video.preload !== "none";
   const rootMargin = options.rootMargin ?? "120px 0px";
+  const minVisibleRatio = options.minVisibleRatio ?? 0;
 
   // Keep the attributes that make muted inline autoplay legal on iOS and
   // Android. The observer below still pauses media outside the viewport.
@@ -87,12 +93,12 @@ export function manageVideoPlayback(video, target = video, options = {}) {
   // Warm up nearby media, but only decode/play while actually visible.
   const stopPreloading = observeVisibility(target, (nearby) => {
     if (nearby) requestLoad();
-  }, { rootMargin });
+  }, { rootMargin, minRatio: minVisibleRatio });
   const stopObserving = observeVisibility(target, (visible) => {
     active = visible;
     video.dataset.playbackActive = String(active);
     sync();
-  }, { rootMargin: "0px" });
+  }, { rootMargin: "0px", minRatio: minVisibleRatio });
 
   // A visible video should get another chance after WebKit has a decodable
   // frame. This prevents a poster from staying forever on iOS.
