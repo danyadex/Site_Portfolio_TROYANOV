@@ -2329,6 +2329,11 @@
 .architecture-grid img { -webkit-user-drag: none; pointer-events: none; }
 
 @media (max-width: 899px) {
+  /* На мобильном разделители Artifact должны совпадать с контрастом AI Producer. */
+  .case-divider {
+    background: var(--color-text-primary);
+  }
+
   .artifact-devices { width: 100%; height: auto; }
   .artifact-device-row {
     width: 100%;
