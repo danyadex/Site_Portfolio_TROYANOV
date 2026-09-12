@@ -456,6 +456,7 @@ a:focus-visible {
   min-width: 0;
   color: inherit;
   text-decoration: none;
+  touch-action: manipulation;
   transition: color 180ms ease;
 }
 
@@ -465,7 +466,7 @@ a:focus-visible {
   color: var(--home-accent);
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .project-link:hover .project-link-label {
     color: var(--home-accent);
   }
@@ -493,8 +494,23 @@ a:focus-visible {
   transform: scale(1.7);
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .project-link:hover .project-arrow img {
+    content: url("/assets/home/figma/figma-home-arrow-hover.svg");
+    transform: scale(1.7);
+  }
+}
+
+/* На touch-экранах подсветка живёт только во время нажатия.
+   Она повторяет desktop hover, но не оставляет «залипшее» состояние Safari. */
+@media (hover: none), (pointer: coarse) {
+  .home-project--artifact .project-link:active .project-link-label,
+  .home-project--ai-producer .project-link:active .project-link-label {
+    color: var(--home-accent);
+  }
+
+  .home-project--artifact .project-link:active .project-arrow img,
+  .home-project--ai-producer .project-link:active .project-arrow img {
     content: url("/assets/home/figma/figma-home-arrow-hover.svg");
     transform: scale(1.7);
   }
