@@ -51,7 +51,6 @@ function AutoVideo({
   preload = "none",
   autoPlay = false,
   rootMargin = "120px 0px",
-  minVisibleRatio = 0,
 }) {
   const videoRef = useRef(null);
 
@@ -59,8 +58,8 @@ function AutoVideo({
     const video = videoRef.current;
     if (!video) return undefined;
 
-    return manageVideoPlayback(video, video, { rootMargin, minVisibleRatio });
-  }, [src, rootMargin, minVisibleRatio]);
+    return manageVideoPlayback(video, video, { rootMargin });
+  }, [src, rootMargin]);
 
   return (
     <video
@@ -172,7 +171,7 @@ function RhythmDot({ className = "" }) {
   return <span className={`rhythm-dot ${className}`.trim()} aria-hidden="true">•</span>;
 }
 
-function PhoneMockup({ src, label, variant = "default", staticSrc, preload = "none", rootMargin = "160px 0px", minVisibleRatio = 0 }) {
+function PhoneMockup({ src, label, variant = "default", staticSrc, preload = "none", rootMargin = "160px 0px" }) {
   return (
     <div className={`phone-stage phone-stage--${variant}`}>
       <div className="phone-screen">
@@ -184,7 +183,6 @@ function PhoneMockup({ src, label, variant = "default", staticSrc, preload = "no
           preload={preload}
           autoPlay={preload === "auto"}
           rootMargin={rootMargin}
-          minVisibleRatio={minVisibleRatio}
         />
       </div>
       <img className="phone-bezel" src={homeAssets.phone} alt="" />
@@ -200,8 +198,6 @@ function ArtifactProject() {
           src={homeAssets.artifact}
           staticSrc={homeAssets.artifactStill}
           preload="none"
-          rootMargin="0px"
-          minVisibleRatio={0.25}
           label="Аниматик приложения ARTIFACT"
         />
       </div>

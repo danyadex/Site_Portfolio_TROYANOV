@@ -11,9 +11,7 @@ function setup(t) {
     constructor(callback) { this.callback = callback; observers.push(this); }
     observe(target) { this.target = target; }
     disconnect() { this.disconnected = true; }
-    setVisible(isIntersecting) {
-      this.callback([{ isIntersecting, intersectionRatio: isIntersecting ? 1 : 0 }]);
-    }
+    setVisible(isIntersecting) { this.callback([{ isIntersecting }]); }
   }
   for (const [key, value] of Object.entries({ document, window, IntersectionObserver: Observer })) {
     const original = Object.getOwnPropertyDescriptor(globalThis, key);
