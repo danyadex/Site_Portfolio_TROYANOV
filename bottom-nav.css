@@ -583,6 +583,18 @@
 
 /* На мобильном подложка выключена: навигация остаётся прозрачной поверх страницы.
    На desktop работает мягкий progressive fade из блока выше. */
+@media (min-width: 900px) {
+  :is(.home-page, .case-body) > .bottom-blur {
+    height: calc(240px + var(--nav-safe-bottom, 0px));
+    opacity: 0.92;
+  }
+
+  .bottom-blur-layer-1 {
+    -webkit-backdrop-filter: blur(38px);
+    backdrop-filter: blur(38px);
+  }
+}
+
 @media (max-width: 899px) {
   :is(.home-page, .case-body) > .bottom-blur {
     display: none !important;
