@@ -1,0 +1,587 @@
+/* ============================================================
+   Нижняя навигация: общий источник для главной (React) и кейсов.
+   Хост обязан задать маппинг своих токенов на --nav-*, см. блок ниже.
+   ============================================================ */
+
+/*
+  Ожидаемые переменные хоста:
+  --nav-safe-bottom     отступ под системную зону (env safe-area), по умолчанию 0
+  --nav-center          горизонтальный центр контентной колонки
+  --nav-height          высота полосы размытия на десктопе
+  --nav-height-mobile   то же для мобильного брейкпоинта
+  --nav-border          цвет обводки кнопки
+  --nav-radius          скругление кнопки
+  --nav-control-height  высота кнопки
+  --nav-text            цвет текста кнопки
+  --nav-text-inverse    цвет текста на тёмном стекле
+*/
+
+/* --- Legacy edge-blur markup --------------------------------
+   Слои оставлены в DOM для обратной совместимости, но полноэкранный слой
+   отключён. Рабочее стекло теперь ограничено .bottom-navigation-inner. */
+.bottom-blur {
+  /* Размытие живёт в самой пилюле. Полноэкранный слой оставляем в разметке
+     для совместимости со старыми хостами, но он больше не перекрывает контент. */
+  display: none;
+}
+
+.bottom-blur-layer {
+  position: absolute;
+  inset: 0;
+}
+
+/* Один непрерывный слой исключает границы между ступенями размытия. */
+.bottom-blur-layer-1 {
+  -webkit-backdrop-filter: blur(44px);
+  backdrop-filter: blur(44px);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.00000) 0%, rgba(0,0,0,0.00015) 2.5%, rgba(0,0,0,0.00116) 5%, rgba(0,0,0,0.00376) 7.5%, rgba(0,0,0,0.00856) 10%, rgba(0,0,0,0.01605) 12.5%, rgba(0,0,0,0.02661) 15%, rgba(0,0,0,0.04051) 17.5%, rgba(0,0,0,0.05792) 20%, rgba(0,0,0,0.07892) 22.5%, rgba(0,0,0,0.10352) 25%, rgba(0,0,0,0.13162) 27.5%, rgba(0,0,0,0.16308) 30%, rgba(0,0,0,0.19769) 32.5%, rgba(0,0,0,0.23517) 35%, rgba(0,0,0,0.27521) 37.5%, rgba(0,0,0,0.31744) 40%, rgba(0,0,0,0.36147) 42.5%, rgba(0,0,0,0.40687) 45%, rgba(0,0,0,0.45320) 47.5%, rgba(0,0,0,0.50000) 50%, rgba(0,0,0,0.54680) 52.5%, rgba(0,0,0,0.59313) 55%, rgba(0,0,0,0.63853) 57.5%, rgba(0,0,0,0.68256) 60%, rgba(0,0,0,0.72479) 62.5%, rgba(0,0,0,0.76483) 65%, rgba(0,0,0,0.80231) 67.5%, rgba(0,0,0,0.83692) 70%, rgba(0,0,0,0.86838) 72.5%, rgba(0,0,0,0.89648) 75%, rgba(0,0,0,0.92108) 77.5%, rgba(0,0,0,0.94208) 80%, rgba(0,0,0,0.95949) 82.5%, rgba(0,0,0,0.97339) 85%, rgba(0,0,0,0.98395) 87.5%, rgba(0,0,0,0.99144) 90%, rgba(0,0,0,0.99624) 92.5%, rgba(0,0,0,0.99884) 95%, rgba(0,0,0,0.99985) 97.5%, rgba(0,0,0,1.00000) 100%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.00000) 0%, rgba(0,0,0,0.00015) 2.5%, rgba(0,0,0,0.00116) 5%, rgba(0,0,0,0.00376) 7.5%, rgba(0,0,0,0.00856) 10%, rgba(0,0,0,0.01605) 12.5%, rgba(0,0,0,0.02661) 15%, rgba(0,0,0,0.04051) 17.5%, rgba(0,0,0,0.05792) 20%, rgba(0,0,0,0.07892) 22.5%, rgba(0,0,0,0.10352) 25%, rgba(0,0,0,0.13162) 27.5%, rgba(0,0,0,0.16308) 30%, rgba(0,0,0,0.19769) 32.5%, rgba(0,0,0,0.23517) 35%, rgba(0,0,0,0.27521) 37.5%, rgba(0,0,0,0.31744) 40%, rgba(0,0,0,0.36147) 42.5%, rgba(0,0,0,0.40687) 45%, rgba(0,0,0,0.45320) 47.5%, rgba(0,0,0,0.50000) 50%, rgba(0,0,0,0.54680) 52.5%, rgba(0,0,0,0.59313) 55%, rgba(0,0,0,0.63853) 57.5%, rgba(0,0,0,0.68256) 60%, rgba(0,0,0,0.72479) 62.5%, rgba(0,0,0,0.76483) 65%, rgba(0,0,0,0.80231) 67.5%, rgba(0,0,0,0.83692) 70%, rgba(0,0,0,0.86838) 72.5%, rgba(0,0,0,0.89648) 75%, rgba(0,0,0,0.92108) 77.5%, rgba(0,0,0,0.94208) 80%, rgba(0,0,0,0.95949) 82.5%, rgba(0,0,0,0.97339) 85%, rgba(0,0,0,0.98395) 87.5%, rgba(0,0,0,0.99144) 90%, rgba(0,0,0,0.99624) 92.5%, rgba(0,0,0,0.99884) 95%, rgba(0,0,0,0.99985) 97.5%, rgba(0,0,0,1.00000) 100%);
+}
+.bottom-blur-layer-2,
+.bottom-blur-layer-3,
+.bottom-blur-layer-4 { display: none; }
+
+@media (prefers-reduced-transparency: reduce) {
+  .bottom-blur {
+    display: none;
+  }
+
+  /* Полосы размытия нет — непрозрачную подложку даёт сама пилюля. */
+  .bottom-navigation-inner {
+    background: rgba(255, 255, 255, 0.96);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .nav-button {
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Keep the toolbar centered independently of the content column. */
+.bottom-navigation {
+  position: fixed;
+  right: auto;
+  bottom: 0;
+  left: 50%;
+  z-index: 20;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: calc(100% - 32px);
+  transform: translateX(-50%);
+  padding: 40px 12px calc(40px + var(--nav-safe-bottom, 0px));
+  background: transparent;
+}
+
+.bottom-navigation-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* --- Кнопка -------------------------------------------------- */
+.nav-button {
+  display: inline-flex;
+  flex: 0 0 180px;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: var(--nav-control-height, 38px);
+  padding: 10px;
+  border: 1px solid var(--nav-border, rgba(17, 17, 17, 0.62));
+  border-radius: var(--nav-radius, 24px);
+  background: transparent;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.22);
+  color: var(--nav-text, #111111);
+  font-size: 14px;
+  line-height: 18px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+/* Ховер только там, где есть курсор: на тачскрине :hover залипает после тапа. */
+@media (hover: hover) {
+  .nav-button:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+    background: rgba(17, 17, 17, 0.82);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.26),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+      0 6px 18px rgba(17, 17, 17, 0.22);
+    -webkit-backdrop-filter: blur(8px) saturate(140%);
+    backdrop-filter: blur(8px) saturate(140%);
+    color: var(--nav-text-inverse, #ffffff);
+  }
+
+  /* Иконка на тёмном стекле должна стать белой. Один invert() не годится:
+     в svg обводка #525252, и он дал бы светло-серый. brightness(0) сначала
+     уводит в чистый чёрный, invert(1) — в чистый белый, независимо от исходного цвета. */
+  .nav-button:hover img {
+    filter: brightness(0) invert(1);
+  }
+}
+
+/* :active снаружи медиазапроса — отдача на нажатие нужна именно на тач-устройствах. */
+.nav-button:active {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.92);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 2px 8px rgba(17, 17, 17, 0.26);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
+  color: var(--nav-text-inverse, #ffffff);
+}
+
+.nav-button:active img {
+  filter: brightness(0) invert(1);
+}
+
+/* Кнопка-стрелка одна в ряду: её незачем растягивать на всю колонку,
+   в отличие от трёх подписей на главной. */
+.nav-button--back {
+  flex: 0 0 180px;
+  width: 180px;
+  justify-self: center;
+}
+
+.nav-button--back img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  max-width: none;
+  transition: filter 180ms ease;
+}
+
+/* На кейсах одна кнопка возврата; подложка общая с главной. */
+.case-body .bottom-navigation-inner {
+  width: 180px;
+  height: 38px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.case-body .nav-button--back {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.case-body .bottom-navigation {
+  padding-inline: 0;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .case-body .nav-button--back {
+    background: #ffffff;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* --- Мобильный режим ---------------------------------------- */
+@media (max-width: 899px) {
+  .bottom-blur {
+    height: calc(var(--nav-height-mobile, 112px) + var(--nav-safe-bottom, 0px));
+  }
+
+  .bottom-navigation {
+    width: min(100% - 32px, 420px);
+    padding: 16px 12px calc(16px + var(--nav-safe-bottom, 0px));
+  }
+
+  /* Равные колонки по самой широкой надписи: деление свободного места
+     (flex: 1 1 0) давало равную ширину, но резало текст. */
+  .bottom-navigation-inner {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  /* На кейсах внизу одна кнопка. Пилюля должна быть по её размеру,
+     а не растягиваться на ширину мобильного контейнера. */
+  .bottom-navigation:has(.nav-button--back) {
+    width: fit-content;
+    max-width: calc(100% - 32px);
+  }
+
+  .bottom-navigation:has(.nav-button--back) .bottom-navigation-inner {
+    width: max-content;
+    max-width: 100%;
+  }
+
+  /* Стеклянные пилюли по макету (Figma 2243:297): обводки нет вовсе,
+     заливка почти прозрачная, форму держит эффект стекла.
+     Размеры остаются наши — в макете совпадают только свойства. */
+  .nav-button {
+    flex: 0 1 auto;
+    width: 100%;
+    min-width: 0;
+    border-color: transparent;
+    background: rgba(255, 255, 255, 0.14);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),
+      inset 0 -1px 0 rgba(17, 17, 17, 0.04),
+      0 1px 2px rgba(17, 17, 17, 0.06);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    /* 44px — минимальная цель для пальца (Apple HIG). */
+    height: 44px;
+    padding-inline: clamp(6px, 2.2vw, 10px);
+    /* Кегль плавный, а не ступенчатый: ступени по брейкпоинтам не ловят
+       зум браузера и системное увеличение текста. */
+    font-size: clamp(11px, 3.35vw, 14px);
+  }
+
+  /* После общего правила: иначе width: 100% перебьёт по порядку. */
+  .nav-button--back {
+    width: 180px;
+  }
+}
+
+/* Ниже ~340px кегль упёрся в минимум — освобождаем место полями панели. */
+@media (max-width: 340px) {
+  .bottom-navigation {
+    width: min(100% - 16px, 420px);
+    max-width: calc(100% - 16px);
+    padding-inline: 8px;
+  }
+
+  .bottom-navigation-inner {
+    gap: 6px;
+  }
+
+  .nav-button {
+    padding-inline: 5px;
+  }
+}
+
+/* Нижняя кромка портфолио: мягкая белая подложка без общей рамки вокруг кнопок. */
+:is(.home-page, .case-body) > .bottom-blur {
+  display: block;
+  position: fixed;
+  inset: auto 0 0;
+  height: calc(220px + var(--nav-safe-bottom, 0px));
+  z-index: 19;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.0000) 0%, rgba(255,255,255,0.0011) 5%, rgba(255,255,255,0.0082) 10%, rgba(255,255,255,0.0255) 15%, rgba(255,255,255,0.0556) 20%, rgba(255,255,255,0.0994) 25%, rgba(255,255,255,0.1566) 30%, rgba(255,255,255,0.2258) 35%, rgba(255,255,255,0.3047) 40%, rgba(255,255,255,0.3906) 45%, rgba(255,255,255,0.4800) 50%, rgba(255,255,255,0.5694) 55%, rgba(255,255,255,0.6553) 60%, rgba(255,255,255,0.7342) 65%, rgba(255,255,255,0.8034) 70%, rgba(255,255,255,0.8606) 75%, rgba(255,255,255,0.9044) 80%, rgba(255,255,255,0.9345) 85%, rgba(255,255,255,0.9518) 90%, rgba(255,255,255,0.9589) 95%, rgba(255,255,255,0.9600) 100%);
+}
+
+.bottom-navigation { pointer-events: none; }
+.nav-button { pointer-events: auto; }
+
+@media (max-width: 899px) {
+  :is(.home-page, .case-body) > .bottom-blur {
+    height: calc(148px + var(--nav-safe-bottom, 0px));
+  }
+  .case-body .bottom-navigation-inner { height: 44px; }
+}
+
+@media (hover: hover) {
+  .case-body .nav-button--back:hover { background: rgba(17,17,17,.82); }
+}
+.case-body .nav-button--back:active { background: rgba(0,0,0,.92); }
+
+/* A longer, lighter mobile fade with one masked blur surface. */
+@media (max-width: 899px) {
+  :is(.home-page, .case-body) > .bottom-blur {
+    height: calc(200px + var(--nav-safe-bottom, 0px));
+    background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,.015) 20%, rgba(255,255,255,.08) 40%, rgba(255,255,255,.24) 60%, rgba(255,255,255,.65) 78%, rgba(255,255,255,.94) 92%, #fff 100%);
+  }
+  .bottom-blur-layer-1 {
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+  }
+}
+
+/* Mobile navigation experiment: native page content stays clear at the bottom. */
+.mobile-case-return { display: none; }
+@media (max-width: 899px) {
+  :is(.home-page, .case-body) > .bottom-blur {
+    display: block;
+    top: 0;
+    bottom: auto;
+    height: calc(128px + env(safe-area-inset-top, 0px));
+    transform: rotate(180deg);
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,.16) 55%, rgba(255,255,255,.72));
+    transition: opacity 220ms ease;
+  }
+  .home-page:has(> .bottom-navigation[data-hidden="true"]:not(:focus-within)) > .bottom-blur { opacity: 0; }
+  .case-body > .bottom-navigation {
+    display: block;
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    bottom: auto;
+    left: 16px;
+    transform: none;
+    width: 48px;
+    padding: 0;
+  }
+  .case-body .bottom-navigation-inner { width: 48px; height: 48px; }
+  .case-body .nav-button--back { width: 48px; height: 48px; flex-basis: 48px; padding: 12px; }
+  .home-page > .bottom-navigation {
+    top: 0;
+    bottom: auto;
+    padding: calc(12px + env(safe-area-inset-top, 0px)) 0 12px;
+    animation: none;
+    transition: transform 240ms cubic-bezier(.22,1,.36,1), opacity 180ms ease;
+  }
+  .home-page > .bottom-navigation[data-hidden="true"]:not(:focus-within) {
+    transform: translate(-50%, -110%);
+    opacity: 0;
+  }
+  :is(.home-page, .case-body) .nav-button {
+    min-height: 44px;
+    border: 1px solid rgba(255,255,255,.65);
+    border-radius: 999px;
+    background: linear-gradient(145deg, rgba(255,255,255,.68), rgba(255,255,255,.28));
+    -webkit-backdrop-filter: blur(16px) saturate(145%);
+    backdrop-filter: blur(16px) saturate(145%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.8), inset 0 -1px 0 rgba(0,0,0,.08), 0 3px 12px rgba(0,0,0,.09);
+    color: #111;
+    transition: transform 160ms ease, background 160ms ease;
+  }
+  :is(.home-page, .case-body) .nav-button:active {
+    transform: scale(.96);
+    background: rgba(255,255,255,.72);
+    color: #111;
+  }
+  .case-body .nav-button--back:active img { filter: none; }
+  .mobile-case-return {
+    display: none;
+    margin: 0 16px;
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+  }
+  .mobile-case-return a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: inherit;
+    text-decoration: none;
+    font: inherit;
+    font-size: 14px;
+  }
+  .mobile-case-return--end { display: block; padding: 32px 0; text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-page > .bottom-navigation { transition: none; }
+}
+
+@media (max-width: 899px) and (prefers-reduced-transparency: reduce) {
+  :is(.home-page, .case-body) > .bottom-blur { display: none; }
+  :is(.home-page, .case-body) .nav-button {
+    background: #fff;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-color: #aaa;
+  }
+}
+
+/* iOS 27 UI Kit material
+   ---------------------------------------------
+   Each action has its own glass surface; gaps remain transparent. */
+@media (max-width: 899px) {
+  :is(.home-page, .case-body) > .bottom-blur {
+    display: none !important;
+  }
+
+  :is(.home-page, .case-body) > .bottom-navigation {
+    position: fixed;
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  .home-page > .bottom-navigation {
+    top: env(safe-area-inset-top, 0px);
+    right: auto;
+    bottom: auto;
+    left: 50%;
+    width: min(calc(100% - 32px), 402px);
+    max-width: none;
+    padding: 4px 0 0;
+    transform: translateX(-50%);
+    transition: transform 360ms cubic-bezier(.22, 1, .36, 1), opacity 240ms ease;
+  }
+
+  .home-page > .bottom-navigation[data-hidden="true"]:not(:focus-within) {
+    transform: translate(-50%, calc(-100% - 12px));
+    opacity: 0;
+  }
+
+  .bottom-navigation-inner {
+    position: relative;
+    z-index: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 48px;
+    min-height: 48px;
+    padding: 0;
+    border: 0;
+    border-radius: 296px;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .bottom-navigation-inner::before {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    content: "";
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, 0));
+  }
+
+  .bottom-navigation-inner::after {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    content: "";
+    pointer-events: none;
+    box-shadow:
+      inset 0 40px 10px -40px #282828,
+      inset 0 -40px 10px -40px #282828,
+      inset 0 40px 30px -40px #e6e6e6;
+  }
+
+  :is(.home-page, .case-body) .nav-button {
+    position: relative;
+    z-index: 3;
+    display: inline-flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    min-width: 0;
+    height: 48px;
+    min-height: 48px;
+    padding: 0 8px;
+    border: .5px solid rgba(60, 60, 60, .18);
+    border-radius: 100px;
+    background: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.08)), rgba(190,190,190,.32);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.65), inset 0 -1px 1px rgba(255,255,255,.24), 0 2px 6px rgba(0,0,0,.04);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
+    backdrop-filter: blur(20px) saturate(120%);
+    color: #1a1a1a;
+    font-family: inherit;
+    font-size: clamp(11px, 3.35vw, 14px);
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 18px;
+    text-overflow: clip;
+    transition: transform 180ms cubic-bezier(.22, 1, .36, 1), background-color 180ms ease;
+  }
+
+  :is(.home-page, .case-body) .nav-button:active {
+    transform: scale(.96);
+    background: rgba(195, 195, 195, .46);
+    color: #1a1a1a;
+  }
+
+  :is(.home-page, .case-body) .nav-button:focus-visible {
+    outline: 2px solid #08f;
+    outline-offset: -2px;
+  }
+
+  /* The case back item is the 44 px Top Toolbar button from the kit. */
+  .case-body > .bottom-navigation {
+    top: calc(env(safe-area-inset-top, 0px) + 8px);
+    right: auto;
+    bottom: auto;
+    left: 16px;
+    width: 44px;
+    max-width: 44px;
+    padding: 0;
+    transform: none;
+  }
+
+  .case-body .bottom-navigation-inner {
+    display: flex;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    border-radius: 296px;
+  }
+
+  .case-body .nav-button--back {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    border-radius: 100px;
+  }
+
+  .case-body .nav-button--back img {
+    width: 24px;
+    height: 24px;
+    filter: none;
+  }
+
+  .mobile-case-return,
+  .mobile-case-return--end {
+    display: none;
+  }
+}
+
+@media (max-width: 899px) and (prefers-reduced-transparency: reduce) {
+  .bottom-navigation-inner {
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  :is(.home-page, .case-body) .nav-button {
+    background: #e2e2e2;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (max-width: 899px) and (prefers-reduced-motion: reduce) {
+  .home-page > .bottom-navigation {
+    transition: none;
+  }
+
+  :is(.home-page, .case-body) .nav-button {
+    transition: none;
+  }
+}
+
+/* Never paint a page-wide white veil behind the controls. */
+.bottom-blur {
+  display: none !important;
+}

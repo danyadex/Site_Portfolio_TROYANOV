@@ -1,7 +1,9 @@
-// Контакты — единственный попап с реальным содержимым на сейчас.
-// О себе / CV: контента ещё нет (страница "О себе" не перенесена, PDF резюме не добавлен) —
-// кнопки в разметке есть по дизайну, но обработчик на них намеренно не вешаю,
-// чтобы не изображать рабочую ссылку там, где её нет.
+import { manageVideoPlayback } from "./media-playback.js";
+import "./smooth-scroll.js";
+import "./typography.css";
+import { initInertialRail } from './inertial-rail.js';
+
+// Контакты — попап домашней страницы, если он присутствует в разметке.
 
 const contactsPopover = document.getElementById("popover-contacts");
 let contactsOpener = null;
@@ -44,64 +46,13 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Запрашиваем воспроизведение, когда луп попадает в область просмотра.
-const loopObserver = new IntersectionObserver((entries) => {
-  entries.forEach(({ isIntersecting, target }) => {
-    if (isIntersecting) target.play().catch(() => {});
-  });
-}, { threshold: 0.01 });
-
-document.querySelectorAll("video[autoplay]").forEach((video) => {
+document.querySelectorAll("video[data-autoplay]").forEach((video) => {
   video.muted = true;
-  loopObserver.observe(video);
-  video.addEventListener("loadeddata", () => video.play().catch(() => {}), { once: true });
+  manageVideoPlayback(video);
 });
 
-// Horizontal galleries follow the pointer while the primary mouse button is held.
-document.querySelectorAll("[data-drag-scroll]").forEach((scroller) => {
-  let pointerId = null;
-  let startX = 0;
-  let startScrollLeft = 0;
-  let dragged = false;
-
-  const endDrag = () => {
-    if (pointerId === null) return;
-    scroller.classList.remove("is-dragging");
-    pointerId = null;
-  };
-
-  scroller.addEventListener("pointerdown", (event) => {
-    if (event.pointerType !== "mouse" || event.button !== 0) return;
-
-    pointerId = event.pointerId;
-    startX = event.clientX;
-    startScrollLeft = scroller.scrollLeft;
-    dragged = false;
-    scroller.setPointerCapture(pointerId);
-    scroller.classList.add("is-dragging");
-  });
-
-  scroller.addEventListener("pointermove", (event) => {
-    if (event.pointerId !== pointerId) return;
-
-    const distance = event.clientX - startX;
-    if (Math.abs(distance) > 3) dragged = true;
-    if (dragged) event.preventDefault();
-    scroller.scrollLeft = startScrollLeft - distance;
-  });
-
-  scroller.addEventListener("pointerup", endDrag);
-  scroller.addEventListener("pointercancel", endDrag);
-  scroller.addEventListener("lostpointercapture", endDrag);
-
-  scroller.addEventListener("click", (event) => {
-    if (dragged) {
-      event.preventDefault();
-      event.stopPropagation();
-      dragged = false;
-    }
-  }, true);
-});
+const disposeRails = [...document.querySelectorAll('[data-drag-scroll]')].map(initInertialRail);
+if (import.meta.hot) import.meta.hot.dispose(() => disposeRails.forEach(dispose => dispose()));
 
 document.querySelectorAll(".ui-shots-controls").forEach((controls) => {
   const previousButton = controls.querySelector("[data-scroll-prev]");
@@ -129,21 +80,3 @@ document.querySelectorAll(".ui-shots-controls").forEach((controls) => {
   new ResizeObserver(updateButtons).observe(scroller);
   updateButtons();
 });
-
-// Keep the case navigation on the same glass treatment as the React home page.
-const bottomNavigation = document.querySelector(".bottom-navigation");
-
-if (bottomNavigation && window.liquidGlass) {
-  const figmaGlass = window.liquidGlass(bottomNavigation, {
-    scale: -64,
-    chroma: 4,
-    border: 0.08,
-    mapBlur: 10,
-    blur: 12,
-    saturate: 1.45,
-    radius: 24,
-    fallbackBlur: 28,
-  });
-
-  bottomNavigation.dataset.glassRenderer = figmaGlass.supported ? "refraction" : "frosted";
-}

@@ -2,15 +2,17 @@
    Source: Figma nodes 1029:2190 and 1349:979. */
 
 .ai-producer-body {
-  min-width: 320px;
+  min-width: 0;
   background: var(--color-bg-base);
   -webkit-font-smoothing: antialiased;
 }
 
 .ai-producer-page {
-  width: min(var(--content-width), calc(100vw - var(--content-margin) - var(--content-edge-right)));
-  margin: 0 0 0 var(--content-margin);
-  padding: 100px 0;
+  width: min(var(--content-width), calc(100% - 80px));
+  margin-inline: auto;
+  /* Последний блок мягко входит в верхнюю часть нижнего размытия,
+     сохраняя читаемый зазор до кнопки возврата. */
+  padding: 100px 0 calc(150px + var(--nav-safe-bottom, 0px));
 }
 
 .ai-case-section {
@@ -74,7 +76,6 @@
 }
 
 .ai-hero-caption,
-.ai-solution-mobile-heading,
 .ai-solution-caption,
 .ai-research-label--mobile,
 .ai-audience-mobile,
@@ -177,7 +178,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 54px;
+  /* Рубрика → содержание: единый шаг 40 во всех разделах. */
+  gap: 40px;
   text-align: center;
 }
 
@@ -270,7 +272,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 48px;
+  margin-top: 40px;
   text-align: center;
 }
 
@@ -329,7 +331,8 @@
 .ai-insight-card {
   display: flex;
   min-width: 0;
-  height: 163px;
+  min-height: 163px;
+  height: auto;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
@@ -348,12 +351,8 @@
   width: 34px;
   height: 38px;
   flex: 0 0 38px;
-  color: #d8ff9d;
-  content: "“";
-  font-family: Georgia, serif;
-  font-size: 54px;
-  line-height: 38px;
-  transform: rotate(180deg);
+  content: "";
+  background: url("./assets/ai-insight-quote.svg") left center / 26px 18px no-repeat;
 }
 
 .ai-insight-card p,
@@ -372,15 +371,17 @@
   color: var(--color-text-secondary);
   font-size: 13px;
   line-height: 18px;
-  white-space: nowrap;
+  white-space: normal;
 }
 
+/* Зазоры по шкале страницы: разделение групп — крупный шаг, стрелка и вывод
+   остаются парой. Раньше стояло 50/50, а 50 в шкале нет. */
 .ai-research-conclusion {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 50px;
+  margin-top: 60px;
   text-align: center;
 }
 
@@ -391,7 +392,7 @@
 }
 
 .ai-research-conclusion p {
-  margin: 50px 0 0;
+  margin: 20px 0 0;
   color: var(--color-text-primary);
   font-size: 20px;
   line-height: 32px;
@@ -410,11 +411,11 @@
 }
 
 .ai-case-reference--research {
-  margin: 120px 0 18px;
+  margin: 100px 0 20px;
 }
 
 .ai-case-reference--testing {
-  margin: 100px 0 18px;
+  margin: 100px 0 20px;
 }
 
 .ai-case-reference-link {
@@ -487,7 +488,8 @@
 }
 
 .ai-solution-copy p {
-  margin: 10px 0 0;
+  /* Заголовок → подзаголовок: 20, как в блоке ресёрча. */
+  margin: 20px 0 0;
   color: var(--color-text-secondary);
   font-size: 20px;
   line-height: 32px;
@@ -591,10 +593,11 @@
 
 .ai-development {
   display: flex;
-  height: 212px;
+  min-height: 212px;
+  height: auto;
   flex-direction: column;
   align-items: center;
-  gap: 60px;
+  gap: 40px;
   text-align: center;
 }
 
@@ -614,95 +617,61 @@
 
 .ai-figma-cta {
   display: inline-flex;
-  width: 384px;
-  height: 44px;
+  width: 180px;
+  height: var(--nav-control-height, 38px);
   align-items: center;
   justify-content: center;
   gap: 4px;
   padding: 10px;
-  border: 1px solid var(--color-text-primary);
-  border-radius: 24px;
-  background: var(--color-bg-base);
-  color: var(--color-text-primary);
-  font-size: 16px;
-  line-height: 24px;
+  /* Свойства как у кнопок нижней навигации (bottom-nav.css): мягкая обводка,
+     прозрачный фон, тёмное стекло на ховере. */
+  border: 1px solid var(--nav-border);
+  border-radius: var(--nav-radius);
+  background: transparent;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.22);
+  color: var(--nav-text);
+  font-size: 14px;
+  line-height: 18px;
   text-decoration: none;
-  transition: color 180ms cubic-bezier(0.22, 1, 0.36, 1), background-color 180ms cubic-bezier(0.22, 1, 0.36, 1), transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
 }
 
-.ai-figma-cta:hover {
-  background: var(--color-text-primary);
-  color: var(--color-text-inverse);
+/* Ховер только там, где есть курсор: на тачскрине он залипает после тапа. */
+@media (hover: hover) {
+  .ai-figma-cta:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+    background: rgba(17, 17, 17, 0.82);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.26),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+      0 6px 18px rgba(17, 17, 17, 0.22);
+    -webkit-backdrop-filter: blur(8px) saturate(140%);
+    backdrop-filter: blur(8px) saturate(140%);
+    color: var(--nav-text-inverse);
+  }
 }
 
+/* :active снаружи медиазапроса — отдача на нажатие нужна на тач-устройствах. */
 .ai-figma-cta:active {
-  transform: scale(0.98);
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.92);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 2px 8px rgba(17, 17, 17, 0.26);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
+  color: var(--nav-text-inverse);
 }
 
 /* Shared bottom glass navigation --------------------------------------- */
 
-.bottom-navigation {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 20;
-  padding: 40px max(16px, var(--content-edge-right)) calc(40px + env(safe-area-inset-bottom, 0px)) max(16px, var(--content-margin));
-  border-top: 1px solid rgba(255, 255, 255, 0.88);
-  border-radius: 24px 24px 0 0;
-  background: rgba(255, 255, 255, 0.26);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.36), 0 -18px 42px rgba(255, 255, 255, 0.28);
-  -webkit-backdrop-filter: blur(30px) saturate(150%);
-  backdrop-filter: blur(30px) saturate(150%);
-}
-
-.bottom-navigation-inner {
-  display: flex;
-  width: 100%;
-  max-width: 1200px;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin: 0 auto;
-}
-
-.nav-button {
-  display: inline-flex;
-  width: 180px;
-  height: 38px;
-  flex: 0 0 180px;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  border: 1px solid var(--color-text-primary);
-  border-radius: 24px;
-  background: transparent;
-  color: var(--color-text-primary);
-  font-family: var(--font-bounded);
-  font-size: 14px;
-  line-height: 18px;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
-}
-
-.nav-button:hover {
-  border-color: var(--color-text-accent);
-  color: var(--color-text-accent);
-  transform: translateY(-1px);
-}
-
-.nav-button:active {
-  background: var(--color-text-accent);
-  border-color: var(--color-text-accent);
-  color: var(--color-text-inverse);
-  transform: scale(0.98);
-}
+/* Панель и кнопки вынесены в общий bottom-nav.css */
 
 @media (prefers-reduced-transparency: reduce) {
   .bottom-navigation {
-    background: rgba(255, 255, 255, 0.92);
+    background: transparent;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
@@ -722,7 +691,7 @@
   .ai-producer-page {
     width: 100%;
     margin: 0;
-    padding: 100px 16px calc(118px + env(safe-area-inset-bottom, 0px));
+    padding: 100px 16px calc(112px + var(--nav-safe-bottom, 0px));
   }
 
   .ai-producer-body {
@@ -763,12 +732,15 @@
   }
 
   .ai-overview {
-    height: 368px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
     margin-top: 52px;
     text-align: center;
   }
 
   .ai-overview-kicker {
+    position: static;
     top: 0;
     left: 0;
     width: 100%;
@@ -778,6 +750,9 @@
   }
 
   .ai-overview-title {
+    order: 1;
+    position: static;
+    margin: 14px 0 32px;
     top: 42px;
     width: 100%;
     font-size: 20px;
@@ -787,7 +762,8 @@
   }
 
   .ai-case-meta-grid {
-    position: absolute;
+    order: 2;
+    position: static;
     top: 214px;
     left: 0;
     display: flex;
@@ -809,7 +785,9 @@
   .ai-case-meta-grid dd {
     font-size: 13px;
     line-height: 18px;
-    white-space: nowrap;
+    max-width: 100%;
+    white-space: normal;
+    text-wrap: balance;
   }
 
   .ai-case-divider--overview,
@@ -831,7 +809,8 @@
 
   .ai-problem-copy {
     align-items: center;
-    gap: 16px;
+    /* Рубрика → содержание: единый шаг 20 во всех разделах. */
+    gap: 20px;
     text-align: center;
   }
 
@@ -889,7 +868,7 @@
   }
 
   .ai-research-main {
-    margin-top: 12px;
+    margin-top: 20px;
     text-align: center;
   }
 
@@ -950,18 +929,14 @@
   }
 
   .ai-insight-grid {
-    display: flex;
-    width: calc(100% + 16px);
-    height: 120px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    height: auto;
     gap: 16px;
     margin-top: 16px;
-    padding: 8px 16px 0 0;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: none;
-    scroll-snap-type: x proximity;
-    touch-action: pan-x;
-    user-select: none;
+    padding: 0;
+    overflow: visible;
   }
 
   .ai-insight-grid::-webkit-scrollbar {
@@ -973,9 +948,9 @@
   }
 
   .ai-insight-card {
-    width: 265px;
-    height: 112px;
-    flex: 0 0 265px;
+    width: 100%;
+    height: auto;
+    min-height: 0;
     gap: 8px;
     padding: 20px 20px 18px;
     border-radius: 24px;
@@ -983,7 +958,7 @@
   }
 
   .ai-insight-card::before {
-    display: none;
+    display: block;
   }
 
   .ai-insight-card p {
@@ -998,7 +973,8 @@
   }
 
   .ai-research-conclusion {
-    margin-top: 12px;
+    /* Разделение групп — тот же шаг, что «аудитория → подпись инсайтов». */
+    margin-top: 48px;
   }
 
   .ai-research-conclusion img {
@@ -1008,7 +984,7 @@
 
   .ai-research-conclusion p {
     width: 100%;
-    margin-top: 12px;
+    margin-top: 16px;
     font-size: 20px;
     line-height: 28px;
     white-space: normal;
@@ -1041,21 +1017,25 @@
   }
 
   .ai-solution-intro {
-    height: 80px;
+    height: auto;
     text-align: center;
   }
 
+  /* Один текст на все ширины: раньше на мобилке показывался отдельный
+     заголовок «Все тулзы в одном экране» вместо этого блока. */
   .ai-solution-copy {
-    display: none;
+    margin-top: 20px;
   }
 
-  .ai-solution-mobile-heading {
-    display: block;
-    margin: 24px 0 0;
-    color: var(--color-text-primary);
+  .ai-solution-copy h2 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .ai-solution-copy p {
+    margin-top: 12px;
     font-size: 16px;
     line-height: 24px;
-    text-align: center;
   }
 
   .ai-solution .ai-case-browser {
@@ -1144,9 +1124,10 @@
   /* Development and CTA */
 
   .ai-development {
-    height: 184px;
+    min-height: 184px;
+    height: auto;
     align-items: center;
-    gap: 32px;
+    gap: 20px;
     text-align: center;
   }
 
@@ -1157,32 +1138,18 @@
   }
 
   .ai-figma-cta-wrap {
-    margin-top: 60px;
+    margin-top: 80px;
   }
 
   .ai-figma-cta {
-    width: 100%;
+    width: 180px;
     height: 44px;
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  /* Shared bottom glass navigation */
-
-  .bottom-navigation {
-    padding: 16px 16px calc(8px + env(safe-area-inset-bottom, 0px));
-  }
-
-  .bottom-navigation-inner {
-    gap: 8px;
-  }
-
-  .nav-button {
-    width: auto;
-    height: 40px;
-    flex: 1 1 0;
-    padding: 10px 8px;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 18px;
   }
+
+}
+
+@media (min-width: 768px) and (max-width: 899px) {
+  .ai-figma-cta { height: 44px; }
 }

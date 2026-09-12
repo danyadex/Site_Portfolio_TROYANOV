@@ -1,0 +1,37 @@
+/* Появление блоков при въезде в экран.
+   Механика как на референсе lazimjarif.com: элемент стартует прозрачным
+   со сдвигом вниз, при попадании в область просмотра получает класс .in. */
+
+.rv {
+  opacity: 0;
+  translate: 0 14px;
+  transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+              translate 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rv.in {
+  opacity: 1;
+  translate: none;
+}
+
+/* Вложенные подписи догоняют заголовок — короткий сдвиг по времени. */
+.rv .rv-child {
+  opacity: 0;
+  translate: 0 -5px;
+  transition: opacity 450ms ease 120ms, translate 500ms ease 120ms;
+}
+
+.rv.in .rv-child {
+  opacity: 1;
+  translate: none;
+}
+
+/* Уважаем системную настройку: без движения показываем всё сразу. */
+@media (prefers-reduced-motion: reduce) {
+  .rv,
+  .rv .rv-child {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+}

@@ -1,0 +1,4 @@
+/* Natural wrapping supplements NBSP ties in the Russian source copy. */
+:is(p, h1, h2, h3, li, dd, figcaption, blockquote) {
+  text-wrap: pretty;
+}

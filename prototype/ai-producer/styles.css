@@ -15,8 +15,20 @@
 }
 
 :root {
+  --surface-page: #f3f0ed;
+  --surface-input: #f6f6f5;
+  --surface-segmented: rgba(255, 255, 255, 0.78);
+  --surface-active: #d8ff9d;
+  --action-primary: #b59ffc;
+  --text-primary: #0a0a0a;
+  --text-secondary: #59606a;
+  --text-muted: #838383;
+  --composer-left: calc(16.6666667vw + 41.6666667px);
+  --composer-right: 6.25vw;
+  --composer-save-width: 167px;
+  --composer-gap: 8px;
   color: #0a0a0a;
-  background: #f3f0ed;
+  background: var(--surface-page);
   font-family: "Gilroy", Arial, sans-serif;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
@@ -381,19 +393,19 @@ button {
 .composer {
   position: absolute;
   z-index: 4;
-  right: 6.25vw;
+  right: var(--composer-right);
   bottom: 40px;
-  left: calc(20.15625vw + 13px);
+  left: var(--composer-left);
 }
 
 .tabs {
   display: grid;
-  width: calc(100% - 191px);
-  height: 44px;
+  width: calc(100% - var(--composer-save-width) - var(--composer-gap));
+  height: 46px;
   grid-template-columns: repeat(5, 1fr);
   overflow: hidden;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.78);
+  background: var(--surface-segmented);
   box-shadow: 0 5px 6px rgba(85, 85, 85, 0.1);
 }
 
@@ -408,15 +420,15 @@ button {
 }
 
 .tabs button.active {
-  background: #d8ff9d;
+  background: var(--surface-active);
   box-shadow: 0 5px 14px rgba(0, 0, 0, 0.14);
 }
 
 .prompt-row {
   display: flex;
   align-items: stretch;
-  gap: 24px;
-  margin-top: 24px;
+  gap: var(--composer-gap);
+  margin-top: var(--composer-gap);
 }
 
 .prompt-field {
@@ -426,11 +438,37 @@ button {
   height: 120px;
   padding: 16px 24px;
   border-radius: 24px;
-  background: #f6f6f5;
+  background: var(--surface-input);
   box-shadow: 0 5px 6px rgba(85, 85, 85, 0.1);
-  color: #838383;
+  color: var(--text-muted);
   font-size: 16px;
   line-height: 24px;
+}
+
+.prompt-input {
+  display: block;
+  width: 100%;
+  height: 56px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  resize: none;
+  overflow: hidden;
+  background: transparent;
+  color: #656565;
+  font: inherit;
+  line-height: 24px;
+  user-select: text;
+}
+
+.prompt-input::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+.prompt-input:focus {
+  outline: 0;
+  box-shadow: none;
 }
 
 .image-button {
@@ -464,7 +502,7 @@ button {
   place-items: center;
   border: 0;
   border-radius: 16px;
-  background: #a893ff;
+  background: var(--action-primary);
   color: white;
   font-family: "Bounded", sans-serif;
   font-size: 16px;
@@ -476,6 +514,59 @@ button {
 
 .apply-button:hover { background: #9e87ff; }
 .apply-button:active { transform: scale(0.96); }
+
+.apply-label,
+.apply-spinner {
+  grid-area: 1 / 1;
+}
+
+.apply-label {
+  transition: opacity 180ms cubic-bezier(0.2, 0, 0, 1), transform 180ms cubic-bezier(0.2, 0, 0, 1), filter 180ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.apply-spinner {
+  display: grid;
+  width: 16px;
+  height: 16px;
+  place-items: center;
+  opacity: 0;
+  transform: scale(0.25);
+  filter: blur(4px);
+  pointer-events: none;
+  transition: opacity 180ms cubic-bezier(0.2, 0, 0, 1), transform 180ms cubic-bezier(0.2, 0, 0, 1), filter 180ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.apply-spinner img {
+  display: block;
+  width: 13px;
+  height: 13px;
+}
+
+.apply-button.is-processing {
+  cursor: wait;
+  background: #8b6fef;
+}
+
+.apply-button.is-processing .apply-label {
+  opacity: 0;
+  transform: scale(0.92);
+  filter: blur(4px);
+}
+
+.apply-button.is-processing .apply-spinner {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+  animation: apply-spinner-rotate 800ms linear infinite;
+}
+
+.apply-button:disabled {
+  pointer-events: none;
+}
+
+@keyframes apply-spinner-rotate {
+  to { transform: rotate(360deg); }
+}
 
 .save-button {
   display: grid;
@@ -505,20 +596,27 @@ button {
   top: 68px;
   left: 6.25vw;
   display: flex;
-  width: 211px;
-  height: 44px;
+  width: 262px;
+  min-height: 56px;
+  height: 56px;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  border-radius: 18px;
-  background: #c9ffac;
-  font-size: 14px;
-  line-height: 20px;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 24px;
+  background: #ccffb4;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
   opacity: 0;
   pointer-events: none;
   filter: blur(4px);
   transform: translateY(-8px);
   transition: opacity 320ms cubic-bezier(0.2, 0.75, 0.25, 1), transform 320ms cubic-bezier(0.2, 0.75, 0.25, 1), filter 320ms cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.toast > span {
+  min-width: 0;
+  flex: 1;
 }
 
 .toast.is-visible {
@@ -530,18 +628,20 @@ button {
 
 .toast-close {
   display: grid;
-  width: 40px;
-  height: 40px;
-  margin-right: -12px;
+  width: 24px;
+  height: 24px;
+  flex: none;
   place-items: center;
-  padding: 0 0 2px;
+  padding: 0;
   border: 0;
   background: transparent;
-  color: #59606a;
-  font-family: Arial, sans-serif;
-  font-size: 24px;
-  font-weight: 300;
   cursor: pointer;
+}
+
+.toast-close img {
+  display: block;
+  width: 24px;
+  height: 24px;
 }
 
 button:focus-visible {
@@ -562,6 +662,29 @@ button:focus-visible {
     white-space: nowrap;
   }
 
+}
+
+@media (max-width: 720px) {
+  .composer {
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+  }
+
+  .tabs {
+    width: 100%;
+  }
+
+  .prompt-row {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .prompt-field,
+  .save-button {
+    width: 100%;
+    flex: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

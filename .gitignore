@@ -1,5 +1,26 @@
 .DS_Store
 node_modules/
+.tools/
 
 # отладочные скриншоты выравнивания, пересоздаются
 prototype/**/test-*.png
+
+# --- сборка и временное ---
+dist/
+tmp/
+output/
+.claude/
+
+# Исходники аватара: 245 МБ, из них мастер-матт 139 МБ. В коде на них ноль
+# ссылок — в сборку идут только готовые mp4/webm. Лежат в iCloud.
+assets/avatar/
+
+# Вендорные wasm-сборки mediapipe, 35 МБ. Прототип в сборку сайта не входит.
+prototype/ai-producer-scene/assets/vendor/
+
+# Варианты рендера одного и того же экрана. В сборку идёт только source30.
+assets/home/artifact-screen-smooth*.mp4
+assets/home/artifact-screen-web*.mp4
+
+# Устарел: заменён HANDOFF.md (там был неверный акцентный цвет).
+PORTFOLIO_HANDOFF.md

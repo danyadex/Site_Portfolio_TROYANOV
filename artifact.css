@@ -1,15 +1,17 @@
 /* ARTIFACT case page */
 
 .case-body {
-  min-width: 320px;
+  min-width: 0;
   overflow-x: clip;
   background: var(--color-bg-base);
 }
 
 .artifact-page {
-  width: min(var(--content-width), calc(100vw - var(--content-margin) - var(--content-edge-right)));
-  margin-left: var(--content-margin);
-  padding: 100px 0 240px;
+  width: min(var(--content-width), calc(100% - 80px));
+  margin-inline: auto;
+  /* Последний блок мягко входит в верхнюю часть нижнего размытия,
+     сохраняя читаемый зазор до кнопки возврата. */
+  padding: 100px 0 calc(150px + var(--nav-safe-bottom, 0px));
 }
 
 .artifact-page,
@@ -30,7 +32,7 @@
 
 .artifact-device-row {
   display: grid;
-  grid-template-columns: 378.53px 380.512px minmax(0, 1fr);
+  grid-template-columns: 378.53px 380.512px 380.958px;
   gap: 30px;
   width: 100%;
   height: 789px;
@@ -109,39 +111,43 @@
   pointer-events: none;
 }
 
+.artifact-screen-media {
+  position: relative;
+  isolation: isolate;
+}
+
 .artifact-scroll-blur {
   position: absolute;
   z-index: 1;
   top: 18.03%;
-  left: 95.41%;
-  width: 4.54%;
+  right: 0;
+  /* Figma 2048:705 / 1891:571: 16px от ширины экрана Create. */
+  width: 4.537%;
   height: 11.8%;
-  overflow: visible;
+  overflow: hidden;
   background: #000;
-  filter: blur(2.65px);
-  pointer-events: none;
-}
-
-.artifact-scroll-blur::before {
-  position: absolute;
-  inset: 0;
-  content: "";
-  background: rgba(0, 0, 0, 0.78);
   -webkit-backdrop-filter: blur(11.7px);
   backdrop-filter: blur(11.7px);
+  filter: blur(2.65px);
+  pointer-events: none;
 }
 
 /* Overview */
 
 .artifact-overview {
-  height: 292px;
+  /* Поток вместо координат: высота считается по содержимому, блоки двигают
+     друг друга сами. Было height: 292px с абсолютным позиционированием внутри. */
   margin-top: 100px;
 }
 
 .artifact-overview-head {
-  position: relative;
+  display: flex;
   width: 100%;
-  height: 112px;
+  flex-direction: column;
+  align-items: center;
+  /* Рубрика → мета: шаг 40, как на остальных страницах. Раньше это
+     расстояние задавалось координатой top: 72px у мета-сетки. */
+  gap: 40px;
 }
 
 .case-kicker {
@@ -159,17 +165,12 @@
 }
 
 .case-meta-grid {
-  position: absolute;
-  top: 72px;
-  left: 50%;
   display: grid;
   grid-template-columns: 105px 85px 332px;
   column-gap: 55.5px;
   align-items: start;
   width: 633px;
-  height: 40px;
-  margin: 0;
-  transform: translateX(-50%);
+  margin: 0 auto;
 }
 
 .case-meta-grid div {
@@ -197,7 +198,6 @@
 
 .artifact-overview-title {
   width: 100%;
-  height: 120px;
   margin: 60px 0 0;
   color: var(--color-text-primary);
   font-size: 32px;
@@ -210,19 +210,21 @@
 
 .case-divider {
   height: 1px;
-  margin: 100px 0 19px;
+  /* После разделителя — 20, как между разделами 100. Было 19. */
+  margin: 100px 0 20px;
   background: var(--color-border-divider);
 }
 
 .artifact-overview + .case-divider {
-  margin-top: 101px;
+  margin-top: 100px;
 }
 
 /* Problem */
 
 .case-problem {
+  /* Поток: 32 (рубрика) + 80 + 652 (композиция) + 100 + 80 (текст) = 944 —
+     прежняя фиксированная высота была просто суммой содержимого. */
   position: relative;
-  height: 944px;
 }
 
 .case-problem > .case-kicker,
@@ -235,20 +237,16 @@
 }
 
 .case-problem > .case-kicker {
-  position: absolute;
-  top: 0;
-  left: 0;
   height: 32px;
 }
 
 .problem-content {
-  position: absolute;
-  top: 112px;
-  left: 0;
   display: flex;
   width: 100%;
   flex-direction: column;
   align-items: center;
+  /* Было top: 112px при рубрике в 32px, то есть отступ 80. */
+  margin-top: 80px;
 }
 
 .problem-visual {
@@ -300,7 +298,6 @@
 
 .problem-description {
   width: 100%;
-  height: 80px;
   margin: 100px 0 0;
   color: var(--color-text-primary);
   font-size: 32px;
@@ -312,42 +309,33 @@
 /* Research pathway */
 
 .pathway-summary {
+  /* Поток вместо координат. Отступы ниже — это прежние top, пересчитанные
+     в расстояния между блоками; раскладка не меняется, меняется механизм. */
   position: relative;
-  height: 708px;
 }
 
 .pathway-main {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 507px;
 }
 
 .pathway-intro {
-  position: relative;
   width: 100%;
-  height: 292px;
 }
 
 .pathway-intro > div {
-  position: absolute;
-  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Было: рубрика top 0 (h 28) и заголовок top 92 → расстояние 64. */
+  gap: 64px;
 }
 
 .pathway-intro .case-kicker {
-  position: absolute;
-  top: 0;
-  left: 0;
   height: 28px;
 }
 
 .pathway-intro h2 {
-  position: absolute;
-  top: 92px;
-  left: 0;
   width: 100%;
-  height: 84px;
   margin: 0;
   color: var(--color-text-primary);
   font-size: 64px;
@@ -357,15 +345,14 @@
 }
 
 .audience-pill {
-  position: absolute;
-  top: 204px;
-  left: 50%;
+  /* Было top 204 при нижней кромке заголовка 176 → отступ 28. */
+  margin-top: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 663px;
   height: 88px;
-  margin: 0;
+  margin-inline: auto;
   padding: 24px;
   border-radius: 24px;
   background: #5ef500;
@@ -374,25 +361,23 @@
   line-height: 40px;
   font-weight: 400;
   text-align: center;
-  transform: translateX(-50%);
 }
 
 .pathway-respondents {
-  position: absolute;
-  top: 344px;
-  left: 0;
   display: grid;
-  grid-template-columns: repeat(3, 384px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
   width: 100%;
-  height: 163px;
-  margin: 0;
+  /* Было top 344 при нижней кромке плашки 292 → отступ 52. */
+  margin: 52px 0 0;
 }
 
 .respondent-card {
   display: flex;
-  width: 384px;
-  height: 163px;
+  width: 100%;
+  min-width: 0;
+  min-height: 163px;
+  height: auto;
   flex-direction: column;
   justify-content: space-between;
   margin: 0;
@@ -418,12 +403,12 @@
 }
 
 .pathway-arrow {
-  position: absolute;
-  top: 531px;
-  left: 50%;
-  width: 17.32px;
-  height: 73px;
-  transform: translateX(-50%);
+  /* Размер по самому файлу: у SVG preserveAspectRatio="none", и растяжение
+     по ширине утолщало бы ствол стрелки (2px рисовались бы как 3px). */
+  width: 11.547px;
+  height: 74px;
+  /* Было top 531 при нижней кромке ленты 507 → отступ 24. */
+  margin: 24px auto 0;
 }
 
 .pathway-arrow img,
@@ -434,46 +419,36 @@
 }
 
 .pathway-conclusion {
-  position: absolute;
-  top: 628px;
-  left: 50%;
   width: 520px;
-  height: 80px;
-  margin: 0;
+  /* Было top 628 при нижней кромке стрелки 604 → отступ 24. */
+  margin: 24px auto 0;
   color: var(--color-text-primary);
   font-size: 32px;
   line-height: 40px;
   font-weight: 400;
   text-align: center;
-  transform: translateX(-50%);
 }
 
 /* Architecture */
 
 .architecture {
   position: relative;
-  height: 1615px;
 }
 
 .case-section-head {
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: flex;
   width: 100%;
-  height: 96px;
+  flex-direction: column;
+  align-items: center;
+  /* Было: рубрика top 0 (h 28) и подпись top 56 → расстояние 28. */
+  gap: 28px;
 }
 
 .case-section-head > .case-kicker {
-  position: absolute;
-  top: 0;
-  left: 0;
   height: 28px;
 }
 
 .case-section-note {
-  position: absolute;
-  top: 56px;
-  left: 50%;
   display: flex;
   width: max-content;
   flex-direction: column;
@@ -482,7 +457,6 @@
   font-size: 13px;
   line-height: 18px;
   text-align: center;
-  transform: translateX(-50%);
 }
 
 .case-section-note span,
@@ -493,16 +467,12 @@
 }
 
 .architecture-grid {
-  position: absolute;
-  top: 196px;
-  left: 0;
   display: grid;
   grid-template-columns: repeat(4, 282px);
-  grid-template-rows: 1419px;
   gap: 24px;
   width: 100%;
-  height: 1419px;
-  margin: 0;
+  /* Было top 196 при нижней кромке шапки 96 → отступ 100. */
+  margin: 100px 0 0;
 }
 
 .architecture-column {
@@ -510,7 +480,6 @@
   grid-template-rows: 642px 73px 638px;
   row-gap: 33px;
   width: 282px;
-  height: 1419px;
 }
 
 .architecture-stage {
@@ -574,8 +543,8 @@
 
 .architecture-arrow {
   display: flex;
-  width: 17.32px;
-  height: 73px;
+  width: 11.547px;
+  height: 74px;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
@@ -585,18 +554,15 @@
 
 .testing {
   position: relative;
-  height: 2289px;
 }
 
 .testing-task {
-  position: absolute;
-  top: 176px;
-  left: 0;
   display: flex;
   width: 100%;
-  height: 66px;
   flex-direction: column;
   align-items: center;
+  /* Было top 176 при нижней кромке шапки 96 → отступ 80. */
+  margin-top: 80px;
 }
 
 .testing-task > p {
@@ -607,7 +573,8 @@
 
 .testing-task blockquote {
   width: 100%;
-  height: 40px;
+  min-height: 40px;
+  height: auto;
   margin: 8px 0 0;
   color: var(--color-text-primary);
   font-size: 32px;
@@ -627,10 +594,9 @@
 }
 
 .metric-card--wide {
-  position: absolute;
-  top: 279px;
-  left: 0;
   height: 283px;
+  /* Было top 279 при нижней кромке задачи 242 → отступ 37. */
+  margin-top: 37px;
   padding: 24px;
 }
 
@@ -684,11 +650,13 @@
 }
 
 .testing-process {
-  position: absolute;
-  top: 674px;
-  left: 0;
+  /* Внутри — композиция с наложением (изображения, стрелки), она остаётся
+     на абсолюте, поэтому высота холста здесь задана намеренно. */
+  position: relative;
   width: 100%;
   height: 1188px;
+  /* Было top 674 при нижней кромке метрики 562 → отступ 112. */
+  margin-top: 112px;
   overflow: visible;
 }
 
@@ -702,19 +670,19 @@
 
 .testing-transition-arrow--from-metric {
   top: -95px;
-  left: 593.7px;
+  left: calc(50% - 5.7735px);
 }
 
 .testing-transition-arrow--to-metric {
   top: 1221px;
-  left: 594.2px;
-  display: none;
+  left: calc(50% - 5.7735px);
+  display: block;
 }
 
 .testing-process-column {
   position: absolute;
   top: 9px;
-  left: 255px;
+  left: calc(50% - 345px);
   width: 690px;
   height: 576px;
 }
@@ -804,8 +772,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 17.32px;
-  height: 74.5px;
+  width: 11.547px;
+  height: 77.473px;
   max-width: none;
   transform: translate(-50%, -50%) rotate(-66.41deg);
 }
@@ -816,7 +784,7 @@
 
 .testing-process-column--balance {
   top: 645px;
-  left: 357px;
+  left: calc(50% - 243px);
   width: 486px;
   height: 543px;
 }
@@ -862,38 +830,59 @@
 }
 
 .testing-arrow--curve {
-  top: 54px;
-  left: 333px;
+  top: 62px;
+  left: 333.5px;
   display: block;
-  width: 37.0458px;
-  height: 153.865px;
+  width: 31px;
+  height: 176px;
 }
 
 .testing-arrow--curve img {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: -0.827px;
+  left: -0.558px;
+  display: block;
+  width: 37.0698px;
+  height: 176.832px;
   max-width: none;
 }
 
-.metric-card--second {
-  top: 2006px;
+.testing-arrow--curve .testing-arrow__curve-mobile {
+  display: none;
 }
 
-/* Development is intentionally only a marker in this pass. */
+.metric-card--second {
+  /* Было top 2006 при нижней кромке блока процесса 1862 → отступ 144. */
+  margin-top: 144px;
+}
+
+/* Development */
 
 .artifact-next {
-  position: relative;
-  height: 32px;
+  display: flex;
+  min-height: 212px;
+  height: auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  text-align: center;
 }
 
 .artifact-next .case-kicker {
   width: 100%;
   color: var(--color-text-muted);
+  line-height: 32px;
   text-align: center;
 }
 
-.artifact-next-row {
-  display: none;
+.artifact-next-copy {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 400;
+  text-align: center;
+  text-wrap: balance;
 }
 
 .artifact-copy-mobile,
@@ -907,64 +896,7 @@
 
 /* Shared bottom navigation */
 
-.bottom-navigation {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 20;
-  padding: 40px max(16px, var(--content-edge-right)) calc(40px + env(safe-area-inset-bottom, 0px)) max(16px, var(--content-margin));
-  border-top: 1px solid rgba(255, 255, 255, 0.88);
-  border-radius: 24px 24px 0 0;
-  background: rgba(255, 255, 255, 0.26);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.36), 0 -18px 42px rgba(255, 255, 255, 0.28);
-  -webkit-backdrop-filter: blur(30px) saturate(150%);
-  backdrop-filter: blur(30px) saturate(150%);
-}
-
-.bottom-navigation-inner {
-  display: flex;
-  width: 100%;
-  max-width: 1200px;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin: 0 auto;
-}
-
-.nav-button {
-  display: inline-flex;
-  width: 180px;
-  height: 38px;
-  flex: 0 0 180px;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  border: 1px solid var(--color-text-primary);
-  border-radius: 24px;
-  background: transparent;
-  color: var(--color-text-primary);
-  font-family: var(--font-bounded);
-  font-size: 14px;
-  line-height: 18px;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
-}
-
-.nav-button:hover {
-  border-color: var(--color-text-accent);
-  color: var(--color-text-accent);
-  transform: translateY(-1px);
-}
-
-.nav-button:active {
-  background: var(--color-text-accent);
-  border-color: var(--color-text-accent);
-  color: var(--color-text-inverse);
-  transform: scale(0.98);
-}
+/* Панель и кнопки вынесены в общий bottom-nav.css */
 
 .nav-button:focus-visible,
 .artifact-device-row:focus-visible,
@@ -985,7 +917,7 @@
 
 @media (prefers-reduced-transparency: reduce) {
   .bottom-navigation {
-    background: rgba(255, 255, 255, 0.92);
+    background: transparent;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
@@ -999,9 +931,9 @@
 
 /* Medium layouts use the same inner rails without allowing the page itself to overflow. */
 
-@media (max-width: 1279px) and (min-width: 900px) {
+@media (max-width: 1319px) and (min-width: 900px) {
   .artifact-page {
-    width: calc(100vw - var(--content-margin) - var(--content-edge-right));
+    width: calc(100% - 80px);
   }
 
   .artifact-device-row,
@@ -1023,7 +955,7 @@
   }
 
   .artifact-device {
-    flex: 0 0 31.5458%;
+    flex: 0 0 380px;
   }
 
   .architecture-grid {
@@ -1034,6 +966,46 @@
   .architecture-column {
     flex: 0 0 282px;
   }
+
+  .artifact-devices,
+  .artifact-device-row {
+    height: auto;
+  }
+
+  .artifact-device-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2.35vw, 30px);
+    padding: 0;
+    overflow: visible;
+  }
+
+  .artifact-device {
+    height: auto;
+    aspect-ratio: 380 / 789;
+  }
+
+  .respondent-card {
+    width: 384px;
+    min-width: 384px;
+    min-height: 163px;
+    height: 163px;
+    flex: 0 0 384px;
+  }
+
+  .pathway-respondents {
+    display: flex;
+    grid-template-columns: none;
+    gap: 24px;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+
+  .pathway-respondents::-webkit-scrollbar { display: none; }
 }
 
 /* Mobile composition */
@@ -1042,7 +1014,7 @@
   .artifact-page {
     width: auto;
     margin-left: 0;
-    padding: 48px 32px calc(160px + env(safe-area-inset-bottom, 0px));
+    padding: 48px 32px calc(112px + var(--nav-safe-bottom, 0px));
   }
 
   .artifact-devices {
@@ -1120,21 +1092,18 @@
   .case-divider,
   .artifact-overview + .case-divider {
     margin-top: 64px;
-    margin-bottom: 19px;
+    margin-bottom: 20px;
   }
 
   .case-problem {
-    height: auto;
     min-height: 620px;
   }
 
   .case-problem > .case-kicker {
-    position: static;
     height: 28px;
   }
 
   .problem-content {
-    position: static;
     margin-top: 40px;
   }
 
@@ -1232,6 +1201,7 @@
 
   .respondent-card {
     width: 264px;
+    min-height: 0;
     height: 144px;
     flex: 0 0 264px;
     padding: 20px;
@@ -1518,34 +1488,26 @@
   .testing-arrow--curve {
     top: 58px;
     left: calc(50% + 26px);
-    width: 92px;
+    /* Пропорции файла (37.0458 / 153.865): при 92x190 растяжение было
+       двукратным и ствол рисовался около 4px вместо 2. */
+    width: 45.75px;
     height: 190px;
   }
 
   .testing-transition-arrow--to-metric {
     margin-top: 32px;
+    display: block;
   }
 
   .artifact-next {
-    height: 28px;
+    min-height: 184px;
+    height: auto;
+    gap: 32px;
   }
 
-  .bottom-navigation {
-    padding: 16px 16px calc(8px + env(safe-area-inset-bottom, 0px));
-  }
-
-  .bottom-navigation-inner {
-    gap: 8px;
-  }
-
-  .nav-button {
-    width: auto;
-    height: 40px;
-    min-width: 0;
-    flex: 1 1 0;
-    padding: 10px 8px;
-    font-size: 13px;
-    line-height: 18px;
+  .artifact-next-copy {
+    font-size: 16px;
+    line-height: 24px;
   }
 
   .artifact-copy-desktop {
@@ -1599,7 +1561,7 @@
   .artifact-page {
     width: 100%;
     margin: 0;
-    padding: 100px 16px 29px;
+    padding: 100px 16px calc(112px + var(--nav-safe-bottom, 0px));
     overflow: visible;
   }
 
@@ -1626,7 +1588,6 @@
 
   .artifact-overview {
     display: flex;
-    height: 384px;
     min-height: 0;
     flex-direction: column;
     margin-top: 60px;
@@ -1639,7 +1600,6 @@
   .artifact-overview-head > .case-kicker {
     order: 1;
     width: 100%;
-    height: 32px;
     font-size: 20px;
     line-height: 32px;
   }
@@ -1648,7 +1608,6 @@
     order: 2;
     width: 330px;
     max-width: 100%;
-    height: 112px;
     align-self: center;
     margin: 20px 0 0;
     font-size: 20px;
@@ -1660,7 +1619,6 @@
     display: flex;
     order: 3;
     width: 100%;
-    height: 160px;
     flex-direction: column;
     align-items: center;
     gap: 20px;
@@ -1690,23 +1648,22 @@
 
   .artifact-overview + .case-divider {
     margin-top: 100px;
-    margin-bottom: 19px;
+    margin-bottom: 20px;
   }
 
   .case-problem + .case-divider {
     margin-top: 176px;
-    margin-bottom: 19px;
+    margin-bottom: 20px;
   }
 
   .pathway-summary + .case-divider,
   .architecture + .case-divider,
   .testing + .case-divider {
     margin-top: 100px;
-    margin-bottom: 19px;
+    margin-bottom: 20px;
   }
 
   .case-problem {
-    height: 694px;
     min-height: 0;
   }
 
@@ -1718,7 +1675,6 @@
 
   .problem-content {
     width: 100%;
-    height: 583px;
     margin-top: 80px;
   }
 
@@ -1737,7 +1693,7 @@
   }
 
   .problem-word {
-    font-size: 64px;
+    font-size: min(64px, calc(17.877vw - 5.72px));
     line-height: 84px;
   }
 
@@ -1761,12 +1717,12 @@
     height: 24px;
   }
 
-  .problem-icon--one { top: 22px; left: 53px; }
+  .problem-icon--one { top: 22px; left: 14.8%; }
   .problem-icon--two { top: 140px; left: 0; }
-  .problem-icon--three { top: 0; left: 167px; }
-  .problem-icon--four { top: 140px; left: 334px; }
-  .problem-icon--five { top: 22px; left: 281px; }
-  .problem-mark { top: 183px; left: 167px; }
+  .problem-icon--three { top: 0; left: calc(50% - 12px); }
+  .problem-icon--four { top: 140px; left: auto; right: 0; }
+  .problem-icon--five { top: 22px; left: auto; right: 14.8%; }
+  .problem-mark { top: 183px; left: calc(50% - 12px); }
 
   .problem-description {
     width: 100%;
@@ -1882,8 +1838,8 @@
     position: absolute;
     top: 411px;
     left: 50%;
-    width: 17.32px;
-    height: 73px;
+    width: 11.547px;
+    height: 74px;
     margin: 0;
     transform: translateX(-50%);
   }
@@ -1987,40 +1943,34 @@
   }
 
   .architecture-arrow {
-    width: 17.32px;
-    height: 73px;
+    width: 11.547px;
+    height: 74px;
   }
 
   .testing {
     position: relative;
     width: min(100%, 358px);
-    height: 2426px;
     min-height: 0;
     margin-right: auto;
     margin-left: auto;
   }
 
   .testing > .case-section-head {
-    position: absolute;
-    top: 0;
-    left: 0;
+    display: flex;
     width: 100%;
-    height: 86px;
+    flex-direction: column;
+    align-items: center;
+    /* Было: рубрика h 32 и подпись top 46 → расстояние 14. */
+    gap: 14px;
   }
 
   .testing .case-section-head > .case-kicker {
-    position: absolute;
-    top: 0;
-    left: 0;
     height: 32px;
     font-size: 20px;
     line-height: 32px;
   }
 
   .testing .case-section-note {
-    position: absolute;
-    top: 46px;
-    left: 0;
     width: 100%;
     margin: 0;
     gap: 4px;
@@ -2036,12 +1986,9 @@
   }
 
   .testing-task {
-    position: absolute;
-    top: 160px;
-    left: 0;
     width: 100%;
-    height: 84px;
-    margin: 0;
+    /* Было top 160 при нижней кромке шапки 86 → отступ 74. */
+    margin-top: 74px;
   }
 
   .testing-task > p {
@@ -2053,7 +2000,8 @@
   .testing-task blockquote {
     width: 326px;
     max-width: 100%;
-    height: 56px;
+    min-height: 56px;
+    height: auto;
     margin: 8px 0 0;
     font-size: 20px;
     line-height: 28px;
@@ -2061,17 +2009,15 @@
 
   .metric-card--wide,
   .metric-card--second {
-    position: absolute;
-    left: 0;
     width: 100%;
     height: 204px;
-    margin: 0;
     padding: 24px;
     border-radius: 24px;
   }
 
   .metric-card--wide {
-    top: 272px;
+    /* Было top 272 при нижней кромке задачи 244 → отступ 28. */
+    margin-top: 28px;
   }
 
   .metric-card--wide > div:first-child {
@@ -2104,13 +2050,15 @@
   }
 
   .testing-process {
-    position: absolute;
-    top: 494px;
-    left: 0;
+    position: relative;
     display: block;
     width: 100%;
-    height: 1192px;
-    margin: 0;
+    /* Высота по содержимому: прежние 1192px устарели — композиция
+       переросла холст почти на 400px и вылезала за него.
+       Верхний паддинг — место под стрелку от метрики. */
+    padding-top: 96px;
+    /* Было top 494 при нижней кромке метрики 476 → отступ 18. */
+    margin-top: 18px;
   }
 
   .testing-transition-arrow {
@@ -2126,12 +2074,8 @@
   }
 
   .testing-process-column {
-    position: absolute;
-    top: 96px;
-    left: 0;
     display: flex;
     width: 100%;
-    height: 994px;
     flex-direction: column;
     align-items: center;
   }
@@ -2144,10 +2088,8 @@
   }
 
   .testing-process-content {
-    position: static;
     display: flex;
     width: 100%;
-    height: 890px;
     flex-direction: column;
     margin: 32px 0 0;
   }
@@ -2155,7 +2097,7 @@
   .testing-process-content ul,
   .testing-balance-content ul {
     width: 100%;
-    height: 18px;
+    height: auto;
     min-height: 18px;
     margin: 0;
     padding: 0;
@@ -2165,7 +2107,7 @@
   .testing-balance-content li {
     width: max-content;
     max-width: calc(100% - 42px);
-    height: 18px;
+    height: auto;
     min-height: 18px;
     margin: 0 auto;
     color: var(--color-text-primary);
@@ -2181,7 +2123,7 @@
     left: auto;
     display: flex;
     width: 100%;
-    height: 852px;
+    height: auto;
     min-height: 0;
     flex-direction: column;
     align-items: center;
@@ -2235,65 +2177,263 @@
     left: 0;
     display: block;
     width: 100%;
-    height: 469px;
-    margin: 0;
+    height: auto;
+    margin: 80px 0 0;
   }
 
   .testing-balance-content {
     position: relative;
     width: 100%;
-    height: 469px;
+    height: auto;
     margin: 0;
   }
 
   .testing-images--split {
+    container-type: inline-size;
+    --balance-before-width: min(265px, calc(100cqi - 90px));
+    --balance-before-height: calc(var(--balance-before-width) * 162 / 265);
+    --balance-after-width: min(358px, 100cqi);
+    --balance-after-height: calc(var(--balance-after-width) * 217 / 358);
     position: relative;
     top: auto;
     left: auto;
     width: 100%;
-    height: 439px;
+    display: grid;
+    justify-items: center;
+    gap: 90px;
+    height: auto;
     margin: 12px 0 0;
   }
 
   .testing-images--split > img:first-of-type {
-    top: 0;
-    left: 50%;
-    width: 265px;
-    height: 162px;
-    transform: translateX(-50%);
+    position: static;
+    width: var(--balance-before-width);
+    height: var(--balance-before-height);
+    transform: none;
   }
 
   .testing-images--split > img:last-of-type {
-    top: 222px;
-    left: 0;
-    width: 358px;
-    height: 217px;
+    position: static;
+    width: var(--balance-after-width);
+    max-width: none;
+    height: var(--balance-after-height);
     transform: none;
   }
 
   .testing-arrow--curve {
     top: 59px;
-    left: 316px;
+    left: auto;
+    right: 11px;
     display: block;
     width: 31px;
-    height: 153px;
+    height: 184px;
+  }
+
+  .testing-arrow--curve img {
+    top: -0.865px;
+    left: -0.558px;
+    width: 37.0698px;
+    height: 184.832px;
+  }
+
+  .testing-arrow--curve .testing-arrow__curve-desktop {
+    display: block;
+  }
+
+  .testing-arrow--curve .testing-arrow__curve-mobile {
+    display: none;
   }
 
   .testing-transition-arrow--to-metric {
-    top: 1619px;
+    /* Figma mobile: 32px до стрелки и 32px после неё. */
+    top: auto;
+    bottom: -110px;
     left: calc(50% - 5.775px);
     display: block;
   }
 
   .metric-card--second {
-    top: 2222px;
+    margin-top: 142px;
   }
 
   .artifact-next {
-    height: 28px;
+    display: flex;
   }
 
-  .bottom-navigation {
-    padding: 16px 16px calc(8px + env(safe-area-inset-bottom, 0px));
+  .testing + .case-divider {
+    display: block;
   }
+
+}
+
+@media (max-width: 359px) {
+  .case-body {
+    min-width: 0;
+  }
+
+  .artifact-devices,
+  .artifact-device-row,
+  .pathway-respondents,
+  .architecture-grid {
+    width: 100%;
+  }
+
+  .testing-process-content li,
+  .testing-balance-content li {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    padding: 0 8px;
+    list-style-position: inside;
+    text-align: center;
+  }
+
+}
+
+/* Content reflow: text owns its height; only screen galleries scroll. */
+.artifact-page :is(h1, h2, blockquote, .problem-description, .pathway-conclusion) {
+  text-wrap: balance;
+}
+.artifact-page :is(p, dd, li, strong) {
+  overflow-wrap: anywhere;
+}
+.artifact-overview-title { max-width: 920px; margin-inline: auto; }
+.problem-description { max-width: 780px; margin-inline: auto; height: auto; }
+.case-section-note { max-width: 100%; }
+.respondent-card { gap: 8px; justify-content: center; }
+.respondent-break--desktop { display: block; }
+
+@media (min-width: 900px) {
+  .respondent-card > p:not(.respondent-index) {
+    width: 335px;
+    min-height: 48px;
+  }
+}
+.metric-card--wide { height: auto; min-height: 283px; gap: 16px; }
+.metric-card--wide > div:first-child,
+.metric-caption,
+.metric-label { height: auto; }
+.artifact-device-row,
+.architecture-grid {
+  touch-action: pan-x pan-y pinch-zoom;
+  -webkit-overflow-scrolling: touch;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  scroll-snap-type: none;
+  cursor: grab;
+}
+.artifact-device-row.is-dragging,
+.architecture-grid.is-dragging { cursor: grabbing; user-select: none; }
+.artifact-device-row img,
+.architecture-grid img { -webkit-user-drag: none; pointer-events: none; }
+
+@media (max-width: 899px) {
+  .artifact-devices { width: 100%; height: auto; }
+  .artifact-device-row {
+    width: 100%;
+    height: auto;
+    padding: 8px 6px;
+    scroll-padding-inline: 6px;
+  }
+  .artifact-device {
+    width: min(265px, 85%);
+    flex-basis: min(265px, 85%);
+    height: auto;
+    aspect-ratio: 265 / 551;
+  }
+  .case-meta-grid div { height: auto; }
+  .artifact-overview-head > .case-kicker { height: auto; }
+  .artifact-overview-title { width: min(100%, 620px); }
+  .pathway-summary,
+  .pathway-intro,
+  .architecture,
+  .architecture > .case-section-head,
+  .testing > .case-section-head { height: auto; min-height: 0; }
+  .pathway-intro,
+  .pathway-intro .case-kicker,
+  .pathway-intro h2,
+  .audience-pill,
+  .pathway-insights-label,
+  .pathway-respondents,
+  .pathway-arrow,
+  .pathway-conclusion,
+  .architecture > .case-section-head,
+  .architecture .case-section-head > .case-kicker,
+  .architecture .case-section-note,
+  .architecture-grid {
+    position: static;
+    transform: none;
+    height: auto;
+  }
+  .pathway-intro > div { gap: 24px; }
+  .pathway-intro h2 { margin: 0; font-size: clamp(28px, 5vw, 40px); line-height: 1.3; }
+  .audience-pill { margin-top: 24px; min-height: 56px; }
+  .pathway-insights-label { margin-top: 40px; }
+  .pathway-respondents {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    height: auto;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 0;
+    overflow: visible;
+    touch-action: auto;
+  }
+  .respondent-card {
+    width: 100%;
+    min-width: 0;
+    height: 163px;
+    min-height: 163px;
+    flex: none;
+    padding: 28px;
+    border-radius: 32px;
+    gap: 8px;
+    scroll-snap-align: none;
+  }
+  .respondent-card > p:not(.respondent-index) {
+    width: 100%;
+    min-height: 48px;
+  }
+  .respondent-card p { font-size: 16px; line-height: 24px; }
+  .respondent-card .respondent-index { font-size: 13px; line-height: 18px; }
+  .respondent-break--desktop { display: block; }
+  .pathway-arrow { width: 11.547px; height: 74px; margin: 32px auto 0; }
+  .pathway-conclusion { width: min(100%, 520px); margin: 24px auto 0; }
+  .case-section-head { gap: 24px; }
+  .case-section-note { margin: 0; }
+  .architecture-grid {
+    width: 100%;
+    margin-top: 48px;
+    padding: 0 0 8px;
+  }
+  .architecture-column {
+    width: min(265px, 90%);
+    flex-basis: min(265px, 90%);
+    height: auto;
+    grid-template-rows: auto 74px auto;
+    row-gap: 28px;
+  }
+  .architecture-stage,
+  .architecture-stage--result { width: 100%; height: auto; }
+  .architecture-stage p { height: auto; min-height: 18px; }
+  .architecture-stage > img,
+  .architecture-stage .artifact-screen-media {
+    width: 100%; height: auto; aspect-ratio: 282 / 610;
+  }
+  .metric-card--wide { height: auto; min-height: 214px; }
+  .metric-card--wide > div:first-child,
+  .metric-caption,
+  .metric-label,
+  .testing-process-column > p,
+  .testing-task > p { height: auto; }
+  .testing-process-content,
+  .testing-balance-content { position: static; height: auto; }
+  .testing-process-content ul,
+  .testing-balance-content ul,
+  .testing-process-content li,
+  .testing-balance-content li { height: auto; }
+  .testing-images--split { overflow: visible; }
+  .case-problem + .case-divider { margin-top: 100px; }
 }

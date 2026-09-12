@@ -3,7 +3,12 @@ const emptyState = document.querySelector("#emptyState");
 const saveButton = document.querySelector("#saveButton");
 const toast = document.querySelector("#toast");
 const toastClose = document.querySelector("#toastClose");
+const toastLabel = toast.querySelector("span");
 const options = [...document.querySelectorAll(".genre-option")];
+const tabs = [...document.querySelectorAll(".tabs button")];
+const promptInput = document.querySelector("#promptInput");
+const applyButton = document.querySelector("#applyButton");
+const applyLabel = applyButton.querySelector(".apply-label");
 
 const genres = {
   horror: { label: "Хоррор", image: "assets/raw-3.png" },
@@ -15,6 +20,8 @@ const genres = {
 
 const selected = [];
 let toastTimer;
+let applyTimer;
+const defaultToastText = toastLabel.textContent;
 
 function cardOffset(index, count) {
   return (index - (count - 1) / 2) * 191;
@@ -250,13 +257,43 @@ options.forEach((option) => {
 function hideToast() {
   toast.classList.remove("is-visible");
   clearTimeout(toastTimer);
+  toastLabel.textContent = defaultToastText;
 }
 
-saveButton.addEventListener("click", () => {
+function showToast(message) {
   clearTimeout(toastTimer);
+  toastLabel.textContent = message;
   toast.classList.add("is-visible");
   toastTimer = setTimeout(hideToast, 3200);
+}
+
+saveButton.addEventListener("click", () => showToast("Стиль сохранён"));
+
+applyButton.addEventListener("click", () => {
+  const prompt = promptInput.value.trim();
+  if (!prompt && selected.length === 0) {
+    showToast("Выбери жанр или уточни запрос");
+    promptInput.focus();
+    return;
+  }
+
+  clearTimeout(applyTimer);
+  applyButton.disabled = true;
+  applyButton.classList.add("is-processing");
+
+  applyTimer = setTimeout(() => {
+    applyButton.disabled = false;
+    applyButton.classList.remove("is-processing");
+    promptInput.dataset.appliedValue = prompt;
+    showToast("Стиль применён");
+  }, 480);
 });
 
 toastClose.addEventListener("click", hideToast);
 window.addEventListener("blur", () => selected.forEach(stopProgress));
+
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    tabs.forEach((item) => item.classList.toggle("active", item === tab));
+  });
+});

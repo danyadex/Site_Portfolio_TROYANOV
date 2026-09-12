@@ -142,6 +142,12 @@ document.querySelectorAll("video[data-loop-start], video[data-loop-end]").forEac
     scheduleFrameCheck();
   };
 
+  const cancelFrameCheck = () => {
+    if (frameCallbackId === null) return;
+    activeVideo.cancelVideoFrameCallback(frameCallbackId);
+    frameCallbackId = null;
+  };
+
   const initializeLoop = () => {
     if (!syncLoopRange()) return;
     scheduleFrameCheck();
@@ -152,6 +158,9 @@ document.querySelectorAll("video[data-loop-start], video[data-loop-end]").forEac
 
   layers.forEach((layer) => {
     layer.addEventListener("play", scheduleFrameCheck);
+    layer.addEventListener("pause", () => {
+      if (layer === activeVideo) cancelFrameCheck();
+    });
     layer.addEventListener("timeupdate", () => {
       if (layer === activeVideo) checkBoundary();
     });
@@ -164,8 +173,7 @@ document.querySelectorAll("video[data-loop-start], video[data-loop-end]").forEac
 
   window.addEventListener("pagehide", () => {
     if (transitionTimeoutId !== null) window.clearTimeout(transitionTimeoutId);
-    if (frameCallbackId !== null && typeof activeVideo.cancelVideoFrameCallback === "function") {
-      activeVideo.cancelVideoFrameCallback(frameCallbackId);
-    }
-  }, { once: true });
+    cancelFrameCheck();
+  });
+  window.addEventListener("pageshow", scheduleFrameCheck);
 });

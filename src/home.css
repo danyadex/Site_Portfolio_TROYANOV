@@ -12,9 +12,30 @@
   --home-muted: #bcbcbc;
   --home-line: #ebebe8;
   --home-accent: #c3009e;
+  --home-black-pressed: #000000;
+  /* Обводка контролов: та же толщина, но мягче по тону, чем сплошной чёрный. */
+  --home-control-border: rgba(17, 17, 17, 0.62);
+
+  /* Контракт общего bottom-nav.css */
+  --nav-safe-bottom: var(--home-safe-bottom);
+  --nav-center: calc(
+    var(--home-edge) +
+    min(var(--home-content-width), 100vw - (2 * var(--home-edge))) / 2
+  );
+  --nav-height: 168px;
+  --nav-height-mobile: 112px;
+  --nav-border: var(--home-control-border);
+  --nav-radius: var(--home-radius);
+  --nav-control-height: var(--home-control-height);
+  --nav-text: var(--home-black);
+  --nav-text-inverse: var(--home-white);
   --home-content-width: 1200px;
   --home-edge: max(16px, calc((100vw - var(--home-content-width)) / 2));
   --home-radius: 24px;
+  /* Верхнее поле первого экрана. В макете над ним стоял хедер 78px и зазор 130;
+     в вебе меню уехало вниз, хедера нет — и ритм 100 (как между секциями)
+     сверху читается больше, чем он есть: уравновешивать его нечем. */
+  --hero-top: 60px;
   --home-control-height: 38px;
   --home-safe-bottom: env(safe-area-inset-bottom, 0px);
   font-family: "Bounded", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -27,6 +48,34 @@
   box-sizing: border-box;
 }
 
+@keyframes home-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes home-nav-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .personal-meta {
+    animation: home-enter 1000ms cubic-bezier(0.32, 0.72, 0, 1) backwards;
+  }
+
+  .intro-content {
+    animation: home-enter 1100ms cubic-bezier(0.32, 0.72, 0, 1) 80ms backwards;
+  }
+
+  .project-stack {
+    animation: home-enter 1100ms cubic-bezier(0.32, 0.72, 0, 1) 160ms backwards;
+  }
+
+  .home-page > .bottom-navigation {
+    animation: home-nav-enter 850ms ease-out 200ms backwards;
+  }
+}
+
 html {
   overflow-x: clip;
   scroll-behavior: smooth;
@@ -34,7 +83,7 @@ html {
 
 body {
   margin: 0;
-  min-width: 320px;
+  min-width: 0;
   overflow-x: clip;
   background: var(--home-white);
   color: var(--home-black);
@@ -65,26 +114,31 @@ a:focus-visible {
 }
 
 .home-page {
+  /* Лента Shots намеренно выходит под край экрана; clip не даёт этому
+     превратиться в горизонтальный скролл всей страницы (в отличие от hidden
+     не создаёт scroll-контейнер и не ломает sticky). */
+  overflow-x: clip;
   min-height: 100svh;
   background: var(--home-white);
 }
 
 .home-main {
-  width: min(var(--home-content-width), calc(100vw - (2 * var(--home-edge))));
-  margin: 0 0 0 var(--home-edge);
-  padding-bottom: calc(118px + var(--home-safe-bottom));
+  width: min(var(--home-content-width), calc(100% - 32px));
+  margin-inline: auto;
+  padding-bottom: calc(150px + var(--home-safe-bottom));
 }
 
 /* The first screen keeps the Figma coordinates stable on wide layouts. */
 .intro-section {
+  /* Высота по содержимому: прибитые 640px оставляли снизу 96px пустоты
+     после сокращения текста, и до проектов набегало 196 вместо 100. */
   position: relative;
-  height: 640px;
-  padding-top: 100px;
+  padding-top: var(--hero-top);
 }
 
 .personal-meta {
   position: absolute;
-  top: 100px;
+  top: var(--hero-top);
   left: 0;
   display: flex;
   flex-direction: column;
@@ -97,6 +151,9 @@ a:focus-visible {
 
 .personal-name {
   margin: 0;
+  /* Подпись под фото ушла в серый — без этого самым контрастным в хиро
+     оставались значения меты («Санкт-Петербург», «2 года»). */
+  color: var(--home-black);
   font-size: 15px;
   line-height: 18px;
 }
@@ -147,7 +204,7 @@ a:focus-visible {
   align-items: center;
   gap: 20px;
   width: 384px;
-  margin-left: 408px;
+  margin-inline: auto;
 }
 
 .avatar-frame {
@@ -157,6 +214,35 @@ a:focus-visible {
   overflow: hidden;
   border-radius: 999px;
   background: #d9e6f2;
+  /* Мягкий край. Ширина — --avatar-feather, крутится одним числом.
+     Точек девять, а не две: линейный спад даёт излом там, где прозрачность
+     только начинает падать, и глаз читает его как кольцо. Первые точки идут
+     почти вплотную к единице (0.995, 0.97) — именно они убирают этот стык. */
+  --avatar-feather: 11px;
+  -webkit-mask-image: radial-gradient(
+    ellipse closest-side at center,
+    #000 calc(100% - var(--avatar-feather)),
+    rgba(0, 0, 0, 0.995) calc(100% - var(--avatar-feather) * 0.9),
+    rgba(0, 0, 0, 0.97) calc(100% - var(--avatar-feather) * 0.8),
+    rgba(0, 0, 0, 0.9) calc(100% - var(--avatar-feather) * 0.62),
+    rgba(0, 0, 0, 0.72) calc(100% - var(--avatar-feather) * 0.46),
+    rgba(0, 0, 0, 0.48) calc(100% - var(--avatar-feather) * 0.32),
+    rgba(0, 0, 0, 0.24) calc(100% - var(--avatar-feather) * 0.19),
+    rgba(0, 0, 0, 0.08) calc(100% - var(--avatar-feather) * 0.08),
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse closest-side at center,
+    #000 calc(100% - var(--avatar-feather)),
+    rgba(0, 0, 0, 0.995) calc(100% - var(--avatar-feather) * 0.9),
+    rgba(0, 0, 0, 0.97) calc(100% - var(--avatar-feather) * 0.8),
+    rgba(0, 0, 0, 0.9) calc(100% - var(--avatar-feather) * 0.62),
+    rgba(0, 0, 0, 0.72) calc(100% - var(--avatar-feather) * 0.46),
+    rgba(0, 0, 0, 0.48) calc(100% - var(--avatar-feather) * 0.32),
+    rgba(0, 0, 0, 0.24) calc(100% - var(--avatar-feather) * 0.19),
+    rgba(0, 0, 0, 0.08) calc(100% - var(--avatar-feather) * 0.08),
+    transparent 100%
+  );
   isolation: isolate;
 }
 
@@ -181,7 +267,9 @@ a:focus-visible {
 .intro-copy {
   width: 100%;
   margin: 0;
-  color: var(--home-black);
+  /* Роль подзаголовка: в макете ею была вторая строка (#6d6d68), её убрали —
+     роль переходит к оставшейся. */
+  color: var(--home-gray);
   font-size: 16px;
   line-height: 24px;
   text-align: center;
@@ -198,7 +286,7 @@ a:focus-visible {
   flex-direction: column;
   gap: 120px;
   width: 588px;
-  margin: 100px 0 0 306px;
+  margin: 100px auto 0;
 }
 
 .home-project {
@@ -371,9 +459,16 @@ a:focus-visible {
   transition: color 180ms ease;
 }
 
-.project-link:hover,
-.project-link:focus-visible {
+/* Акцентом подсвечиваем только название кейса и стрелку.
+   Теги лежат внутри ссылки и раньше наследовали её цвет — вся строка красилась. */
+.project-link:focus-visible .project-link-label {
   color: var(--home-accent);
+}
+
+@media (hover: hover) {
+  .project-link:hover .project-link-label {
+    color: var(--home-accent);
+  }
 }
 
 .project-arrow {
@@ -393,10 +488,16 @@ a:focus-visible {
   transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.project-link:hover .project-arrow img,
 .project-link:focus-visible .project-arrow img {
   content: url("/assets/home/figma/figma-home-arrow-hover.svg");
   transform: scale(1.7);
+}
+
+@media (hover: hover) {
+  .project-link:hover .project-arrow img {
+    content: url("/assets/home/figma/figma-home-arrow-hover.svg");
+    transform: scale(1.7);
+  }
 }
 
 .project-tags {
@@ -465,8 +566,55 @@ a:focus-visible {
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   cursor: grab;
-  touch-action: pan-y pinch-zoom;
+  touch-action: pan-x pan-y pinch-zoom;
   scroll-behavior: auto;
+}
+
+/* Край растворяется вместо рубленого обреза и заодно показывает,
+   что лента продолжается. Сторона зависит от позиции прокрутки. */
+.shots-rail-wrap {
+  position: relative;
+  border-radius: clamp(24px, 3vw, 40px);
+  overflow: hidden;
+}
+
+/* Кромка ленты: контент уходит из фокуса к краю, а не растворяется
+   в прозрачность. Слои и их маски считаются в RailEdge по формуле.
+   Ни will-change, ни opacity < 1 на этом контейнере — и то и другое делает
+   его backdrop root, и вложенные слои начинают сэмплировать пустоту внутри
+   него вместо страницы под ним. Поэтому гасим сами слои. */
+.rail-edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: clamp(88px, 11vw, 160px);
+  pointer-events: none;
+}
+
+.rail-edge-layer {
+  transition: opacity 180ms ease;
+}
+
+.rail-edge--left {
+  left: 0;
+}
+
+.rail-edge--right {
+  right: 0;
+}
+
+/* Кромка гаснет там, где ленту дальше не прокрутить. */
+.shots-rail-wrap:has(> .drag-scroll[data-edge="start"]) .rail-edge--left > *,
+.shots-rail-wrap:has(> .drag-scroll:not([data-edge])) .rail-edge > *,
+.shots-rail-wrap:has(> .drag-scroll[data-edge="end"]) .rail-edge--right > * {
+  opacity: 0;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .rail-edge {
+    display: none;
+  }
 }
 
 .drag-scroll::-webkit-scrollbar {
@@ -477,7 +625,7 @@ a:focus-visible {
   outline: none;
 }
 
-.drag-scroll:focus-visible {
+.shots-rail-wrap:has(> .drag-scroll:focus-visible) {
   outline: 2px solid rgba(195, 0, 158, 0.56);
   outline-offset: 5px;
 }
@@ -502,7 +650,7 @@ a:focus-visible {
   overflow: hidden;
   margin: 0;
   border-radius: 12px;
-  background: #f5f5f5;
+  background: transparent;
 }
 
 .shot img {
@@ -586,6 +734,7 @@ a:focus-visible {
 
 .about-collage {
   position: relative;
+  isolation: isolate;
   width: 588px;
   height: 509.601px;
   margin: 0 auto;
@@ -612,6 +761,44 @@ a:focus-visible {
   overflow: hidden;
   border-radius: 12px;
   transform-origin: center;
+}
+
+.about-media-tile--movable {
+  transform-origin: top left;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  background-repeat: no-repeat;
+  transition: box-shadow 180ms ease;
+}
+
+.about-media-tile--movable.is-moving {
+  z-index: 5;
+  cursor: grabbing;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 16%);
+}
+
+.about-tile-content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.about-media-tile--movable.is-drop-target {
+  outline: 2px solid rgb(0 0 0 / 24%);
+  outline-offset: 2px;
+}
+
+.about-media-tile--movable:focus-visible {
+  outline: 2px solid var(--home-gray);
+  outline-offset: 2px;
+}
+
+.about-media-tile--movable :is(img, video) {
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
 
 .about-media-tile video,
@@ -641,87 +828,12 @@ a:focus-visible {
   object-fit: cover;
 }
 
-.home-divider {
-  width: 100vw;
-  height: 1px;
-  margin-top: 100px;
-  margin-left: calc((var(--home-content-width) - 100vw) / 2);
-  background: var(--home-line);
-}
-
 /* A fixed bottom navigation turns the Figma footer into the requested scrolling header. */
-.bottom-navigation {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 20;
-  padding: 40px var(--home-edge) calc(40px + var(--home-safe-bottom));
-  border-top: 1px solid rgba(255, 255, 255, 0.88);
-  border-radius: 24px 24px 0 0;
-  background: rgba(255, 255, 255, 0.26);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -1px 0 rgba(17, 17, 17, 0.04),
-    0 -18px 42px rgba(17, 17, 17, 0.07);
-  -webkit-backdrop-filter: blur(30px) saturate(150%);
-  backdrop-filter: blur(30px) saturate(150%);
-  isolation: isolate;
-}
 
-.bottom-navigation::before {
-  position: absolute;
-  inset: 1px 1px 0;
-  z-index: 0;
-  border-radius: 23px 23px 0 0;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
-  content: "";
-  pointer-events: none;
-}
-
-.bottom-navigation-inner {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  width: 100%;
-}
-
-.nav-button {
-  display: inline-flex;
-  flex: 0 0 180px;
-  align-items: center;
-  justify-content: center;
-  width: 180px;
-  height: var(--home-control-height);
-  padding: 10px;
-  border: 1px solid var(--home-black);
-  border-radius: var(--home-radius);
-  background: transparent;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    0 1px 0 rgba(255, 255, 255, 0.22);
-  color: var(--home-black);
-  font-size: 14px;
-  line-height: 18px;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
-}
-
-.nav-button:hover {
-  border-color: rgba(17, 17, 17, 0.72);
-  background: rgba(255, 255, 255, 0.28);
-  transform: translateY(-1px);
-}
-
-.nav-button:active {
-  background: var(--home-black);
-  color: var(--home-white);
-  transform: translateY(0);
+@media (min-width: 900px) {
+  .home-page .bottom-navigation {
+    padding-bottom: calc(48px + var(--nav-safe-bottom, 0px));
+  }
 }
 
 .contact-dialog-backdrop {
@@ -730,7 +842,7 @@ a:focus-visible {
   z-index: 40;
   display: grid;
   place-items: center;
-  padding: 24px;
+  padding: 16px;
   background: rgba(17, 17, 17, 0.14);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
@@ -739,8 +851,10 @@ a:focus-visible {
 .contact-dialog {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  /* Figma 1639:294: шаг между шапкой и строками 32. */
+  gap: 32px;
   width: min(368px, 100%);
+  min-width: 0;
   padding: 28px;
   border-radius: 24px;
   background: var(--home-white);
@@ -751,63 +865,136 @@ a:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 10px;
 }
 
 .contact-dialog h2 {
   margin: 0;
   font-size: 20px;
-  line-height: 28px;
+  font-weight: 400;
+  line-height: 25px;
+}
+
+/* Строки контактов по макету: подпись слева приглушённая, значение справа. */
+.contact-dialog-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0;
+}
+
+.contact-dialog-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.contact-dialog-row dt {
+  color: var(--home-gray);
+  font-size: 14px;
+  line-height: 17px;
+  white-space: nowrap;
+}
+
+.contact-dialog-row dd {
+  margin: 0;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: right;
 }
 
 .contact-dialog a {
   color: var(--home-black);
   font-size: 14px;
-  line-height: 20px;
+  line-height: 17px;
+  text-decoration: none;
   text-underline-offset: 4px;
+  white-space: nowrap;
+}
+
+.contact-dialog a.is-underlined {
+  text-decoration: underline;
+}
+
+@media (hover: hover) {
+  .contact-dialog a:hover {
+    color: var(--home-accent);
+  }
 }
 
 .dialog-close {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 20.276px;
+  height: 20.276px;
+  flex: 0 0 20.276px;
   padding: 0;
   border: 0;
   background: transparent;
-  font-size: 24px;
-  line-height: 28px;
   cursor: pointer;
+}
+
+.dialog-close::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+}
+
+.dialog-close-icon {
+  position: relative;
+  width: 20.276px;
+  height: 20.276px;
+}
+
+.dialog-close-icon img {
+  position: absolute;
+  width: 11.638px;
+  height: 11.638px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 367px) {
+  .contact-dialog {
+    padding-inline: 16px;
+  }
 }
 
 @media (max-width: 899px) {
   :root {
     --home-edge: 16px;
+    --nav-center: 50%;
   }
 
   .home-main {
-    width: calc(100vw - (2 * var(--home-edge)));
-    padding-bottom: calc(72px + var(--home-safe-bottom));
+    width: calc(100% - (2 * var(--home-edge)));
+    padding-bottom: calc(112px + var(--home-safe-bottom));
   }
 
   .intro-section {
     position: relative;
-    height: 812px;
-    padding-top: 0;
+    /* На мобиле меню — настоящая шапка: fixed сверху, 4px отступ + 48px панель.
+       Поэтому поле считается от её нижней кромки, а не от верха страницы.
+       Было 100 → чистый просвет 48; стало 20 — шаг мобильного ритма. */
+    --hero-top: calc(52px + env(safe-area-inset-top, 0px) + 20px);
+    padding-top: var(--hero-top);
   }
 
   .personal-meta {
-    position: absolute;
-    top: 100px;
-    left: 50%;
+    /* Базовое правило ставит absolute — на мобилке возвращаем в поток,
+       иначе блок не занимает место и контент наезжает сверху. */
+    position: static;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     width: 180px;
-    margin: 0;
-    transform: translateX(-50%);
+    /* Было absolute top:100 — теперь тот же отступ даёт padding секции. */
+    margin-inline: auto;
     text-align: center;
   }
 
@@ -830,13 +1017,12 @@ a:focus-visible {
   }
 
   .intro-content {
-    position: absolute;
-    top: 304px;
-    left: 50%;
     width: min(384px, 100%);
-    margin: 0;
+    /* Было 60 (из макета: 304 - 244). По боксу верно, но у аватарки мягкая
+       маска — видимый круг начинается заметно ниже своей рамки, и просвет
+       читается почти вдвое больше. Режем до 40, чтобы оптически вышло 60. */
+    margin: 40px auto 0;
     gap: 20px;
-    transform: translateX(-50%);
   }
 
   .avatar-frame {
@@ -880,11 +1066,11 @@ a:focus-visible {
   }
 
   .home-project--artifact .phone-still {
-    display: block;
+    display: none;
   }
 
   .home-project--artifact .phone-motion {
-    display: none;
+    display: block;
   }
 
   .phone-screen {
@@ -911,14 +1097,18 @@ a:focus-visible {
   }
 
   .project-link {
-    flex-wrap: nowrap;
-    white-space: nowrap;
+    /* wrap срабатывает только при нехватке места: на широких экранах
+       строка остаётся однострочной, на узких теги уезжают вниз. */
+    flex-wrap: wrap;
+    white-space: normal;
   }
 
   .project-tags {
     width: auto;
-    justify-content: initial;
-    margin-left: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-left: clamp(8px, 3vw, 20px);
+    gap: clamp(8px, 3vw, 20px);
   }
 
   .project-description {
@@ -935,8 +1125,12 @@ a:focus-visible {
     margin-bottom: 12px;
   }
 
-  .drag-scroll {
+  .shots-rail-wrap {
     width: calc(100% + 16px);
+  }
+
+  .drag-scroll {
+    width: 100%;
     margin-inline: 0;
     padding-inline: 0;
   }
@@ -983,30 +1177,6 @@ a:focus-visible {
     aspect-ratio: 588 / 509.601;
   }
 
-  .home-divider {
-    width: calc(100vw - 32px);
-    margin-top: 112px;
-    margin-left: 0;
-  }
-
-  .bottom-navigation {
-    padding: 16px var(--home-edge) calc(16px + var(--home-safe-bottom));
-  }
-
-  .bottom-navigation-inner {
-    gap: 8px;
-  }
-
-  .nav-button {
-    flex: 1 1 0;
-    width: auto;
-    min-width: 0;
-    height: 40px;
-    padding-inline: 8px;
-  }
-}
-
-@media (max-width: 560px) {
   .personal-meta {
     flex-direction: column;
   }
@@ -1023,13 +1193,15 @@ a:focus-visible {
 
   .project-tags {
     width: auto;
-    justify-content: initial;
-    margin-left: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-left: clamp(8px, 3vw, 20px);
+    gap: clamp(8px, 3vw, 20px);
   }
 
   .project-headerline.is-disabled {
-    flex-wrap: nowrap;
-    white-space: nowrap;
+    flex-wrap: wrap;
+    white-space: normal;
   }
 
   .project-headerline.is-disabled .project-tags {
@@ -1060,14 +1232,59 @@ a:focus-visible {
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .bottom-navigation,
   .contact-dialog-backdrop {
     background: rgba(255, 255, 255, 0.96);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+}
 
-  .bottom-navigation::before {
-    display: none;
+/* Холст WebGL-ленты занимает всю ширину контентной колонки. */
+.shots-gl {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* R3F не выставляет размеры самому холсту — растягиваем его по контейнеру
+   (буфер он всё равно считает от измеренного контейнера). */
+.shots-gl canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Keep the mobile document stable while media and fonts arrive. */
+@media (max-width: 899px) {
+  .personal-meta, .intro-content, .project-stack {
+    animation: none;
   }
 }
+
+@media (pointer: coarse) {
+  .drag-scroll { cursor: auto; }
+  .drag-scroll .shot img { -webkit-touch-callout: none; user-select: none; }
+}
+
+@media (pointer: coarse) {
+  .about-media-tile--movable { touch-action: pan-y pinch-zoom; cursor: pointer; }
+}
+
+/* Separate image fallback: Safari's blocked-video UI cannot cover the portrait. */
+.avatar-still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar-fallback { opacity: 0; pointer-events: none; }
+.avatar-fallback[data-video-playing="true"] { opacity: 1; }
+.avatar-fallback::-webkit-media-controls,
+.avatar-fallback::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+.phone-stage--taya .phone-motion { opacity: 0; }
+.phone-stage--taya .phone-motion[data-video-playing="true"] { opacity: 1; }
+.phone-stage--taya video::-webkit-media-controls-start-playback-button { display: none !important; }

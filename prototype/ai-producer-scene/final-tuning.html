@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>AI Producer - Final tuning</title>
+    <link rel="stylesheet" href="final-tuning.css?v=6" />
+  </head>
+  <body>
+    <main class="final-tuning" data-aspect="finish" style="--tuning-strength: 0.64; --compare-position: 50%;">
+      <header class="final-header">
+        <div class="wordmark">AI PRODUCER</div>
+        <div class="avatar" aria-hidden="true">
+          <img class="avatar-ring" src="assets/avatar-ring.svg" alt="" />
+          <span class="avatar-photo"><img src="assets/avatar-photo.png" alt="" /></span>
+          <img class="avatar-status" src="assets/avatar-status.svg" alt="" />
+        </div>
+      </header>
+
+      <button class="back-button" id="backButton" type="button" aria-label="Назад">
+        <img src="assets/chevron-left.svg" alt="" />
+      </button>
+
+      <section class="final-workspace" aria-label="Финальная настройка сцены">
+        <section class="compare-panel" aria-label="Сравнение исходника и финальной версии">
+          <div class="compare-media" id="compareMedia">
+            <video
+              class="compare-video compare-video-before"
+              id="previewVideo"
+              src="assets/scene.mp4"
+              poster="assets/local-edit-result-seamless-16x9.png"
+              preload="auto"
+              playsinline
+              muted
+            ></video>
+            <div class="compare-after-clip" id="compareAfterClip">
+              <video
+                class="compare-video compare-video-after"
+                id="enhancedVideo"
+                src="assets/scene.mp4"
+                poster="assets/local-edit-result-seamless-16x9.png"
+                preload="auto"
+                playsinline
+                muted
+              ></video>
+              <canvas class="accent-ai-canvas" id="accentAiCanvas" aria-hidden="true"></canvas>
+              <span class="accent-focus" aria-hidden="true"></span>
+              <span class="finish-grain" aria-hidden="true"></span>
+              <span class="finish-glow" aria-hidden="true"></span>
+              <span class="sound-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            </div>
+            <span class="compare-divider" id="compareDivider" aria-hidden="true">
+              <span class="compare-handle"><img src="assets/final-tuning/compare.svg" alt="" /></span>
+            </span>
+            <input
+              class="compare-range"
+              id="compareRange"
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              aria-label="Соотношение исходника и финальной версии"
+            />
+            <div class="video-scrim" aria-hidden="true"></div>
+            <div class="video-controls">
+              <button class="video-control" id="playButton" type="button" aria-label="Воспроизвести">
+                <img class="play-icon" src="assets/play.svg" alt="" />
+                <span class="pause-icon" aria-hidden="true">Ⅱ</span>
+              </button>
+              <button class="video-control" id="volumeButton" type="button" aria-label="Включить звук">
+                <img src="assets/volume.svg" alt="" />
+              </button>
+              <span class="video-time"><span id="currentTime">00:00</span> / <span id="duration">00:08</span></span>
+              <button class="video-control fullscreen" id="fullscreenButton" type="button" aria-label="На весь экран">
+                <img src="assets/fullscreen.svg" alt="" />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="timeline-panel" id="timelinePanel" aria-label="Таймлайн сцены">
+          <div class="timeline-ruler" id="timelineRuler" aria-hidden="true"></div>
+          <div class="timeline-scale" id="timelineScale" aria-hidden="true"></div>
+          <button class="timeline-track" id="timelineTrack" type="button" role="slider" aria-label="Позиция на таймлайне" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0">
+            <span class="timeline-image"></span>
+            <span class="cut-cue cut-cue-one" aria-hidden="true"></span>
+            <span class="cut-cue cut-cue-two" aria-hidden="true"></span>
+            <span class="cut-cue cut-cue-three" aria-hidden="true"></span>
+          </button>
+          <span class="timeline-playhead" id="timelinePlayhead" aria-hidden="true"></span>
+        </section>
+
+        <div class="tuning-row">
+          <section class="tuning-panel" aria-label="Финальная настройка">
+            <div class="tuning-aspects" role="group" aria-label="Аспект финальной настройки">
+              <button class="tuning-aspect" type="button" data-aspect="accent" aria-pressed="false">
+                <img src="assets/final-tuning/accent.svg" alt="" />
+                <span>Акцент</span>
+                <small>Ключевой момент</small>
+              </button>
+              <button class="tuning-aspect" type="button" data-aspect="cut" aria-pressed="false">
+                <img src="assets/final-tuning/cut.svg" alt="" />
+                <span>Склейка</span>
+                <small>Переходы и паузы</small>
+              </button>
+              <button class="tuning-aspect" type="button" data-aspect="sound" aria-pressed="false">
+                <img src="assets/final-tuning/sound.svg" alt="" />
+                <span>Звук</span>
+                <small>Аудио-акцент</small>
+              </button>
+              <button class="tuning-aspect is-active" type="button" data-aspect="finish" aria-pressed="true">
+                <img src="assets/final-tuning/finish.svg" alt="" />
+                <span>Финиш</span>
+                <small>Цвет, зерно и glow</small>
+              </button>
+            </div>
+            <div class="tuning-separator" aria-hidden="true"></div>
+            <div class="jog-area" id="jogArea">
+              <button class="jog-control" id="jogControl" type="button" aria-label="Интенсивность финальной настройки: 64 процентов" aria-valuemin="0" aria-valuemax="100" aria-valuenow="64">
+                <img src="assets/final-tuning/jog.svg" alt="" />
+              </button>
+              <span class="jog-value" id="jogValue" aria-live="polite">64%</span>
+            </div>
+          </section>
+          <button class="save-project" id="saveProject" type="button">СОХРАНИТЬ<br />ПРОЕКТ</button>
+        </div>
+      </section>
+
+      <div class="toast" id="toast" role="status" aria-live="polite">Проект сохранён</div>
+    </main>
+    <script src="final-tuning.js?v=6"></script>
+    <script type="module" src="final-tuning-accent-ai.js?v=13"></script>
+  </body>
+</html>

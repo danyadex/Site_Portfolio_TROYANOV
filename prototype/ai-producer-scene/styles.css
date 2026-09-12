@@ -994,9 +994,9 @@ button {
   position: absolute;
   z-index: 31;
   bottom: calc(var(--composer-height) + 8px);
-  left: 0;
+  left: var(--input-start);
   display: flex;
-  width: 100%;
+  width: var(--input-column);
   height: 216px;
   justify-content: center;
   pointer-events: none;
@@ -1004,7 +1004,7 @@ button {
 
 .camera-toolbar {
   display: grid;
-  width: min(984px, 100%);
+  width: min(984px, calc(100vw - var(--page-gutter) - var(--page-gutter)));
   height: 216px;
   flex: 0 0 auto;
   grid-template-columns: repeat(5, 168px);
@@ -1626,7 +1626,7 @@ button:focus-visible {
 
 @media (max-width: 1060px) {
   .camera-toolbar {
-    width: min(920px, 100%);
+    width: min(920px, calc(100vw - var(--page-gutter) - var(--page-gutter)));
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 16px;
     padding-right: 16px;
