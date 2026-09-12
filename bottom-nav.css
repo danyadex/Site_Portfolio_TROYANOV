@@ -581,6 +581,31 @@
   }
 }
 
+/* На главной мобильные кнопки используют тот же лёгкий контурный glass,
+   что и desktop-вариант. Позиция тулбара остаётся сверху. */
+@media (max-width: 899px) {
+  .home-page > .bottom-navigation .nav-button {
+    height: var(--nav-control-height, 38px);
+    min-height: var(--nav-control-height, 38px);
+    border: 1px solid var(--nav-border, rgba(17, 17, 17, 0.62));
+    border-radius: var(--nav-radius, 24px);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      0 1px 0 rgba(255, 255, 255, 0.22);
+    -webkit-backdrop-filter: blur(12px) saturate(120%);
+    backdrop-filter: blur(12px) saturate(120%);
+    color: var(--nav-text, #111111);
+    transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+  }
+
+  .home-page > .bottom-navigation .nav-button:active {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.92);
+    color: var(--nav-text-inverse, #ffffff);
+  }
+}
+
 /* На мобильном подложка выключена: навигация остаётся прозрачной поверх страницы.
    На desktop работает мягкий progressive fade из блока выше. */
 @media (min-width: 900px) {
