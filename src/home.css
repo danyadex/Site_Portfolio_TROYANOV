@@ -286,7 +286,9 @@ a:focus-visible {
   flex-direction: column;
   gap: 120px;
   width: 588px;
-  margin: 100px auto 0;
+  /* Вход в список теснее шага внутри него (80 < 120): хиро — заголовок
+     страницы, а не равноправный сосед первого проекта. */
+  margin: 80px auto 0;
 }
 
 .home-project {
@@ -1049,7 +1051,9 @@ a:focus-visible {
 
   .project-stack {
     width: min(588px, 100%);
-    margin: 100px auto 0;
+    /* Было 100 при шаге 100 — граница хиро и списка читалась так же, как
+       граница между проектами, и иерархия схлопывалась. */
+    margin: 64px auto 0;
     gap: 100px;
   }
 
