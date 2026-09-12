@@ -585,7 +585,7 @@
    На desktop работает мягкий progressive fade из блока выше. */
 @media (min-width: 900px) {
   :is(.home-page, .case-body) > .bottom-blur {
-    height: calc(220px + var(--nav-safe-bottom, 0px));
+    height: calc(200px + var(--nav-safe-bottom, 0px));
     opacity: 0.92;
   }
 
