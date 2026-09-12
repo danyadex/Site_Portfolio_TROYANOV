@@ -551,6 +551,16 @@
     filter: none;
   }
 
+  /* Правило выше сбрасывает filter и по весу равно общему .nav-button:hover img
+     (оба 0,2,1), но стоит ниже — и гасило инверсию: на тёмном стекле стрелка
+     оставалась серой (#525252 из svg). Возвращаем явно и позже.
+     :not(:active) — потому что на нажатии подложка светлая, там стрелка тёмная. */
+  @media (hover: hover) {
+    .case-body .nav-button--back:hover:not(:active) img {
+      filter: brightness(0) invert(1);
+    }
+  }
+
   .mobile-case-return,
   .mobile-case-return--end {
     display: none;
