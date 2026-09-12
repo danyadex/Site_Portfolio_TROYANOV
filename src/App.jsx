@@ -695,12 +695,27 @@ function Shots() {
 const AboutSlotsContext = createContext(null);
 const ABOUT_SLOTS = [...ABOUT_MEDIA, { id: "портрет", x: 250, y: 97, width: 88, height: 148 }];
 
+/* Порог удержания до старта перетаскивания на тач-экране. До него палец
+   считается скроллом страницы, после — берём жест себе. Значение из практики
+   мобильных сортировок: меньше 200 мс срабатывает на обычной прокрутке,
+   больше 300 мс ощущается как залипание. */
+const ABOUT_HOLD_MS = 220;
+
 function MovableAboutTile({ item, children, className = "" }) {
   const { order, swap, target, setTarget, selected, setSelected } = useContext(AboutSlotsContext);
   const slotIndex = order.indexOf(item.id);
   const position = ABOUT_SLOTS[slotIndex];
   const [active, setActive] = useState(false);
   const drag = useRef(null);
+  const rootRef = useRef(null);
+  const touch = useRef(null);
+  const skipClick = useRef(false);
+
+  // Обработчики тача вешаем один раз, поэтому свежие значения держим в ref:
+  // иначе замыкание поймает slotIndex с первого рендера и обмен уедет не туда.
+  const latest = useRef(null);
+  latest.current = { slotIndex, swap, setTarget, setSelected };
+
   const settle = (element) => {
     const transform = element.style.transform;
     element.style.transform = "";
@@ -708,15 +723,17 @@ function MovableAboutTile({ item, children, className = "" }) {
       element.animate([{ transform }, { transform: "none" }], { duration: 260, easing: "cubic-bezier(.22,1,.36,1)" });
     }
   };
-  const hit = (event) => {
-    const bounds = event.currentTarget.parentElement.getBoundingClientRect();
-    const x = (event.clientX - bounds.left) / bounds.width * ABOUT_CANVAS.width;
-    const y = (event.clientY - bounds.top) / bounds.height * ABOUT_CANVAS.height;
+  const hitAt = (clientX, clientY, element) => {
+    const bounds = (element || rootRef.current).parentElement.getBoundingClientRect();
+    const x = (clientX - bounds.left) / bounds.width * ABOUT_CANVAS.width;
+    const y = (clientY - bounds.top) / bounds.height * ABOUT_CANVAS.height;
     return ABOUT_SLOTS.findIndex((cell) => x >= cell.x && x <= cell.x + cell.width && y >= cell.y && y <= cell.y + cell.height);
   };
   const finish = (event) => {
     if (drag.current?.id !== event.pointerId) return;
-    const destination = event.type === "pointerup" && drag.current.moved ? hit(event) : -1;
+    const destination = event.type === "pointerup" && drag.current.moved
+      ? hitAt(event.clientX, event.clientY, event.currentTarget)
+      : -1;
     if (destination >= 0 && destination !== slotIndex) swap(slotIndex, destination, true);
     else settle(event.currentTarget);
     drag.current = null;
@@ -726,8 +743,85 @@ function MovableAboutTile({ item, children, className = "" }) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
   };
+
+  useEffect(() => {
+    const element = rootRef.current;
+    if (!element) return undefined;
+    let hold = null;
+    const clearHold = () => { if (hold) { clearTimeout(hold); hold = null; } };
+
+    const onStart = (event) => {
+      if (event.touches.length !== 1 || touch.current) return;
+      const point = event.touches[0];
+      touch.current = { id: point.identifier, x: point.clientX, y: point.clientY, active: false };
+      element.getAnimations().forEach((animation) => animation.cancel());
+      hold = setTimeout(() => {
+        if (!touch.current) return;
+        touch.current.active = true;
+        setActive(true);
+        latest.current.setSelected(null);
+        if (navigator.vibrate) navigator.vibrate(8);
+      }, ABOUT_HOLD_MS);
+    };
+
+    const onMove = (event) => {
+      const current = touch.current;
+      if (!current) return;
+      const point = [...event.touches].find((candidate) => candidate.identifier === current.id);
+      if (!point) return;
+      const dx = point.clientX - current.x;
+      const dy = point.clientY - current.y;
+      if (!current.active) {
+        // Палец поехал раньше, чем истекло удержание — это прокрутка страницы,
+        // отдаём жест браузеру и больше в него не вмешиваемся.
+        if (Math.hypot(dx, dy) > 8) { clearHold(); touch.current = null; }
+        return;
+      }
+      // Слушатель неактивный (passive: false) — только так можно удержать
+      // жест и не дать документу уехать вместе с пальцем.
+      event.preventDefault();
+      // Масштаб дублирует CSS-правило для удержания: инлайновый transform
+      // перебивает таблицу стилей, и без него плитка схлопывалась бы обратно
+      // в момент первого движения пальца.
+      element.style.transform = `translate3d(${dx}px, ${dy}px, 0) scale(1.04)`;
+      const index = hitAt(point.clientX, point.clientY, element);
+      latest.current.setTarget(index >= 0 && index !== latest.current.slotIndex ? index : null);
+    };
+
+    const onEnd = (event) => {
+      clearHold();
+      const current = touch.current;
+      if (!current) return;
+      touch.current = null;
+      if (!current.active) return;              // короткий тап — отдаём onClick
+      skipClick.current = true;                 // после переноса тап не считаем
+      const point = [...event.changedTouches].find((candidate) => candidate.identifier === current.id);
+      const destination = event.type === "touchend" && point
+        ? hitAt(point.clientX, point.clientY, element)
+        : -1;
+      const from = latest.current.slotIndex;
+      if (destination >= 0 && destination !== from) latest.current.swap(from, destination, true);
+      else settle(element);
+      setActive(false);
+      latest.current.setTarget(null);
+    };
+
+    element.addEventListener("touchstart", onStart, { passive: true });
+    element.addEventListener("touchmove", onMove, { passive: false });
+    element.addEventListener("touchend", onEnd);
+    element.addEventListener("touchcancel", onEnd);
+    return () => {
+      clearHold();
+      element.removeEventListener("touchstart", onStart);
+      element.removeEventListener("touchmove", onMove);
+      element.removeEventListener("touchend", onEnd);
+      element.removeEventListener("touchcancel", onEnd);
+    };
+  }, []);
+
   return (
     <div
+      ref={rootRef}
       className={`about-media-tile about-media-tile--movable ${active || selected === slotIndex ? "is-moving" : ""} ${target === slotIndex ? "is-drop-target" : ""} ${className}`}
       tabIndex={0}
       role="group"
@@ -741,6 +835,7 @@ function MovableAboutTile({ item, children, className = "" }) {
       onDragStart={(event) => event.preventDefault()}
       onClick={() => {
         if (!window.matchMedia("(pointer: coarse)").matches) return;
+        if (skipClick.current) { skipClick.current = false; return; }
         if (selected === null) setSelected(slotIndex);
         else { swap(selected, slotIndex, true); setSelected(null); }
       }}
@@ -761,7 +856,7 @@ function MovableAboutTile({ item, children, className = "" }) {
         current.moved = true;
         setActive(true);
         event.currentTarget.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
-        const index = hit(event);
+        const index = hitAt(event.clientX, event.clientY, event.currentTarget);
         setTarget(index >= 0 && index !== slotIndex ? index : null);
       }}
       onPointerUp={finish}

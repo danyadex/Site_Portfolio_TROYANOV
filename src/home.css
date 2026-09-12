@@ -1266,7 +1266,21 @@ a:focus-visible {
 }
 
 @media (pointer: coarse) {
-  .about-media-tile--movable { touch-action: pan-y pinch-zoom; cursor: pointer; }
+  /* pan-y оставляем: до удержания палец должен листать страницу как обычно.
+     Сам перенос забирает жест через preventDefault в неактивном слушателе.
+     touch-callout — иначе долгое нажатие по видео поднимает меню iOS. */
+  .about-media-tile--movable {
+    touch-action: pan-y pinch-zoom;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+  }
+
+  /* Отклик на само удержание: плитка приподнимается ещё до движения пальца,
+     иначе непонятно, взялась она или нет. */
+  .about-media-tile--movable.is-moving {
+    transform: scale(1.04);
+    box-shadow: 0 10px 28px rgb(0 0 0 / 22%);
+  }
 }
 
 /* Separate image fallback: Safari's blocked-video UI cannot cover the portrait. */
