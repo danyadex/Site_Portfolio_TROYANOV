@@ -25,7 +25,7 @@ export function scrollToSection(id) {
   const target = document.getElementById(id);
   if (!target) return;
   if (lenis) lenis.scrollTo(target, { offset: -24 });
-  else target.scrollIntoView({ behavior: "instant", block: "start" });
+  else target.scrollIntoView({ behavior: reducedMotion.matches ? "instant" : "smooth", block: "start" });
 }
 
 configureScroll();

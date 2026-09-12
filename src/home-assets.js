@@ -33,3 +33,18 @@ export const aboutPosters = import.meta.glob("../assets/home/about/*-poster.jpg"
   query: "?url",
   import: "default",
 });
+
+const mobileVideos = import.meta.glob("../assets/home/mobile/**/*.mp4", {
+  eager: true,
+  query: "?url",
+  import: "default",
+});
+
+export const mobileVideoSources = new Map([
+  ...["artifact-screen-source30.mp4", "ai-producer-screen-web.mp4", "taya-screen-web.mp4"].map((name, index) => [
+    [artifact, aiProducer, taya][index], mobileVideos[`../assets/home/mobile/${name}`],
+  ]),
+  ...Object.entries(aboutVideos).map(([path, url]) => [
+    url, mobileVideos[path.replace("/about/", "/mobile/about/")],
+  ]),
+]);

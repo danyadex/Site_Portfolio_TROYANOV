@@ -1,6 +1,6 @@
 import { createContext, lazy, Suspense, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 import "../bottom-nav.css";
-import { homeAssets, aboutVideos, aboutPosters } from "./home-assets.js";
+import { homeAssets, aboutVideos, aboutPosters, mobileVideoSources } from "./home-assets.js";
 import { scrollToSection } from "../smooth-scroll.js";
 import { manageVideoPlayback, observeVisibility } from "../media-playback.js";
 import closeDiagonalA from "../assets/contacts-close-diagonal-a.svg";
@@ -75,6 +75,9 @@ function AutoVideo({
       style={style}
       onLoadedData={onLoadedData}
     >
+      {mobileVideoSources.get(src) && (
+        <source src={mobileVideoSources.get(src)} media="(max-width: 899px)" type="video/mp4" />
+      )}
       <source src={src} type="video/mp4" />
     </video>
   );
