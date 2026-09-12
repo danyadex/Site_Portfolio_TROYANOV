@@ -1061,9 +1061,11 @@ a:focus-visible {
     width: 100%;
   }
 
+  /* Было gap 36 и margin-top 47 — остаток от абсолютных координат макета.
+     Кромка рамки свешивается на те же -5px, что у ARTIFACT, компенсировать
+     нечего: 47 складывались с общим gap списка и давали 147 вместо 100. */
   .home-project--taya {
-    gap: 36px;
-    margin-top: 47px;
+    gap: 20px;
   }
 
   .home-project-media--phone {
