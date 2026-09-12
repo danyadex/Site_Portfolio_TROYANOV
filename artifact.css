@@ -2301,6 +2301,7 @@
 .problem-description { max-width: 780px; margin-inline: auto; height: auto; }
 .case-section-note { max-width: 100%; }
 .respondent-card { gap: 8px; justify-content: center; }
+.respondent-copy--mobile { display: none; }
 .respondent-break--desktop { display: block; }
 
 @media (min-width: 900px) {
@@ -2376,12 +2377,13 @@
   .audience-pill { margin-top: 24px; min-height: 56px; }
   .pathway-insights-label { margin-top: 40px; }
   .pathway-respondents {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: min(265px, 100%);
     height: auto;
     gap: 16px;
-    margin-top: 16px;
+    margin: 16px auto 0;
     padding: 0;
     overflow: visible;
     touch-action: auto;
@@ -2389,8 +2391,8 @@
   .respondent-card {
     width: 100%;
     min-width: 0;
-    height: 163px;
-    min-height: 163px;
+    height: 118px;
+    min-height: 118px;
     flex: none;
     padding: 28px;
     border-radius: 32px;
@@ -2399,10 +2401,16 @@
   }
   .respondent-card > p:not(.respondent-index) {
     width: 100%;
-    min-height: 48px;
+    min-height: 36px;
   }
-  .respondent-card p { font-size: 16px; line-height: 24px; }
-  .respondent-card .respondent-index { font-size: 13px; line-height: 18px; }
+  .respondent-card p { font-size: 14px; line-height: 18px; }
+  .respondent-card .respondent-index {
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    line-height: 18px;
+  }
+  .respondent-copy--desktop { display: none; }
+  .respondent-copy--mobile { display: block; }
   .respondent-break--desktop { display: block; }
   .pathway-arrow { width: 11.547px; height: 74px; margin: 32px auto 0; }
   .pathway-conclusion { width: min(100%, 520px); margin: 24px auto 0; }
