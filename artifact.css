@@ -2380,7 +2380,7 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: min(265px, 100%);
+    width: 100%;
     height: auto;
     gap: 16px;
     margin: 16px auto 0;
