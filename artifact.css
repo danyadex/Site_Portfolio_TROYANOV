@@ -2450,3 +2450,29 @@
   .testing-images--split { overflow: visible; }
   .case-problem + .case-divider { margin-top: 100px; }
 }
+
+/* Compact case ending: the back control is a top toolbar on mobile, so the
+   old bottom-navigation reserve only left an unnecessary empty tail. */
+.artifact-page {
+  padding-bottom: calc(96px + var(--nav-safe-bottom, 0px));
+}
+
+.artifact-next {
+  min-height: 176px;
+  gap: 48px;
+}
+
+@media (max-width: 899px) {
+  .artifact-page {
+    padding-bottom: calc(64px + var(--nav-safe-bottom, 0px));
+  }
+
+  .testing + .case-divider {
+    margin-top: 64px;
+  }
+
+  .artifact-next {
+    min-height: 0;
+    gap: 20px;
+  }
+}

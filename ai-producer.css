@@ -1153,3 +1153,37 @@
 @media (min-width: 768px) and (max-width: 899px) {
   .ai-figma-cta { height: 44px; }
 }
+
+/* Compact case ending: the final CTA should close the story without a
+   second desktop-sized spacer after the mobile top toolbar was introduced. */
+.ai-producer-page {
+  padding-bottom: calc(96px + var(--nav-safe-bottom, 0px));
+}
+
+.ai-development {
+  min-height: 176px;
+  gap: 32px;
+}
+
+.ai-figma-cta-wrap {
+  margin-top: 64px;
+}
+
+@media (max-width: 767px) {
+  .ai-producer-page {
+    padding-bottom: calc(64px + var(--nav-safe-bottom, 0px));
+  }
+
+  .ai-case-reference--testing {
+    margin-top: 64px;
+  }
+
+  .ai-development {
+    min-height: 0;
+    gap: 16px;
+  }
+
+  .ai-figma-cta-wrap {
+    margin-top: 48px;
+  }
+}
