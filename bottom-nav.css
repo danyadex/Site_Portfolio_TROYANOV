@@ -731,12 +731,14 @@
     left: 50%;
     z-index: -1;
     width: 100vw;
-    height: 72px;
+    height: 56px;
     transform: translateX(-50%);
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 62%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 62%, transparent 100%);
+    /* Только полоса кнопок: 12px отступ + 38px кнопки + 6px на мягкий край.
+       Ниже кнопок контент не размывается. */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 88%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 88%, transparent 100%);
     pointer-events: none;
   }
 
@@ -745,18 +747,5 @@
     opacity: 0;
     visibility: hidden;
     transition: transform 240ms cubic-bezier(.22, 1, .36, 1), opacity 180ms ease, visibility 0s linear 240ms;
-  }
-}
-
-/* Только iOS Safari (-webkit-touch-callout поддерживает лишь он): на телефоне
-   полоса блюра выше и целиком накрывает кнопки, от края статус-бара до ~40px
-   ниже них. В браузерном адаптиве остаётся компактная 72px из правила выше. */
-@supports (-webkit-touch-callout: none) {
-  @media (max-width: 899px) {
-    .home-page > .bottom-navigation::before {
-      height: 120px;
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 72%, transparent 100%);
-      mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 72%, transparent 100%);
-    }
   }
 }
