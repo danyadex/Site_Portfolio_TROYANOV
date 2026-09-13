@@ -1335,6 +1335,19 @@ a:focus-visible {
   }
 }
 
+/* На iPhone системная зона должна видеть прокручиваемый кадр главной, а не
+   зафиксированный белый фон документа. Прозрачность ограничена страницей
+   home: обычные секции сохраняют свой белый canvas, а медиа может уходить под
+   status bar при нативном скролле. */
+@media (max-width: 899px) {
+  html:has(body > #root > .home-page),
+  body:has(> #root > .home-page),
+  body:has(> #root > .home-page) > #root,
+  body:has(> #root > .home-page) > #root > .home-page {
+    background: transparent;
+  }
+}
+
 /* Separate image fallback: Safari's blocked-video UI cannot cover the portrait. */
 .avatar-still {
   position: absolute;
