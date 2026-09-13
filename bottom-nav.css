@@ -761,14 +761,14 @@
   }
 }
 
-/* Пилюля над тёмным экраном телефона — белая, как навбар iOS над тёмным
-   контентом. Тон выставляет App.jsx (data-tone), смена плавная. */
+/* Над тёмным экраном телефона у пилюли белеет текст, стекло остаётся тем же —
+   как навбар iOS над тёмным контентом. Тон выставляет App.jsx (data-tone). */
 @media (max-width: 899px) {
   .home-page > .bottom-navigation .nav-button {
     transition: background-color 220ms ease, border-color 180ms ease, color 180ms ease;
   }
 
   .home-page > .bottom-navigation .nav-button[data-tone="dark"] {
-    background: rgba(255, 255, 255, 0.86);
+    color: #ffffff;
   }
 }
