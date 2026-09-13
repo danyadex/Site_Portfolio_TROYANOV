@@ -1335,16 +1335,24 @@ a:focus-visible {
   }
 }
 
-/* На iPhone системная зона должна видеть прокручиваемый кадр главной, а не
-   зафиксированный белый фон документа. Прозрачность ограничена страницей
-   home: обычные секции сохраняют свой белый canvas, а медиа может уходить под
-   status bar при нативном скролле. */
+/* Safari 26 во время compositor-scroll временно рисует системную область
+   цветом корневого canvas, даже с viewport-fit=cover. App синхронизирует
+   --home-status-color с медиа под статус-баром; сама страница остаётся белой. */
 @media (max-width: 899px) {
-  html:has(body > #root > .home-page),
-  body:has(> #root > .home-page),
-  body:has(> #root > .home-page) > #root,
-  body:has(> #root > .home-page) > #root > .home-page {
+  html,
+  body {
+    min-height: 100dvh;
+    background-color: var(--home-status-color, var(--home-white)) !important;
+  }
+
+  #root {
+    min-height: 100dvh;
     background: transparent;
+  }
+
+  .home-page {
+    min-height: 100dvh;
+    background: var(--home-white);
   }
 }
 

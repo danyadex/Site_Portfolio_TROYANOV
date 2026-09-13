@@ -1153,6 +1153,41 @@ function BottomNavigation({ onContacts }) {
 function App() {
   const [contactsOpen, setContactsOpen] = useState(false);
 
+  useEffect(() => {
+    const mobile = window.matchMedia("(max-width: 899px)");
+    if (!mobile.matches) return undefined;
+
+    const root = document.documentElement;
+    let frame = 0;
+    const updateStatusColor = () => {
+      frame = 0;
+      const sample = document.elementFromPoint(window.innerWidth / 2, 52);
+      const color = sample?.closest(".phone-screen")
+        ? "#000000"
+        : sample?.closest(".browser-content")
+          ? "#a787f4"
+          : sample?.closest(".avatar-frame")
+            ? "#d9e6f2"
+            : "#ffffff";
+      root.style.setProperty("--home-status-color", color);
+    };
+    const scheduleUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateStatusColor);
+    };
+
+    updateStatusColor();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.visualViewport?.addEventListener("resize", scheduleUpdate);
+    window.visualViewport?.addEventListener("scroll", scheduleUpdate);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.visualViewport?.removeEventListener("resize", scheduleUpdate);
+      window.visualViewport?.removeEventListener("scroll", scheduleUpdate);
+      root.style.removeProperty("--home-status-color");
+    };
+  }, []);
+
   return (
     <div className="home-page">
       <main className="home-main">
