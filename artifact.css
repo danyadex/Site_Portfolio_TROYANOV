@@ -1561,7 +1561,9 @@
   .artifact-page {
     width: 100%;
     margin: 0;
-    padding: 100px 16px calc(112px + var(--nav-safe-bottom, 0px));
+    /* Keep the first screen below the iPhone status area. The return
+       control uses the same inset in bottom-nav.css, so both stay aligned. */
+    padding: calc(100px + env(safe-area-inset-top, 0px)) 16px calc(112px + var(--nav-safe-bottom, 0px));
     overflow: visible;
   }
 
