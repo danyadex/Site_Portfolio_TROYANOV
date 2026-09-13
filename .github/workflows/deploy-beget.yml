@@ -1,0 +1,49 @@
+# Выкатка на Beget: пуш в main → тесты → сборка → заливка dist по FTP.
+#
+# Пока в репозитории не задана переменная FTP_SERVER_DIR, job пропускается,
+# а не падает на каждом пуше. Что нужно настроить — в HANDOFF.md, раздел «Деплой».
+name: Deploy to Beget
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Две выкатки подряд не должны заливать файлы одновременно.
+concurrency:
+  group: deploy-beget
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ vars.FTP_SERVER_DIR != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Тест проверяет, что в сборку попали все страницы и медиа,
+      # которые запрашиваются в рантайме. Упал — на хостинг ничего не едет.
+      - run: npm test
+
+      - run: npm run build
+
+      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Шифрованное FTP. Если Beget откажет в TLS — поменять на ftp.
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: ${{ vars.FTP_SERVER_DIR }}
+          # Экшен хранит на хостинге файл состояния и заливает только
+          # изменившееся; то, что пропало из сборки, удаляет. Полную очистку
+          # папки перед заливкой не включаем — лишний риск для живого сайта.
+          dangerous-clean-slate: false
