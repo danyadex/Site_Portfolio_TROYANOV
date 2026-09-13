@@ -1128,6 +1128,46 @@ function BottomNavigation({ onContacts }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Как навбар в iOS: над тёмным экраном телефона пилюля становится белой,
+  // иначе тонкое стекло с чёрным текстом на нём не читается. Над светлым
+  // контентом остаётся прозрачной. Смотрим, что лежит под центром каждой
+  // кнопки, — сами кнопки и хедер при этом пропускаем.
+  useEffect(() => {
+    const mobile = window.matchMedia("(max-width: 899px)");
+    const nav = navRef.current;
+    if (!nav) return undefined;
+    const buttons = [...nav.querySelectorAll(".nav-button")];
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      buttons.forEach((button) => {
+        if (!mobile.matches) {
+          delete button.dataset.tone;
+          return;
+        }
+        const rect = button.getBoundingClientRect();
+        const under = document
+          .elementsFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2)
+          .find((element) => !nav.contains(element));
+        if (under?.closest(".phone-stage")) button.dataset.tone = "dark";
+        else delete button.dataset.tone;
+      });
+    };
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, []);
+
   const scrollTo = (id) => {
     scrollToSection(id);
   };
