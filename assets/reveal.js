@@ -71,4 +71,23 @@
       if (r.top < window.innerHeight && r.bottom > 0) el.classList.add("in");
     });
   });
+
+  // Самые нижние блоки могут так и не доехать до зоны срабатывания (она на 12%
+  // выше низа экрана): страница кончается раньше. Так на мобиле пропадала кнопка
+  // «Кейс в Figma». Когда страница докручена до конца, показываем всё, что в
+  // экране, но ещё не проявилось.
+  var revealAtEnd = function () {
+    var end = document.documentElement.scrollHeight - 2;
+    if (window.scrollY + window.innerHeight < end) return;
+    nodes.forEach(function (el) {
+      if (el.classList.contains("in")) return;
+      if (el.getBoundingClientRect().top < window.innerHeight) {
+        el.classList.add("in");
+        io.unobserve(el);
+      }
+    });
+  };
+  window.addEventListener("scroll", revealAtEnd, { passive: true });
+  window.addEventListener("resize", revealAtEnd);
+  revealAtEnd();
 })();
