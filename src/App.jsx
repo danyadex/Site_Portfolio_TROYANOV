@@ -698,11 +698,9 @@ function Shots() {
 const AboutSlotsContext = createContext(null);
 const ABOUT_SLOTS = [...ABOUT_MEDIA, { id: "портрет", x: 250, y: 97, width: 88, height: 148 }];
 
-/* Порог удержания до старта перетаскивания на тач-экране. До него палец
-   считается скроллом страницы, после — берём жест себе. Значение из практики
-   мобильных сортировок: меньше 200 мс срабатывает на обычной прокрутке,
-   больше 300 мс ощущается как залипание. */
-const ABOUT_HOLD_MS = 220;
+/* Короткое удержание отличает перенос от прокрутки: движение раньше
+   порога отменяет захват и остаётся нативным скроллом страницы. */
+const ABOUT_HOLD_MS = 120;
 
 function MovableAboutTile({ item, children, className = "" }) {
   const { order, swap, target, setTarget, selected, setSelected } = useContext(AboutSlotsContext);
@@ -751,16 +749,48 @@ function MovableAboutTile({ item, children, className = "" }) {
     const element = rootRef.current;
     if (!element) return undefined;
     let hold = null;
+    let moveFrame = 0;
+    let dropTarget = null;
+    const clearTarget = () => {
+      dropTarget?.classList.remove("is-drop-target");
+      dropTarget = null;
+    };
+    const hitCached = (x, y, current) => {
+      const bounds = current.bounds;
+      const localX = (x - bounds.left) / bounds.width * ABOUT_CANVAS.width;
+      const localY = (y - bounds.top) / bounds.height * ABOUT_CANVAS.height;
+      return ABOUT_SLOTS.findIndex((cell) => localX >= cell.x && localX <= cell.x + cell.width && localY >= cell.y && localY <= cell.y + cell.height);
+    };
+    const paintMove = () => {
+      moveFrame = 0;
+      const current = touch.current;
+      if (!current?.active) return;
+      const { clientX, clientY } = current;
+      element.style.transform = `translate3d(${clientX - current.x}px, ${clientY - current.y}px, 0) scale(1.04)`;
+      const index = hitCached(clientX, clientY, current);
+      const next = index >= 0 && index !== latest.current.slotIndex
+        ? current.cells.find((cell) => Number(cell.dataset.slotIndex) === index) : null;
+      if (next !== dropTarget) {
+        clearTarget();
+        dropTarget = next;
+        dropTarget?.classList.add("is-drop-target");
+      }
+    };
     const clearHold = () => { if (hold) { clearTimeout(hold); hold = null; } };
 
     const onStart = (event) => {
-      if (event.touches.length !== 1 || touch.current) return;
+      if (event.touches.length !== 1 || touch.current) { clearHold(); return; }
       const point = event.touches[0];
-      touch.current = { id: point.identifier, x: point.clientX, y: point.clientY, active: false };
+      skipClick.current = false;
+      touch.current = { id: point.identifier, x: point.clientX, y: point.clientY,
+        clientX: point.clientX, clientY: point.clientY, active: false,
+        bounds: element.parentElement.getBoundingClientRect(),
+        cells: [...element.parentElement.children] };
       element.getAnimations().forEach((animation) => animation.cancel());
       hold = setTimeout(() => {
         if (!touch.current) return;
         touch.current.active = true;
+        element.style.willChange = "transform";
         setActive(true);
         latest.current.setSelected(null);
         if (navigator.vibrate) navigator.vibrate(8);
@@ -786,13 +816,17 @@ function MovableAboutTile({ item, children, className = "" }) {
       // Масштаб дублирует CSS-правило для удержания: инлайновый transform
       // перебивает таблицу стилей, и без него плитка схлопывалась бы обратно
       // в момент первого движения пальца.
-      element.style.transform = `translate3d(${dx}px, ${dy}px, 0) scale(1.04)`;
-      const index = hitAt(point.clientX, point.clientY, element);
-      latest.current.setTarget(index >= 0 && index !== latest.current.slotIndex ? index : null);
+      current.clientX = point.clientX;
+      current.clientY = point.clientY;
+      if (!moveFrame) moveFrame = requestAnimationFrame(paintMove);
     };
 
     const onEnd = (event) => {
       clearHold();
+      cancelAnimationFrame(moveFrame);
+      moveFrame = 0;
+      clearTarget();
+      element.style.willChange = "";
       const current = touch.current;
       if (!current) return;
       touch.current = null;
@@ -800,7 +834,7 @@ function MovableAboutTile({ item, children, className = "" }) {
       skipClick.current = true;                 // после переноса тап не считаем
       const point = [...event.changedTouches].find((candidate) => candidate.identifier === current.id);
       const destination = event.type === "touchend" && point
-        ? hitAt(point.clientX, point.clientY, element)
+        ? hitCached(point.clientX, point.clientY, current)
         : -1;
       const from = latest.current.slotIndex;
       if (destination >= 0 && destination !== from) latest.current.swap(from, destination, true);
@@ -815,6 +849,10 @@ function MovableAboutTile({ item, children, className = "" }) {
     element.addEventListener("touchcancel", onEnd);
     return () => {
       clearHold();
+      cancelAnimationFrame(moveFrame);
+      clearTarget();
+      touch.current = null;
+      element.style.willChange = "";
       element.removeEventListener("touchstart", onStart);
       element.removeEventListener("touchmove", onMove);
       element.removeEventListener("touchend", onEnd);
@@ -825,6 +863,7 @@ function MovableAboutTile({ item, children, className = "" }) {
   return (
     <div
       ref={rootRef}
+      data-slot-index={slotIndex}
       className={`about-media-tile about-media-tile--movable ${active || selected === slotIndex ? "is-moving" : ""} ${target === slotIndex ? "is-drop-target" : ""} ${className}`}
       tabIndex={0}
       role="group"
@@ -969,10 +1008,12 @@ function About() {
   const [selected, setSelected] = useState(null);
   const swap = (from, to, animate = false) => {
     if (from < 0 || to < 0 || from === to) return;
+    const changed = [...collageRef.current.children].filter((element) =>
+      [from, to].includes(Number(element.dataset.slotIndex)));
     if (animate && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      previousRects.current = [...collageRef.current.children].map((element) => [element, element.getBoundingClientRect()]);
+      previousRects.current = changed.map((element) => [element, element.getBoundingClientRect()]);
     }
-    [...collageRef.current.children].forEach((element) => {
+    changed.forEach((element) => {
       element.getAnimations().forEach((animation) => animation.cancel());
       element.style.transform = "";
     });
@@ -984,8 +1025,9 @@ function About() {
   };
   useLayoutEffect(() => {
     if (!previousRects.current) return;
-    for (const [element, before] of previousRects.current) {
-      const after = element.getBoundingClientRect();
+    const measurements = previousRects.current.map(([element, before]) =>
+      [element, before, element.getBoundingClientRect()]);
+    for (const [element, before, after] of measurements) {
       if (before.x === after.x && before.y === after.y && before.width === after.width && before.height === after.height) continue;
       element.animate([
         { transform: `translate(${before.x - after.x}px, ${before.y - after.y}px) scale(${before.width / after.width}, ${before.height / after.height})` },
