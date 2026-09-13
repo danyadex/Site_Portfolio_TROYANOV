@@ -772,3 +772,12 @@
     color: #ffffff;
   }
 }
+
+/* Кнопка возврата на кейсах над тёмным — белая стрелка, фон тот же.
+   Тон выставляет script.js (data-tone). На нажатии подложка светлая,
+   поэтому там стрелка остаётся тёмной. */
+@media (max-width: 899px) {
+  .case-body .nav-button--back[data-tone="dark"]:not(:active) img {
+    filter: brightness(0) invert(1);
+  }
+}
