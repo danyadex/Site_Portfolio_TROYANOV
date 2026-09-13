@@ -693,42 +693,12 @@
   }
 }
 
-/* На главной safe-area тоже должна быть частью сцены. Раньше верхний слой
-   полностью скрывался, и Safari оставлял в вырезе белый фон body вместо
-   прокрученного медиа. Оставляем только прозрачный backdrop без белой
-   подложки: контент виден под статус-баром, а края меню мягко собираются. */
+/* На главной safe-area должна быть частью сцены. Полноширинный backdrop-filter
+   здесь нельзя оставлять: WebKit иногда растягивает его на весь скроллируемый
+   слой и размывает весь экран. Стекло живёт на самих кнопках хедера, а этот
+   технический слой остаётся прозрачным и пропускает контент под статус-бар. */
 @media (max-width: 899px) and (prefers-reduced-transparency: no-preference) {
   .home-page > .bottom-blur {
-    display: block !important;
-    top: 0;
-    right: 0;
-    bottom: auto;
-    left: 0;
-    z-index: 19;
-    height: calc(180px + env(safe-area-inset-top, 0px));
-    transform: none;
-    background: rgba(255, 255, 255, 0.01);
-    -webkit-backdrop-filter: blur(44px) saturate(120%);
-    backdrop-filter: blur(44px) saturate(120%);
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      #000 0%,
-      rgba(0, 0, 0, 0.92) 28%,
-      rgba(0, 0, 0, 0.58) 64%,
-      rgba(0, 0, 0, 0.12) 88%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      #000 0%,
-      rgba(0, 0, 0, 0.92) 28%,
-      rgba(0, 0, 0, 0.58) 64%,
-      rgba(0, 0, 0, 0.12) 88%,
-      transparent 100%
-    );
-  }
-
-  .home-page > .bottom-blur .bottom-blur-layer {
-    display: none;
+    display: none !important;
   }
 }
