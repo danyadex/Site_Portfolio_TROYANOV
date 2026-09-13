@@ -702,3 +702,25 @@
     display: none !important;
   }
 }
+
+/* Safari на iOS 26 заливает статус-бар сплошным цветом, если к верхнему краю
+   экрана прижат position: fixed элемент. Хедер главной стоял с top: 0 и отступом
+   под safe-area внутри, а при скрытии уезжал ещё выше, на -110%, — и в обоих
+   случаях занимал зону статус-бара. Отсюда белая полоса, в которую упирался
+   контент. У кейсов кнопка стоит ниже safe-area, и полосы там нет.
+   Проверено на симуляторе iPhone 17: контейнер начинается под safe-area, а
+   прячется на месте, прозрачностью, не заезжая наверх. */
+@media (max-width: 899px) {
+  .home-page > .bottom-navigation {
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .home-page > .bottom-navigation[data-hidden="true"]:not(:focus-within) {
+    transform: translate(-50%, -8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 240ms cubic-bezier(.22, 1, .36, 1), opacity 180ms ease, visibility 0s linear 240ms;
+  }
+}
