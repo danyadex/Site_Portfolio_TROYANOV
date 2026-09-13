@@ -91,25 +91,57 @@ if (backButton) {
     const left = Math.min(Math.max(sourceX - size / 2, 0), naturalWidth - size);
     const top = Math.min(Math.max(sourceY - size / 2, 0), naturalHeight - size);
     try {
+      sample.clearRect(0, 0, 6, 6);
       sample.drawImage(media, left, top, size, size, 0, 0, 6, 6);
       const pixels = sample.getImageData(0, 0, 6, 6).data;
       let sum = 0;
+      let weight = 0;
       for (let index = 0; index < pixels.length; index += 4) {
-        sum += luminance(pixels[index], pixels[index + 1], pixels[index + 2]);
+        const alpha = pixels[index + 3] / 255;
+        sum += luminance(pixels[index], pixels[index + 1], pixels[index + 2]) * alpha;
+        weight += alpha;
       }
-      return sum / (pixels.length / 4);
+      // Почти прозрачный участок (рамка-PNG, пустые поля) ничего не говорит о фоне.
+      return weight < 18 ? null : sum / weight;
     } catch {
       return null; // кадр не готов или недоступен — не угадываем
     }
+  };
+
+  const contains = (element, x, y) => {
+    const rect = element.getBoundingClientRect();
+    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+  };
+
+  // Медиа реально видно в этой точке: ни сам элемент, ни предки не прозрачны
+  // (блоки проявляются при скролле из opacity: 0) и не обрезают точку.
+  const visibleAt = (media, x, y) => {
+    for (let element = media; element && element !== document.body; element = element.parentElement) {
+      const style = getComputedStyle(element);
+      if (style.visibility === "hidden" || style.display === "none" || Number(style.opacity) < 0.2) return false;
+      if (element !== media && style.overflow !== "visible" && !contains(element, x, y)) return false;
+    }
+    return true;
   };
 
   const isDarkAt = (x, y) => {
     for (const element of document.elementsFromPoint(x, y)) {
       if (nav.contains(element)) continue;
       if (element.tagName === "VIDEO" || element.tagName === "IMG") {
+        if (!visibleAt(element, x, y)) continue;
         const value = mediaLuminance(element, x, y);
         if (value !== null) return value < DARK;
         continue;
+      }
+      // Картинки с pointer-events: none (например, в перетаскиваемой ленте
+      // архитектуры) elementsFromPoint пропускает — ищем их у слоя сами, среди
+      // ближайших потомков. Последний в разметке лежит сверху.
+      const hidden = [...element.querySelectorAll(":scope > img, :scope > video, :scope > * > img, :scope > * > video")]
+        .filter((media) => contains(media, x, y) && visibleAt(media, x, y))
+        .reverse();
+      for (const media of hidden) {
+        const value = mediaLuminance(media, x, y);
+        if (value !== null) return value < DARK;
       }
       const channels = getComputedStyle(element).backgroundColor.match(/[\d.]+/g);
       if (!channels) continue;
