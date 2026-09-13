@@ -733,8 +733,9 @@
     width: 100vw;
     height: 56px;
     transform: translateX(-50%);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
+    /* Минимум: при сильнее размытии полоса читается как плашка. */
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
     /* Только полоса кнопок: 12px отступ + 38px кнопки + 6px на мягкий край.
        Ниже кнопок контент не размывается. */
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 88%, transparent 100%);
@@ -747,5 +748,15 @@
     opacity: 0;
     visibility: hidden;
     transition: transform 240ms cubic-bezier(.22, 1, .36, 1), opacity 180ms ease, visibility 0s linear 240ms;
+  }
+}
+
+/* На мобильном обводки кнопок — минимальные, в один физический пиксель
+   ретины. Касается пилюль меню на главной и кнопки возврата на кейсах;
+   «Кейс в Figma» — в ai-producer.css. */
+@media (max-width: 899px) {
+  .home-page > .bottom-navigation .nav-button,
+  .case-body > .bottom-navigation .nav-button--back {
+    border-width: 0.5px;
   }
 }

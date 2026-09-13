@@ -1189,3 +1189,10 @@
     margin-top: 48px;
   }
 }
+
+/* Минимальная обводка на мобильном — как у кнопок навигации (bottom-nav.css). */
+@media (max-width: 899px) {
+  .ai-figma-cta {
+    border-width: 0.5px;
+  }
+}
