@@ -8,6 +8,7 @@
 
 - Пуш в `main` запускает GitHub Action `.github/workflows/deploy-beget.yml`: тесты → сборка → заливка `dist/` по FTP в папку сайта.
 - Action работает, только когда в репозитории настроены секреты `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD` и переменная `FTP_SERVER_DIR`. Пока их нет, job пропускается — и **пуш сайт не обновляет**, заливать `dist/` в `public_html` приходится вручную.
+- **Рабочий способ сейчас — скрипт** `scripts/deploy_beget.py`: собирает сайт, через API Beget заводит временный FTP-аккаунт, заливает `dist/` и удаляет аккаунт. Запускает владелец: `BEGET_LOGIN=<логин> BEGET_API_PASSWORD=… python3 scripts/deploy_beget.py`. Пароль API агентам не передаётся.
 - Проверить, что выкатилось: хеши файлов в `dist/index.html` должны совпасть с тем, что отдаёт `https://danyatroyanov.com/`.
 - Историю `main` не переписывать, force push не делать.
 - Временные FTP-аккаунты, созданные для ручной заливки, удалять в панели Beget сразу после неё.

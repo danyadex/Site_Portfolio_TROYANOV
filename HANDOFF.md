@@ -45,7 +45,16 @@
 (NS `ns1/ns2.beget.com`, IP `45.130.41.82`). С Vercel переехали 13 сентября:
 без VPN он не открывался в РФ.
 
-**Автовыкатка** — GitHub Action `.github/workflows/deploy-beget.yml`. На пуш в
+**Рабочий способ сейчас — скрипт `scripts/deploy_beget.py`.** Запускает владелец:
+`BEGET_LOGIN=<логин> BEGET_API_PASSWORD=… python3 scripts/deploy_beget.py`.
+Скрипт собирает сайт, через Beget API (`ftp/add`) заводит временный FTP-аккаунт
+на `/<логин>.beget.tech/public_html`, заливает `dist/` по FTPS (HTML последним),
+удаляет аккаунт (`ftp/delete`) и сверяет хеши на домене. Пароль API задаётся в
+панели: Настройки аккаунта → Ограничение доступа → Beget API. Грабли: полный
+логин FTP не длиннее 17 символов; сервер требует переиспользовать TLS-сессию
+на канале данных (иначе `522 session reuse required`) — это уже учтено.
+
+**Автовыкатка (не настроена)** — GitHub Action `.github/workflows/deploy-beget.yml`. На пуш в
 `main`: `npm ci` → `npm test` → `npm run build` → заливка `dist/` по FTPS.
 Экшен хранит на хостинге файл состояния и заливает только изменившееся.
 
