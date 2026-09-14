@@ -14,14 +14,14 @@ const ABOUT_CANVAS = { width: 588, height: 509.60113525390625 };
 
 const ABOUT_MEDIA = [
   { id: "painting", src: "painting.mp4", x: 0, y: 0, width: 138, height: 245, fit: "cover" },
-  { id: "grill", src: "grill.mp4", x: 150, y: 0, width: 88, height: 155, crop: [0.9551309347, 0.9461766481, 0.0094919363, 0.0252536461] },
+  { id: "plein-sea", src: "plein-sea.mp4", x: 150, y: 0, width: 88, height: 155, crop: [1, 0.965, 0, 0.0175] },
   { id: "camera", src: "camera.mp4", x: 250, y: 0, width: 88, height: 85, crop: [1, 0.5294811726, 0, 0.3125] },
   { id: "guitar", src: "guitar.mp4", x: 350, y: 0, width: 88, height: 103, crop: [1, 0.6440383196, 0, 0.0011987907] },
   { id: "figures", src: "figures.mp4", x: 450, y: 0, width: 138, height: 245, crop: [1, 0.9714246988, 0, 0.0004101723] },
   { id: "bridge", src: "bridge.mp4", x: 350, y: 115, width: 88, height: 130, crop: [0.999895215, 0.8115502, 0.0000524, 0] },
   { id: "sea", src: "sea.mp4", x: 150, y: 167, width: 88, height: 78, crop: [1, 0.5, 0, 0] },
   { id: "waves", src: "waves.mp4", x: 0, y: 257, width: 138, height: 127, crop: [1, 0.5025424957, 0, 0.2487287521] },
-  { id: "laptop", src: "laptop.mp4", x: 150, y: 257, width: 88, height: 135, crop: [0.9976278543, 0.8374170661, 0.0007332705, -0.0015507723] },
+  { id: "plein-river", src: "plein-river.mp4", x: 150, y: 257, width: 88, height: 135, crop: [1, 0.841, 0, 0.0795] },
   {
     id: "bones",
     src: "bones.mp4",
