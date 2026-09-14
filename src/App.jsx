@@ -14,7 +14,7 @@ const ABOUT_CANVAS = { width: 588, height: 509.60113525390625 };
 
 const ABOUT_MEDIA = [
   { id: "painting", src: "painting.mp4", x: 0, y: 0, width: 138, height: 245, fit: "cover" },
-  { id: "plein-sea", src: "plein-sea.mp4", x: 150, y: 0, width: 88, height: 155, crop: [1, 0.965, 0, 0.0175] },
+  { id: "plein-sea", src: "plein-sea.mp4", x: 448, y: 257, width: 138, height: 252, fit: "cover" },
   { id: "camera", src: "camera.mp4", x: 250, y: 0, width: 88, height: 85, crop: [1, 0.5294811726, 0, 0.3125] },
   { id: "guitar", src: "guitar.mp4", x: 350, y: 0, width: 88, height: 103, crop: [1, 0.6440383196, 0, 0.0011987907] },
   { id: "couple", src: "couple.mp4", x: 450, y: 0, width: 138, height: 245, crop: [1, 0.973, 0, 0.0135] },
@@ -34,11 +34,11 @@ const ABOUT_MEDIA = [
     mediaWidth: 102,
     mediaHeight: 186.514,
   },
-  { id: "river", src: "river.mp4", x: 448, y: 257, width: 138, height: 252, fit: "cover" },
-  { id: "daw", src: "daw.mp4", x: 0, y: 396, width: 138, height: 111, crop: [1, 0.4380548, 0, 0.1463169456] },
-  { id: "faces", src: "faces.mp4", x: 150, y: 404, width: 88, height: 103, crop: [0.998929143, 0.6397516727, -0.002105447, 0.1249386966], priority: true },
+  { id: "river", src: "river.mp4", x: 348, y: 371, width: 88, height: 138, fit: "cover" },
+  { id: "daw", src: "daw.mp4", x: 150, y: 404, width: 88, height: 103, fit: "cover" },
+  { id: "faces", src: "faces.mp4", x: 0, y: 396, width: 138, height: 111, fit: "cover", priority: true },
   { id: "museum", src: "museum.mp4", x: 250, y: 371, width: 86, height: 138, crop: [0.9695084095, 0.8507232666, 0.0018566962, 0.0013247912] },
-  { id: "forest", src: "forest.mp4", x: 348, y: 371, width: 88, height: 138, crop: [1, 0.8605854511, 0, 0.0014675052] },
+  { id: "forest", src: "forest.mp4", x: 150, y: 0, width: 88, height: 155, fit: "cover" },
 ];
 
 function AutoVideo({
