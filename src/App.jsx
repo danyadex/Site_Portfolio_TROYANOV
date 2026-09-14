@@ -1219,8 +1219,9 @@ function BottomNavigation({ onContacts }) {
         <a
           className="nav-button"
           href={CV_FILE}
-          download="Troyanov-CV.pdf"
-          aria-label="Скачать резюме в PDF"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Открыть резюме в PDF"
         >
           CV
         </a>
