@@ -166,10 +166,12 @@
 
 .case-meta-grid {
   display: grid;
-  grid-template-columns: 105px 85px 332px;
-  column-gap: 55.5px;
+  grid-template-columns: repeat(4, auto);
+  column-gap: 40px;
   align-items: start;
-  width: 633px;
+  justify-content: center;
+  width: max-content;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -177,6 +179,7 @@
   display: flex;
   min-width: 0;
   flex-direction: column;
+  align-items: center;
   gap: 4px;
 }
 
@@ -1063,7 +1066,7 @@
   .case-meta-grid {
     position: static;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     column-gap: 8px;
     width: 100%;
     height: auto;

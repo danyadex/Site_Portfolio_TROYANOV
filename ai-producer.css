@@ -110,10 +110,10 @@
   top: 72px;
   left: 50%;
   display: grid;
-  grid-template-columns: 105px 85px minmax(0, 1fr);
-  gap: 32px;
+  grid-template-columns: repeat(4, auto);
+  gap: 40px;
   align-items: start;
-  width: 633px;
+  width: max-content;
   margin: 0;
   transform: translateX(-50%);
 }
