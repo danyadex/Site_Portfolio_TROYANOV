@@ -743,13 +743,9 @@ a:focus-visible {
   left: -2.68%;
 }
 
-/* Увеличение шота (src/shot-zoom.js). Лента по-прежнему тянется: курсор
-   «лупа» только подсказывает клик, при перетаскивании он становится grabbing. */
-@media (hover: hover) and (pointer: fine) {
-  .drag-scroll:not(.is-dragging) .shot {
-    cursor: zoom-in;
-  }
-}
+/* Увеличение шота (src/shot-zoom.js). Курсор над шотами — та же рука grab,
+   что у всей ленты: главное действие здесь листать, а клик по картинке
+   находят сами. Лупа прятала бы, что ленту можно тянуть. */
 
 .shot:focus {
   outline: none;
