@@ -86,7 +86,17 @@ def beget(method: str, login: str, password: str, data: dict) -> object:
 def build() -> None:
     for command in (["npm", "test"], ["npm", "run", "build"]):
         print("→", " ".join(command))
-        subprocess.run(command, cwd=ROOT, check=True)
+        try:
+            # Обычно шаг занимает секунды. Проект лежит в iCloud Documents, и пока
+            # iCloud выгружает свежие видео, чтение файлов может подвиснуть —
+            # тогда не ждём вечно, а объясняем, что делать.
+            subprocess.run(command, cwd=ROOT, check=True, timeout=240)
+        except subprocess.TimeoutExpired:
+            sys.exit(
+                f"✗ «{' '.join(command)}» висит дольше 4 минут. Прерви, подожди,\n"
+                "  пока iCloud догрузит файлы, и запусти снова. Если dist/ уже\n"
+                "  собран и проверен — запусти с флагом --no-build."
+            )
 
 
 def files_in_upload_order() -> list[Path]:
