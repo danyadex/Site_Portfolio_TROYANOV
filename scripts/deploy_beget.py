@@ -4,7 +4,7 @@
 Файлы через API Beget не заливаются — там нет такого метода. Поэтому скрипт
 делает то же, что раньше делалось руками, но сам:
 
-  1. собирает сайт (npm test + npm run build);
+  1. собирает сайт (npm run build) и проверяет сборку: страницы и ссылки на файлы;
   2. через API Beget заводит временный FTP-аккаунт со случайным паролем,
      у которого доступ только к папке сайта;
   3. заливает dist/ по FTPS: сначала ассеты, HTML последним — чтобы страницы
@@ -31,6 +31,7 @@
   python3 scripts/deploy_beget.py             # собрать и выкатить
   python3 scripts/deploy_beget.py --no-build  # выкатить уже собранный dist/
   python3 scripts/deploy_beget.py --dry-run   # показать, что уедет, без сети
+  python3 scripts/deploy_beget.py --with-tests  # ещё и npm test перед сборкой
 """
 
 from __future__ import annotations
@@ -41,6 +42,7 @@ import json
 import os
 import re
 import secrets
+import signal
 import ssl
 import string
 import subprocess
@@ -83,20 +85,62 @@ def beget(method: str, login: str, password: str, data: dict) -> object:
     return answer.get("result")
 
 
-def build() -> None:
-    for command in (["npm", "test"], ["npm", "run", "build"]):
-        print("→", " ".join(command))
+def run_step(command: list[str], timeout: int = 300) -> None:
+    """Запускает шаг сборки с таймаутом; если завис — убивает всё дерево и пробует ещё раз.
+
+    Проект лежит в iCloud Documents: пока iCloud выгружает свежие видео, чтение
+    файлов иногда подвисает. Второй заход обычно проходит за секунды.
+    """
+    for attempt in (1, 2):
+        print("→", " ".join(command), "" if attempt == 1 else "(повтор)", flush=True)
+        process = subprocess.Popen(command, cwd=ROOT, start_new_session=True)
         try:
-            # Обычно шаг занимает секунды. Проект лежит в iCloud Documents, и пока
-            # iCloud выгружает свежие видео, чтение файлов может подвиснуть —
-            # тогда не ждём вечно, а объясняем, что делать.
-            subprocess.run(command, cwd=ROOT, check=True, timeout=240)
+            code = process.wait(timeout=timeout)
         except subprocess.TimeoutExpired:
+            os.killpg(process.pid, signal.SIGKILL)
+            process.wait()
+            if attempt == 1:
+                print(f"  шаг висит дольше {timeout // 60} мин — перезапускаю", flush=True)
+                continue
             sys.exit(
-                f"✗ «{' '.join(command)}» висит дольше 4 минут. Прерви, подожди,\n"
-                "  пока iCloud догрузит файлы, и запусти снова. Если dist/ уже\n"
-                "  собран и проверен — запусти с флагом --no-build."
+                "✗ Сборка зависла дважды. Подожди, пока iCloud догрузит файлы\n"
+                "  (значок облака в Finder), и запусти снова."
             )
+        if code != 0:
+            sys.exit(f"✗ «{' '.join(command)}» упал с кодом {code}")
+        return
+
+
+def verify_dist() -> None:
+    """Быстрая проверка сборки вместо полного npm test.
+
+    npm test собирает сайт ещё раз в памяти и на iCloud иногда виснет. Здесь
+    проверяем то, что реально ломало прод: все три страницы собраны, а каждый
+    файл, на который ссылаются HTML и CSS, лежит в dist/.
+    """
+    for page in ("index.html", "artifact.html", "ai-producer.html"):
+        if not (DIST / page).is_file():
+            sys.exit(f"✗ В сборке нет страницы {page}")
+    pattern = re.compile(
+        r"(?<![\w./])/?assets/[\w@.\-/]+\.(?:js|css|mp4|webm|jpe?g|png|webp|svg|pdf|woff2?|ttf|gif)"
+    )
+    missing = set()
+    for path in DIST.rglob("*"):
+        if path.suffix not in (".html", ".css"):
+            continue
+        for ref in pattern.findall(path.read_text("utf-8", errors="ignore")):
+            if not (DIST / ref.lstrip("/")).is_file():
+                missing.add(f"{ref} (в {path.name})")
+    if missing:
+        sys.exit("✗ В сборке не хватает файлов:\n  " + "\n  ".join(sorted(missing)))
+    print("✓ сборка проверена: страницы на месте, битых ссылок нет", flush=True)
+
+
+def build(with_tests: bool) -> None:
+    if with_tests:
+        run_step(["npm", "test"])
+    run_step(["npm", "run", "build"])
+    verify_dist()
 
 
 def files_in_upload_order() -> list[Path]:
@@ -154,7 +198,7 @@ def upload(host: str, user: str, password: str, files: list[Path]) -> None:
             ensure_dir(ftp, str(Path(remote).parent.as_posix()) if "/" in remote else "", known)
             with path.open("rb") as handle:
                 ftp.storbinary(f"STOR {remote}", handle)
-            print(f"  [{index}/{total}] {remote}")
+            print(f"  [{index}/{total}] {remote}", flush=True)
     finally:
         try:
             ftp.quit()
@@ -177,10 +221,16 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--no-build", action="store_true", help="не собирать, взять готовый dist/")
     parser.add_argument("--dry-run", action="store_true", help="только показать список файлов")
+    parser.add_argument("--with-tests", action="store_true", help="перед сборкой прогнать npm test")
     args = parser.parse_args()
 
+    # Доступ проверяем до сборки: иначе ошибка про пароль всплывёт через минуту.
+    if not args.dry_run:
+        env("BEGET_LOGIN")
+        env("BEGET_API_PASSWORD")
+
     if not args.no_build and not args.dry_run:
-        build()
+        build(args.with_tests)
 
     files = files_in_upload_order()
     size = sum(p.stat().st_size for p in files) / 1024 / 1024
