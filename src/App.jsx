@@ -686,12 +686,20 @@ const SHOTS = [
   { className: "shot--wide", src: homeAssets.shotWide, full: shotWideFull, alt: "Интерфейс музыкальной платформы" },
   { className: "shot--portrait", src: homeAssets.shotPortraitA, full: shotPortraitAFull, alt: "Мобильный экран музыкального события" },
   { className: "shot--portrait shot--portrait-b", src: homeAssets.shotPortraitB, full: shotPortraitBFull, alt: "Мобильный экран профиля артиста" },
-  { className: "shot--browser", src: homeAssets.shotUI, full: shotUIFull, alt: "Интерфейс визуального редактора" },
+  {
+    className: "shot--browser",
+    src: homeAssets.shotUI,
+    full: shotUIFull,
+    alt: "Интерфейс визуального редактора",
+    // Окно браузера без тени вокруг и без розовой полосы по нижнему краю
+    // скриншота: доли измерены по исходнику 2908×1613.
+    zoomCrop: { top: 0.0415, right: 0.0262, bottom: 0.004, left: 0.0262 },
+  },
 ];
 
 // Шот увеличивается по клику. Перетаскивание ленты клик не вызывает:
 // DragScroll гасит его, если указатель сдвинулся.
-function Shot({ className, src, full, alt }) {
+function Shot({ className, src, full, alt, zoomCrop }) {
   const cardRef = useRef(null);
   const imageRef = useRef(null);
   const open = (fromKeyboard) => openShotZoom({
@@ -699,6 +707,7 @@ function Shot({ className, src, full, alt }) {
     image: imageRef.current,
     fullSrc: full,
     alt,
+    crop: zoomCrop,
     fromKeyboard,
     closeIcons: [closeDiagonalA, closeDiagonalB],
   });

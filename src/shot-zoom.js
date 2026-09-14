@@ -38,29 +38,63 @@ function targetRect(aspect) {
   };
 }
 
-// Положение картинки в ленте, выраженное через финальный прямоугольник:
+// Какая доля картинки срезана карточкой в ленте с каждой стороны. В ленте
+// картинки чуть больше карточек: так прячутся тени мокапов и розовая полоса
+// внизу скриншота GALYA. Увеличенный шот показывает ту же область, что лента.
+// Считаем по вычисленным стилям, а не по getBoundingClientRect: у картинки
+// бывает временный сдвиг параллакса. И не по offset*: они округлены до
+// целых, и розовая полоса в 4px пролезала бы на крупном размере.
+function cardCrop(card, image) {
+  const style = getComputedStyle(image);
+  const left = parseFloat(style.left);
+  const top = parseFloat(style.top);
+  const width = parseFloat(style.width);
+  const height = parseFloat(style.height);
+  // Карточка сама не трансформируется, её прямоугольник точный.
+  const { width: cardWidth, height: cardHeight } = card.getBoundingClientRect();
+  return {
+    left: Math.max(0, -left / width),
+    top: Math.max(0, -top / height),
+    right: Math.max(0, (left + width - cardWidth) / width),
+    bottom: Math.max(0, (top + height - cardHeight) / height),
+  };
+}
+
+// Положение картинки в ленте, выраженное через её прямоугольник в просмотре:
 // сдвиг и масштаб для transform и обрезка карточки для clip-path.
-function collapsedFrame(source, card, target) {
-  const scale = source.width / target.width;
+function collapsedFrame(source, card, picture) {
+  const scale = source.width / picture.width;
   const inset = (value) => `${Math.max(0, value / scale).toFixed(2)}px`;
   return {
-    transform: `translate(${source.left - target.left}px, ${source.top - target.top}px) scale(${scale})`,
+    transform: `translate(${source.left - picture.left}px, ${source.top - picture.top}px) scale(${scale})`,
     clipPath: `inset(${inset(card.top - source.top)} ${inset(source.right - card.right)} ${inset(source.bottom - card.bottom)} ${inset(card.left - source.left)} round ${(CARD_RADIUS / scale).toFixed(2)}px)`,
   };
 }
 
-const openFrame = {
-  transform: "translate(0px, 0px) scale(1)",
-  clipPath: `inset(0px 0px 0px 0px round ${OPEN_RADIUS}px)`,
-};
-
-export function openShotZoom({ card, image, fullSrc, alt, fromKeyboard = false, closeIcons }) {
+export function openShotZoom({ card, image, fullSrc, alt, crop: cropOverride, fromKeyboard = false, closeIcons }) {
   if (active || !card || !image) return;
 
-  const aspect = image.naturalWidth && image.naturalHeight
-    ? image.naturalWidth / image.naturalHeight
-    : image.getBoundingClientRect().width / image.getBoundingClientRect().height;
-  const target = targetRect(aspect);
+  // Видимая область шота вписывается в экран, а сама картинка выходит за неё
+  // на ширину обрезки и подрезается clip-path — как в ленте, только крупно.
+  // Своя обрезка задаётся, когда лента режет неточно для крупного размера:
+  // в мелкой карточке лишний пиксель тени не виден, на весь экран — виден.
+  const crop = cropOverride ?? cardCrop(card, image);
+  const imageStyle = getComputedStyle(image);
+  const imageAspect = parseFloat(imageStyle.width) / parseFloat(imageStyle.height);
+  const visible = targetRect(imageAspect * (1 - crop.left - crop.right) / (1 - crop.top - crop.bottom));
+  const pictureWidth = visible.width / (1 - crop.left - crop.right);
+  const pictureHeight = visible.height / (1 - crop.top - crop.bottom);
+  const pictureRect = {
+    left: visible.left - crop.left * pictureWidth,
+    top: visible.top - crop.top * pictureHeight,
+    width: pictureWidth,
+    height: pictureHeight,
+  };
+  const px = (value) => `${value.toFixed(2)}px`;
+  const openFrame = {
+    transform: "translate(0px, 0px) scale(1)",
+    clipPath: `inset(${px(crop.top * pictureHeight)} ${px(crop.right * pictureWidth)} ${px(crop.bottom * pictureHeight)} ${px(crop.left * pictureWidth)} round ${OPEN_RADIUS}px)`,
+  };
   const page = document.querySelector(".home-page");
   const opener = document.activeElement;
   const still = reducedMotion.matches;
@@ -82,10 +116,11 @@ export function openShotZoom({ card, image, fullSrc, alt, fromKeyboard = false, 
   picture.src = image.currentSrc || image.src;
   picture.draggable = false;
   Object.assign(picture.style, {
-    left: `${target.left}px`,
-    top: `${target.top}px`,
-    width: `${target.width}px`,
-    height: `${target.height}px`,
+    left: px(pictureRect.left),
+    top: px(pictureRect.top),
+    width: px(pictureRect.width),
+    height: px(pictureRect.height),
+    clipPath: openFrame.clipPath,
   });
 
   const close = document.createElement("button");
@@ -123,7 +158,7 @@ export function openShotZoom({ card, image, fullSrc, alt, fromKeyboard = false, 
   if (still) {
     run(root, [{ opacity: 0 }, { opacity: 1 }], { duration: 160, easing: "ease-out" });
   } else {
-    const from = collapsedFrame(image.getBoundingClientRect(), card.getBoundingClientRect(), target);
+    const from = collapsedFrame(image.getBoundingClientRect(), card.getBoundingClientRect(), pictureRect);
     run(picture, [from, openFrame], { duration: OPEN_MS, easing: OPEN_EASE });
     run(backdrop, [{ opacity: 0 }, { opacity: 1 }], { duration: OPEN_MS, easing: CLOSE_EASE });
     // Крестик — второстепенный: появляется, когда шот уже почти на месте.
@@ -163,7 +198,7 @@ export function openShotZoom({ card, image, fullSrc, alt, fromKeyboard = false, 
       return;
     }
 
-    const back = collapsedFrame(image.getBoundingClientRect(), card.getBoundingClientRect(), target);
+    const back = collapsedFrame(image.getBoundingClientRect(), card.getBoundingClientRect(), pictureRect);
     run(picture, [from, back], { duration: CLOSE_MS, easing: CLOSE_EASE }).finished.then(finish, finish);
     run(backdrop, [{ opacity: backdropOpacity }, { opacity: 0 }], { duration: CLOSE_MS, easing: CLOSE_EASE });
     run(close, [{ opacity: 1 }, { opacity: 0 }], { duration: 120, easing: "ease-out" });
