@@ -209,7 +209,7 @@ function ArtifactProject() {
         />
       </div>
       <div className="home-project-info">
-        <ProjectHeader href="/artifact.html" title="Artifact" tags={["Start-Up", "Lead Designer", "Pre-launch"]} />
+        <ProjectHeader href="/artifact.html" title="Artifact" tags={["Startup", "Lead Designer", "Pre-launch"]} />
         <RhythmDot />
         <ProjectDescription>
           Мобильное приложение
