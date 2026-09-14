@@ -717,7 +717,6 @@ function MovableAboutTile({ item, children, className = "" }) {
   const drag = useRef(null);
   const rootRef = useRef(null);
   const touch = useRef(null);
-  const skipClick = useRef(false);
 
   // Обработчики тача вешаем один раз, поэтому свежие значения держим в ref:
   // иначе замыкание поймает slotIndex с первого рендера и обмен уедет не туда.
@@ -788,7 +787,6 @@ function MovableAboutTile({ item, children, className = "" }) {
     const onStart = (event) => {
       if (event.touches.length !== 1 || touch.current) { clearHold(); return; }
       const point = event.touches[0];
-      skipClick.current = false;
       touch.current = { id: point.identifier, x: point.clientX, y: point.clientY,
         clientX: point.clientX, clientY: point.clientY, active: false,
         bounds: element.parentElement.getBoundingClientRect(),
@@ -838,7 +836,6 @@ function MovableAboutTile({ item, children, className = "" }) {
       if (!current) return;
       touch.current = null;
       if (!current.active) return;              // короткий тап — отдаём onClick
-      skipClick.current = true;                 // после переноса тап не считаем
       const point = [...event.changedTouches].find((candidate) => candidate.identifier === current.id);
       const destination = event.type === "touchend" && point
         ? hitCached(point.clientX, point.clientY, current)
@@ -882,12 +879,6 @@ function MovableAboutTile({ item, children, className = "" }) {
         height: `${position.height / ABOUT_CANVAS.height * 100}%`,
       }}
       onDragStart={(event) => event.preventDefault()}
-      onClick={() => {
-        if (!window.matchMedia("(pointer: coarse)").matches) return;
-        if (skipClick.current) { skipClick.current = false; return; }
-        if (selected === null) setSelected(slotIndex);
-        else { swap(selected, slotIndex, true); setSelected(null); }
-      }}
       onPointerDown={(event) => {
         if (event.pointerType !== "mouse") return;
         if (!event.isPrimary || event.button !== 0 || drag.current) return;
