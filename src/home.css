@@ -796,12 +796,11 @@ a:focus-visible {
   width: 44px;
   height: 44px;
   place-items: center;
+  /* Только крестик, как в окне контактов: без круглой подложки.
+     44px — невидимая зона нажатия, сама иконка того же размера. */
   padding: 0;
-  border: 1px solid var(--nav-border, rgba(17, 17, 17, 0.16));
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  border: 0;
+  background: transparent;
   cursor: pointer;
 }
 
@@ -824,7 +823,6 @@ a:focus-visible {
   .shot-zoom-close {
     top: calc(16px + env(safe-area-inset-top, 0px));
     right: 16px;
-    border-width: 0.5px;
   }
 }
 
