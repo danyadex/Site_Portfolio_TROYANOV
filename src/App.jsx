@@ -17,7 +17,7 @@ const ABOUT_MEDIA = [
   { id: "plein-sea", src: "plein-sea.mp4", x: 150, y: 0, width: 88, height: 155, crop: [1, 0.965, 0, 0.0175] },
   { id: "camera", src: "camera.mp4", x: 250, y: 0, width: 88, height: 85, crop: [1, 0.5294811726, 0, 0.3125] },
   { id: "guitar", src: "guitar.mp4", x: 350, y: 0, width: 88, height: 103, crop: [1, 0.6440383196, 0, 0.0011987907] },
-  { id: "figures", src: "figures.mp4", x: 450, y: 0, width: 138, height: 245, crop: [1, 0.9714246988, 0, 0.0004101723] },
+  { id: "couple", src: "couple.mp4", x: 450, y: 0, width: 138, height: 245, crop: [1, 0.973, 0, 0.0135] },
   { id: "bridge", src: "bridge.mp4", x: 350, y: 115, width: 88, height: 130, crop: [0.999895215, 0.8115502, 0.0000524, 0] },
   { id: "sea", src: "sea.mp4", x: 150, y: 167, width: 88, height: 78, crop: [1, 0.5, 0, 0] },
   { id: "waves", src: "waves.mp4", x: 0, y: 257, width: 138, height: 127, crop: [1, 0.5025424957, 0, 0.2487287521] },
