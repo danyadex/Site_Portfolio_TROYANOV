@@ -209,7 +209,7 @@ function ArtifactProject() {
         />
       </div>
       <div className="home-project-info">
-        <ProjectHeader href="/artifact.html" title="Artifact" tags={["Startup", "Lead Designer", "Pre-launch"]} />
+        <ProjectHeader href="/artifact.html" title="Artifact" tags={["Startup", "Lead Designer"]} />
         <RhythmDot />
         <ProjectDescription>
           Мобильное приложение
@@ -247,7 +247,7 @@ function AIProducerProject() {
         <BrowserMockup />
       </div>
       <div className="home-project-info">
-        <ProjectHeader href="/ai-producer.html" title="AI Producer" tags={["Diploma", "Solo Designer", "Prototype"]} />
+        <ProjectHeader href="/ai-producer.html" title="AI Producer" tags={["Diploma", "Solo Designer"]} />
         <RhythmDot />
         <ProjectDescription>
           Веб-платформа
@@ -266,7 +266,7 @@ function TayaProject() {
         <PhoneMockup src={homeAssets.taya} staticSrc={homeAssets.tayaPoster} rootMargin="800px 0px" label="Аниматик экрана TAYA AI" variant="taya" />
       </div>
       <div className="home-project-info">
-        <ProjectHeader disabled title="Taya AI" tags={["Concept", "Design & Research", "Prototype"]} />
+        <ProjectHeader disabled title="Taya AI" tags={["Concept", "Design & Research"]} />
         <RhythmDot />
         <ProjectDescription>
           Мобильный ассистент
