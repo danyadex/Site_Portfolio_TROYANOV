@@ -477,6 +477,12 @@ a:focus-visible {
   gap: 4px;
 }
 
+/* У «Soon» рамка-пилюля, и 4px до названия выглядит впритык — чуть шире,
+   чем у стрелки. */
+.project-headerline.is-disabled .project-title {
+  gap: 8px;
+}
+
 .project-link .project-link-label {
   color: var(--home-accent);
 }
