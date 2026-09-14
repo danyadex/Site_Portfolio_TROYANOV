@@ -1413,14 +1413,17 @@ a:focus-visible {
   .project-tags,
   .project-tag {
     flex-wrap: nowrap;
-    gap: 8px;
+    gap: clamp(10px, 3.7vw, 14px);
   }
 
   .project-tags {
     font-size: clamp(11px, 3.5vw, 16px);
   }
 
-  .project-tag:first-child .project-tag-divider {
+  /* Название уже стоит своей строкой — перенос сам отделяет его от тегов.
+     Мелкие пайпы на узком экране читаются как мусор, поэтому между тегами
+     только воздух. На десктопе пайпы остаются, как в макете. */
+  .project-tag-divider {
     display: none;
   }
 }
