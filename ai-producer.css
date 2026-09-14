@@ -1171,6 +1171,14 @@
   margin-top: 64px;
 }
 
+/* На десктопе кнопка возврата внизу, под белым градиентом: без запаса он
+   наползал на «Кейс в Figma». Даём кнопкам ~50px воздуха. */
+@media (min-width: 900px) {
+  .ai-producer-page {
+    padding-bottom: calc(128px + var(--nav-safe-bottom, 0px));
+  }
+}
+
 @media (max-width: 767px) {
   .ai-producer-page {
     padding-bottom: calc(64px + var(--nav-safe-bottom, 0px));
