@@ -25,9 +25,9 @@ test("production includes every page and runtime-referenced home media", async (
   for (const name of [
     "hero-portrait.mp4", "artifact-screen-source30.mp4", "ai-producer-screen-web.mp4", "ai-producer-screen-poster.jpg", "taya-screen-web.mp4",
     "troyanov-cv.pdf",
-    "painting.mp4", "grill.mp4", "camera.mp4", "guitar.mp4", "statue.mp4", "bridge.mp4",
+    "painting.mp4", "grill.mp4", "camera.mp4", "guitar.mp4", "figures.mp4", "bridge.mp4",
     "sea.mp4", "waves.mp4", "laptop.mp4", "bones.mp4", "river.mp4", "daw.mp4",
-    "window.mp4", "museum.mp4", "forest.mp4", "portrait.jpg",
+    "faces.mp4", "museum.mp4", "forest.mp4", "portrait.jpg",
     "figma-home-shot-wide@2x.webp", "figma-home-shot-portrait-a@2x.webp",
     "figma-home-shot-portrait-b@2x.webp", "figma-home-shot-ui@2x.webp",
   ]) {
