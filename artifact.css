@@ -2467,6 +2467,14 @@
   gap: 48px;
 }
 
+/* На десктопе кнопка возврата внизу: от последней строки до неё ~50px,
+   как от «Кейс в Figma» в AI PRODUCER. */
+@media (min-width: 900px) {
+  .artifact-page {
+    padding-bottom: calc(112px + var(--nav-safe-bottom, 0px));
+  }
+}
+
 @media (max-width: 899px) {
   .artifact-page {
     padding-bottom: calc(64px + var(--nav-safe-bottom, 0px));
