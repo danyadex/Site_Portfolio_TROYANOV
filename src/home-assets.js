@@ -6,7 +6,7 @@ import aiProducer from "../assets/home/ai-producer-screen-web.mp4";
 import aiProducerPoster from "../assets/home/ai-producer-screen-poster.jpg";
 import tayaPoster from "../assets/home/taya-poster.jpg";
 import taya from "../assets/home/taya-screen-web.mp4";
-import arrow from "../assets/home/figma/figma-home-arrow-24.svg";
+import arrow from "../assets/home/figma/figma-home-arrow-24-accent.svg";
 import phone from "../assets/home/figma/figma-home-iphone.png";
 import browserTitle from "../assets/home/figma/figma-home-browser-titlebar@2x.webp";
 import shotWide from "../assets/home/figma/figma-home-shot-wide@2x.webp";

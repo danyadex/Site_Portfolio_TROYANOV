@@ -140,11 +140,18 @@ function ProjectArrow() {
 function ProjectHeader({ href, title, tags, disabled = false }) {
   const content = (
     <>
-      {disabled ? <span className="project-status">Soon</span> : <ProjectArrow />}
-      <span className={disabled ? "project-link-label is-disabled" : "project-link-label"}>{title}</span>
+      {/* Figma 2264:529 / 2264:564 / 2264:578: кликабельный кейс — акцентное
+          название со стрелкой; теги разделены пайпами. */}
+      <span className="project-title">
+        {disabled ? <span className="project-status">Soon</span> : <ProjectArrow />}
+        <span className={disabled ? "project-link-label is-disabled" : "project-link-label"}>{title}</span>
+      </span>
       <span className="project-tags">
         {tags.map((tag) => (
-          <span key={tag}>{tag}</span>
+          <span key={tag} className="project-tag">
+            <span className="project-tag-divider" aria-hidden="true">|</span>
+            {tag}
+          </span>
         ))}
       </span>
     </>
@@ -202,12 +209,12 @@ function ArtifactProject() {
         />
       </div>
       <div className="home-project-info">
-        <ProjectHeader href="/artifact.html" title="Artifact" tags={["App", "Lead Designer"]} />
+        <ProjectHeader href="/artifact.html" title="Artifact" tags={["Start-Up", "Lead Designer", "Pre-launch"]} />
         <RhythmDot />
         <ProjectDescription>
-          Мобильный инструмент
+          Мобильное приложение
           <br />
-          для создания визуального AI-контента
+          для создания визуального <span className="nowrap">AI-контента</span>
         </ProjectDescription>
       </div>
     </article>
@@ -240,7 +247,7 @@ function AIProducerProject() {
         <BrowserMockup />
       </div>
       <div className="home-project-info">
-        <ProjectHeader href="/ai-producer.html" title="AI Producer" tags={["Web", "Builder"]} />
+        <ProjectHeader href="/ai-producer.html" title="AI Producer" tags={["Diploma", "Solo Designer", "Prototype"]} />
         <RhythmDot />
         <ProjectDescription>
           Веб-платформа
@@ -259,7 +266,7 @@ function TayaProject() {
         <PhoneMockup src={homeAssets.taya} staticSrc={homeAssets.tayaPoster} rootMargin="800px 0px" label="Аниматик экрана TAYA AI" variant="taya" />
       </div>
       <div className="home-project-info">
-        <ProjectHeader disabled title="Taya AI" tags={["App", "Design & Research"]} />
+        <ProjectHeader disabled title="Taya AI" tags={["Concept", "Design & Research", "Prototype"]} />
         <RhythmDot />
         <ProjectDescription>
           Мобильный ассистент
