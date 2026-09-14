@@ -17,7 +17,7 @@ function configureScroll() {
     syncTouch: false,
     anchors: true,
     virtualScroll: ({ event, deltaX, deltaY }) => !event.ctrlKey && !event.shiftKey && Math.abs(deltaY) >= Math.abs(deltaX),
-    prevent: (node) => node.classList?.contains("drag-scroll") || node.classList?.contains("contact-dialog"),
+    prevent: (node) => node.classList?.contains("drag-scroll") || node.classList?.contains("contact-dialog") || node.classList?.contains("shot-zoom"),
   });
 }
 

@@ -743,6 +743,91 @@ a:focus-visible {
   left: -2.68%;
 }
 
+/* Увеличение шота (src/shot-zoom.js). Лента по-прежнему тянется: курсор
+   «лупа» только подсказывает клик, при перетаскивании он становится grabbing. */
+@media (hover: hover) and (pointer: fine) {
+  .drag-scroll:not(.is-dragging) .shot {
+    cursor: zoom-in;
+  }
+}
+
+.shot:focus {
+  outline: none;
+}
+
+.shot:focus-visible {
+  outline: 2px solid rgba(195, 0, 158, 0.56);
+  outline-offset: -2px;
+}
+
+.shot-zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  cursor: zoom-out;
+  touch-action: none;
+}
+
+/* Та же подложка, что у окна контактов: мягкое затемнение и размытие. */
+.shot-zoom-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.14);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.shot-zoom-image {
+  position: fixed;
+  display: block;
+  max-width: none;
+  object-fit: contain;
+  transform-origin: 0 0;
+  will-change: transform, clip-path;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.shot-zoom-close {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--nav-border, rgba(17, 17, 17, 0.16));
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+}
+
+.shot-zoom-close .dialog-close-icon {
+  position: relative;
+  width: 20.276px;
+  height: 20.276px;
+}
+
+.shot-zoom-close:focus-visible {
+  outline: 2px solid rgba(195, 0, 158, 0.56);
+  outline-offset: 3px;
+}
+
+.shot-zoom[data-input="pointer"] .shot-zoom-close:focus-visible {
+  outline: none;
+}
+
+@media (max-width: 899px) {
+  .shot-zoom-close {
+    top: calc(16px + env(safe-area-inset-top, 0px));
+    right: 16px;
+    border-width: 0.5px;
+  }
+}
+
 .about-section {
   display: flex;
   flex-direction: column;

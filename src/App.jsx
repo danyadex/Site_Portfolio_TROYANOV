@@ -5,6 +5,11 @@ import { scrollToSection } from "../smooth-scroll.js";
 import { manageVideoPlayback, observeVisibility } from "../media-playback.js";
 import closeDiagonalA from "../assets/contacts-close-diagonal-a.svg";
 import closeDiagonalB from "../assets/contacts-close-diagonal-b.svg";
+import { openShotZoom } from "./shot-zoom.js";
+import shotWideFull from "../assets/home/shots-full/shot-wide.webp";
+import shotPortraitAFull from "../assets/home/shots-full/shot-portrait-a.webp";
+import shotPortraitBFull from "../assets/home/shots-full/shot-portrait-b.webp";
+import shotUIFull from "../assets/home/shots-full/shot-ui.webp";
 
 import CV_FILE from "../assets/cv/troyanov-cv.pdf?url";
 const ShotsGL = lazy(() => import("./ShotsGL.jsx"));
@@ -460,8 +465,6 @@ function DragScroll({ children, className = "" }) {
       lastPointerTime = performance.now();
       pointerVelocity = 0;
       dragged = false;
-      scroller.setPointerCapture(pointerId);
-      scroller.classList.add("is-dragging");
     };
 
     const onPointerMove = (event) => {
@@ -480,6 +483,13 @@ function DragScroll({ children, className = "" }) {
       }
 
       if (Math.abs(distance) <= 3) return;
+      // Захватываем указатель, только когда ленту действительно потянули:
+      // захват с первого нажатия уводил бы клик с шота на саму ленту,
+      // и шот не открывался бы.
+      if (!dragged) {
+        scroller.setPointerCapture(pointerId);
+        scroller.classList.add("is-dragging");
+      }
       dragged = true;
       suppressClick = true;
       event.preventDefault();
@@ -670,6 +680,49 @@ function RailEdge({ side, strength = 32, steps = 4 }) {
 // false — обычная DOM-лента. Оба варианта живут рядом, чтобы сравнивать.
 const USE_GL_SHOTS = false;
 
+const SHOTS = [
+  { className: "shot--wide", src: homeAssets.shotWide, full: shotWideFull, alt: "Интерфейс музыкальной платформы" },
+  { className: "shot--portrait", src: homeAssets.shotPortraitA, full: shotPortraitAFull, alt: "Мобильный экран музыкального события" },
+  { className: "shot--portrait shot--portrait-b", src: homeAssets.shotPortraitB, full: shotPortraitBFull, alt: "Мобильный экран профиля артиста" },
+  { className: "shot--browser", src: homeAssets.shotUI, full: shotUIFull, alt: "Интерфейс визуального редактора" },
+];
+
+// Шот увеличивается по клику. Перетаскивание ленты клик не вызывает:
+// DragScroll гасит его, если указатель сдвинулся.
+function Shot({ className, src, full, alt }) {
+  const cardRef = useRef(null);
+  const imageRef = useRef(null);
+  const open = (fromKeyboard) => openShotZoom({
+    card: cardRef.current,
+    image: imageRef.current,
+    fullSrc: full,
+    alt,
+    fromKeyboard,
+    closeIcons: [closeDiagonalA, closeDiagonalB],
+  });
+
+  return (
+    <figure
+      ref={cardRef}
+      className={`shot ${className}`}
+      role="button"
+      tabIndex={0}
+      aria-label={`Увеличить: ${alt}`}
+      onClick={() => open(false)}
+      // Фокус от нажатия мышью прокручивал ленту к шоту ещё до клика.
+      // С клавиатуры фокус ставится как обычно.
+      onMouseDown={(event) => event.preventDefault()}
+      onKeyDown={(event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        open(true);
+      }}
+    >
+      <img ref={imageRef} loading="lazy" decoding="async" draggable={false} src={src} alt="" />
+    </figure>
+  );
+}
+
 function Shots() {
   return (
     <section className="shots-section" id="shots" aria-labelledby="shots-title">
@@ -683,18 +736,7 @@ function Shots() {
           <RailEdge side="left" />
           <RailEdge side="right" />
           <DragScroll className="shots-rail">
-          <figure className="shot shot--wide">
-            <img loading="lazy" decoding="async" src={homeAssets.shotWide} alt="Интерфейс музыкальной платформы" />
-          </figure>
-          <figure className="shot shot--portrait">
-            <img loading="lazy" decoding="async" src={homeAssets.shotPortraitA} alt="Мобильный экран музыкального события" />
-          </figure>
-          <figure className="shot shot--portrait shot--portrait-b">
-            <img loading="lazy" decoding="async" src={homeAssets.shotPortraitB} alt="Мобильный экран профиля артиста" />
-          </figure>
-          <figure className="shot shot--browser">
-            <img loading="lazy" decoding="async" src={homeAssets.shotUI} alt="Интерфейс визуального редактора" />
-          </figure>
+            {SHOTS.map((shot) => <Shot key={shot.full} {...shot} />)}
           </DragScroll>
         </div>
       )}
