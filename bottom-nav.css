@@ -81,7 +81,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  /* Figma 2005:363: 3 × 180 + 2 × 24 = 588 — ровно ширина колонки контента,
+     панель встаёт в края коллажа. Мобильные брейкпоинты задают свой gap. */
+  gap: 24px;
   width: 100%;
   border: 0;
   background: transparent;
