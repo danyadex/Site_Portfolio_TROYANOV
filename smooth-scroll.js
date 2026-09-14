@@ -21,15 +21,9 @@ function configureScroll() {
   });
 }
 
-export function scrollToSection(id, { toEnd = false } = {}) {
+export function scrollToSection(id) {
   const target = document.getElementById(id);
   if (!target) return;
-  if (lenis && toEnd) {
-    // Последний раздел: доводим до самого конца страницы, к тулбару, чтобы
-    // после клика не оставалось хвоста, который ещё можно докрутить.
-    lenis.scrollTo(document.documentElement.scrollHeight - window.innerHeight);
-    return;
-  }
   if (lenis) lenis.scrollTo(target, { offset: -24 });
   else target.scrollIntoView({ behavior: reducedMotion.matches ? "instant" : "smooth", block: "start" });
 }

@@ -125,7 +125,9 @@ a:focus-visible {
 .home-main {
   width: min(var(--home-content-width), calc(100% - 32px));
   margin-inline: auto;
-  padding-bottom: calc(150px + var(--home-safe-bottom));
+  /* Коллаж → тулбар столько же, сколько тулбар → край экрана (48px):
+     тулбар стоит посередине нижнего поля, страница не тянется дальше. */
+  padding-bottom: calc(135px + var(--home-safe-bottom));
 }
 
 /* The first screen keeps the Figma coordinates stable on wide layouts. */

@@ -1208,9 +1208,8 @@ function BottomNavigation({ onContacts }) {
     };
   }, []);
 
-  // «О себе» — последний раздел: докручиваем до самого низа, к тулбару.
   const scrollTo = (id) => {
-    scrollToSection(id, { toEnd: id === "about" });
+    scrollToSection(id);
   };
 
   return (
