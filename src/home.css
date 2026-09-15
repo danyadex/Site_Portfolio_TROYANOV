@@ -491,10 +491,13 @@ a:focus-visible {
   outline-offset: 3px;
 }
 
-/* У телефона — над полоской «домой», с отступом от скругления экрана. */
+/* У телефона кнопка стоит концентрично скруглению экрана, как системные
+   кнопки iOS: центр кнопки совпадает с центром дуги угла, отступ справа
+   и снизу одинаковый — радиус угла минус радиус кнопки. */
 .phone-screen .video-sound {
-  right: 16px;
-  bottom: 28px;
+  --sound-size: 36px;
+  right: calc(var(--phone-screen-radius) - var(--sound-size) / 2);
+  bottom: calc(var(--phone-screen-radius) - var(--sound-size) / 2);
 }
 
 /* На телефоне кнопка компактнее, но зона нажатия остаётся 44px. */
@@ -516,8 +519,7 @@ a:focus-visible {
   }
 
   .phone-screen .video-sound {
-    right: 12px;
-    bottom: 20px;
+    --sound-size: 28px;
   }
 }
 
