@@ -6,6 +6,8 @@ import { manageVideoPlayback, observeVisibility } from "../media-playback.js";
 import closeDiagonalA from "../assets/contacts-close-diagonal-a.svg";
 import closeDiagonalB from "../assets/contacts-close-diagonal-b.svg";
 import { openShotZoom } from "./shot-zoom.js";
+import volumeOffIcon from "../assets/home/icons/volume-x.svg";
+import volumeOnIcon from "../assets/home/icons/volume-2.svg";
 import shotWideFull from "../assets/home/shots-full/shot-wide.webp";
 import shotPortraitAFull from "../assets/home/shots-full/shot-portrait-a.webp";
 import shotPortraitBFull from "../assets/home/shots-full/shot-portrait-b.webp";
@@ -156,12 +158,8 @@ function SoundButton({ videoRef }) {
       aria-label={on ? "Выключить звук" : "Включить звук"}
       onClick={toggle}
     >
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z" />
-        {on
-          ? <path d="M15.5 9.2a4 4 0 0 1 0 5.6M18.3 6.8a7.5 7.5 0 0 1 0 10.4" />
-          : <path d="M16 9.5l5 5M21 9.5l-5 5" />}
-      </svg>
+      {/* Иконки volume-x и volume-2 из Obra shadcn/ui (Lucide). */}
+      <img src={on ? volumeOnIcon : volumeOffIcon} alt="" aria-hidden="true" />
     </button>
   );
 }
