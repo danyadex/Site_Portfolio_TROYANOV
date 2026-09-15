@@ -56,8 +56,10 @@ function AutoVideo({
   preload = "none",
   autoPlay = false,
   rootMargin = "120px 0px",
+  mediaRef,
 }) {
-  const videoRef = useRef(null);
+  const localRef = useRef(null);
+  const videoRef = mediaRef ?? localRef;
 
   useEffect(() => {
     const video = videoRef.current;
@@ -85,6 +87,82 @@ function AutoVideo({
       )}
       <source src={src} type="video/mp4" />
     </video>
+  );
+}
+
+// Звук у видео на главной. Стартуют все без звука — иначе браузер не даст
+// автоплей; кнопка включает звук у одного видео и глушит остальные. Когда
+// видео уходит с экрана, звук выключается сам. Громкость поднимается плавно
+// (на iOS громкость из кода не меняется — там звук просто включается).
+const SOUND_FADE_MS = 320;
+
+function SoundButton({ videoRef }) {
+  const [on, setOn] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+    video.dataset.sound = "true";
+    const sync = () => setOn(!video.muted);
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) video.muted = true;
+    }, { threshold: 0.2 });
+    const muteOnHide = () => { if (document.hidden) video.muted = true; };
+    video.addEventListener("volumechange", sync);
+    document.addEventListener("visibilitychange", muteOnHide);
+    observer.observe(video);
+    return () => {
+      video.removeEventListener("volumechange", sync);
+      document.removeEventListener("visibilitychange", muteOnHide);
+      observer.disconnect();
+      video.muted = true;
+    };
+  }, [videoRef]);
+
+  const toggle = (event) => {
+    event.stopPropagation();
+    const video = videoRef.current;
+    if (!video) return;
+    if (!video.muted) {
+      video.muted = true;
+      return;
+    }
+    document.querySelectorAll("video[data-sound]").forEach((other) => {
+      if (other !== video) other.muted = true;
+    });
+    video.volume = 0;
+    video.muted = false;
+    // Звук включают жестом — в нём же можно запустить видео, если браузер
+    // до этого не дал автоплей.
+    if (video.paused) video.play()?.catch(() => {});
+    const start = performance.now();
+    const fade = (now) => {
+      if (video.muted) return;
+      const progress = Math.min(1, Math.max(0, (now - start) / SOUND_FADE_MS));
+      video.volume = progress * progress;
+      if (progress < 1) requestAnimationFrame(fade);
+    };
+    requestAnimationFrame(fade);
+    // Если кадры притормозили (фоновая вкладка), громкость не должна
+    // застрять на нуле.
+    window.setTimeout(() => { if (!video.muted) video.volume = 1; }, SOUND_FADE_MS + 120);
+  };
+
+  return (
+    <button
+      type="button"
+      className="video-sound"
+      aria-pressed={on}
+      aria-label={on ? "Выключить звук" : "Включить звук"}
+      onClick={toggle}
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z" />
+        {on
+          ? <path d="M15.5 9.2a4 4 0 0 1 0 5.6M18.3 6.8a7.5 7.5 0 0 1 0 10.4" />
+          : <path d="M16 9.5l5 5M21 9.5l-5 5" />}
+      </svg>
+    </button>
   );
 }
 
@@ -183,7 +261,8 @@ function RhythmDot({ className = "" }) {
   return <span className={`rhythm-dot ${className}`.trim()} aria-hidden="true">•</span>;
 }
 
-function PhoneMockup({ src, label, variant = "default", staticSrc, preload = "none", rootMargin = "160px 0px" }) {
+function PhoneMockup({ src, label, variant = "default", staticSrc, preload = "none", rootMargin = "160px 0px", sound = false }) {
+  const videoRef = useRef(null);
   return (
     <div className={`phone-stage phone-stage--${variant}`}>
       <div className="phone-screen">
@@ -195,7 +274,9 @@ function PhoneMockup({ src, label, variant = "default", staticSrc, preload = "no
           preload={preload}
           autoPlay={preload === "auto"}
           rootMargin={rootMargin}
+          mediaRef={videoRef}
         />
+        {sound && <SoundButton videoRef={videoRef} />}
       </div>
       <img className="phone-bezel" src={homeAssets.phone} alt="" />
     </div>
@@ -227,6 +308,7 @@ function ArtifactProject() {
 }
 
 function BrowserMockup() {
+  const videoRef = useRef(null);
   return (
     <div className="browser-stage">
       <div className="browser-titlebar" aria-hidden="true">
@@ -239,7 +321,9 @@ function BrowserMockup() {
           label="Аниматик рабочего пространства AI Producer"
           preload="none"
           rootMargin="180px 0px"
+          mediaRef={videoRef}
         />
+        <SoundButton videoRef={videoRef} />
       </div>
     </div>
   );
@@ -268,7 +352,7 @@ function TayaProject() {
   return (
     <article className="home-project home-project--taya">
       <div className="home-project-media home-project-media--phone">
-        <PhoneMockup src={homeAssets.taya} staticSrc={homeAssets.tayaPoster} rootMargin="800px 0px" label="Аниматик экрана TAYA AI" variant="taya" />
+        <PhoneMockup src={homeAssets.taya} staticSrc={homeAssets.tayaPoster} rootMargin="800px 0px" label="Аниматик экрана TAYA AI" variant="taya" sound />
       </div>
       <div className="home-project-info">
         <ProjectHeader disabled title="Taya AI" tags={["Concept", "Design & Research"]} />
