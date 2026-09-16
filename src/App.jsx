@@ -1417,7 +1417,7 @@ function App() {
               </dl>
               <dl>
                 <dt>Опыт</dt>
-                <dd>2 года</dd>
+                <dd>3 года</dd>
               </dl>
             </div>
           </div>
