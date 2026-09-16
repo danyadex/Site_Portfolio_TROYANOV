@@ -59,6 +59,7 @@ function AutoVideo({
   autoPlay = false,
   rootMargin = "120px 0px",
   mediaRef,
+  startAt = 0,
 }) {
   const localRef = useRef(null);
   const videoRef = mediaRef ?? localRef;
@@ -67,8 +68,27 @@ function AutoVideo({
     const video = videoRef.current;
     if (!video) return undefined;
 
-    return manageVideoPlayback(video, video, { rootMargin });
-  }, [src, rootMargin]);
+    // На вебе ролики проектов подгружаются заранее, чтобы при прокрутке
+    // сразу играть, а не показывать заглушку. На телефоне бережём трафик.
+    const warmUp = preload === "none" && window.matchMedia("(min-width: 900px)").matches;
+    return manageVideoPlayback(video, video, { rootMargin: warmUp ? "2400px 0px" : rootMargin });
+  }, [src, rootMargin, preload]);
+
+  // Видео стартует с того же кадра, что стоит заглушкой, — без прыжка
+  // к заставке ролика. Дальше цикл идёт как обычно, с начала.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !startAt) return undefined;
+    const seek = () => {
+      if (video.duration > startAt) video.currentTime = startAt;
+    };
+    if (video.readyState >= 1) {
+      seek();
+      return undefined;
+    }
+    video.addEventListener("loadedmetadata", seek, { once: true });
+    return () => video.removeEventListener("loadedmetadata", seek);
+  }, [src, startAt]);
 
   return (
     <video
@@ -259,7 +279,7 @@ function RhythmDot({ className = "" }) {
   return <span className={`rhythm-dot ${className}`.trim()} aria-hidden="true">•</span>;
 }
 
-function PhoneMockup({ src, label, variant = "default", staticSrc, preload = "none", rootMargin = "160px 0px", sound = false }) {
+function PhoneMockup({ src, label, variant = "default", staticSrc, preload = "none", rootMargin = "160px 0px", sound = false, startAt = 0 }) {
   const videoRef = useRef(null);
   return (
     <div className={`phone-stage phone-stage--${variant}`}>
@@ -273,6 +293,7 @@ function PhoneMockup({ src, label, variant = "default", staticSrc, preload = "no
           autoPlay={preload === "auto"}
           rootMargin={rootMargin}
           mediaRef={videoRef}
+          startAt={startAt}
         />
         {sound && <SoundButton videoRef={videoRef} />}
       </div>
@@ -288,6 +309,7 @@ function ArtifactProject() {
         <PhoneMockup
           src={homeAssets.artifact}
           staticSrc={homeAssets.artifactStill}
+          startAt={27}
           preload="none"
           label="Аниматик приложения ARTIFACT"
         />
@@ -320,6 +342,7 @@ function BrowserMockup() {
           preload="none"
           rootMargin="180px 0px"
           mediaRef={videoRef}
+          startAt={18}
         />
         <SoundButton videoRef={videoRef} />
       </div>
@@ -350,7 +373,7 @@ function TayaProject() {
   return (
     <article className="home-project home-project--taya">
       <div className="home-project-media home-project-media--phone">
-        <PhoneMockup src={homeAssets.taya} staticSrc={homeAssets.tayaPoster} rootMargin="800px 0px" label="Аниматик экрана TAYA AI" variant="taya" sound />
+        <PhoneMockup src={homeAssets.taya} staticSrc={homeAssets.tayaPoster} rootMargin="800px 0px" label="Аниматик экрана TAYA AI" variant="taya" sound startAt={13} />
       </div>
       <div className="home-project-info">
         <ProjectHeader disabled title="Taya AI" tags={["Concept", "Design & Research"]} />

@@ -353,11 +353,14 @@ a:focus-visible {
   transform: translateZ(0);
 }
 
+/* Кадр-заглушка лежит под видео и виден, пока видео не заиграло: вместо
+   чёрного экрана или заставки сразу показывается содержательный экран.
+   Видео проявляется поверх, когда пошли кадры (media-playback.js). */
 .phone-still {
-  display: none;
+  display: block;
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 0;
   width: 100%;
   height: 100%;
   max-width: none;
@@ -366,7 +369,13 @@ a:focus-visible {
 
 .phone-motion {
   position: relative;
-  z-index: 0;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+
+.phone-motion[data-video-playing="true"] {
+  opacity: 1;
 }
 
 .phone-stage--taya .phone-screen {
@@ -1320,14 +1329,6 @@ a:focus-visible {
     aspect-ratio: 358 / 747;
   }
 
-  .home-project--artifact .phone-still {
-    display: none;
-  }
-
-  .home-project--artifact .phone-motion {
-    display: block;
-  }
-
   .phone-screen {
     --phone-screen-radius: clamp(28px, 15.28vw, 58.679px);
   }
@@ -1586,8 +1587,6 @@ a:focus-visible {
   -webkit-appearance: none;
 }
 
-.phone-stage--taya .phone-motion { opacity: 0; }
-.phone-stage--taya .phone-motion[data-video-playing="true"] { opacity: 1; }
 .phone-stage--taya video::-webkit-media-controls-start-playback-button { display: none !important; }
 
 /* Узкий экран: отступ между названием и тегами сжимается вместе с пайпами. */
