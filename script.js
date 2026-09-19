@@ -181,6 +181,21 @@ if (backButton) {
 const disposeRails = [...document.querySelectorAll('[data-drag-scroll]')].map(initInertialRail);
 if (import.meta.hot) import.meta.hot.dispose(() => disposeRails.forEach(dispose => dispose()));
 
+// Экраны, уехавшие за правый край ленты, браузер не грузит: они не попадают
+// в видимую область. При быстром свайпе на их месте пустота, поэтому грузим
+// всю ленту заранее — когда она подходит к экрану.
+const railImages = new IntersectionObserver((entries, observer) => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    entry.target.querySelectorAll('img[loading="lazy"]').forEach((image) => {
+      image.loading = "eager";
+    });
+    observer.unobserve(entry.target);
+  }
+}, { rootMargin: "800px 0px" });
+document.querySelectorAll("[data-drag-scroll]").forEach((rail) => railImages.observe(rail));
+if (import.meta.hot) import.meta.hot.dispose(() => railImages.disconnect());
+
 document.querySelectorAll(".ui-shots-controls").forEach((controls) => {
   const previousButton = controls.querySelector("[data-scroll-prev]");
   const nextButton = controls.querySelector("[data-scroll-next]");

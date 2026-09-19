@@ -209,6 +209,92 @@
 
     <div class="case-divider case-divider--hairline" aria-hidden="true"></div>
 
+    <section class="case-section decisions" aria-labelledby="decisions-title">
+      <div class="case-section-head">
+        <p class="case-kicker" id="decisions-title">РЕШЕНИЯ</p>
+        <div class="case-section-note decisions-note">
+          <p class="decisions-count"><b>3</b> ЗАДАЧИ</p>
+          <strong>ГДЕ БЫЛО СЛОЖНЕЕ ВСЕГО</strong>
+        </div>
+      </div>
+
+      <article class="decision">
+        <div class="decision-copy">
+          <p class="decision-label"><span>1&nbsp;•</span>ОТОБРАЖЕНИЕ НАСТРОЕК МОДЕЛЕЙ</p>
+          <h2>У&nbsp;каждой модели свои параметры&nbsp;—<br />интерфейс один</h2>
+        </div>
+        <p class="decision-note">Значения приходят из&nbsp;настроек модели, а&nbsp;не&nbsp;зашиты в&nbsp;компонент: чипы показывают только то, что&nbsp;модель умеет&nbsp;— выбрать недоступный формат нельзя</p>
+        <div class="decision-shots decision-shots--pair" data-drag-scroll tabindex="0" aria-label="Настройки двух видеомоделей">
+          <figure class="decision-shot">
+            <figcaption>SEEDANCE 2.5&nbsp;· 7&nbsp;ФОРМАТОВ&nbsp;· ДО&nbsp;30&nbsp;С</figcaption>
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/model-seedance.webp" alt="Выбор формата у Seedance 2.5: семь вариантов" />
+          </figure>
+          <figure class="decision-shot">
+            <figcaption>KLING 3.0&nbsp;· 3&nbsp;ФОРМАТА&nbsp;· ДО&nbsp;15&nbsp;С</figcaption>
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/model-kling.webp" alt="Выбор формата у Kling 3.0: три варианта" />
+          </figure>
+        </div>
+      </article>
+
+      <article class="decision">
+        <div class="decision-copy">
+          <p class="decision-label"><span>2&nbsp;•</span>ДЛИТЕЛЬНОСТЬ ГЕНЕРАЦИИ</p>
+          <h2>Из&nbsp;трёх вариантов выбрал таймлайн.<br />Виджет понятен на&nbsp;iOS&nbsp;и&nbsp;Android</h2>
+        </div>
+        <p class="decision-note">В&nbsp;отзывах на&nbsp;конкурентов респонденты жаловались на&nbsp;непрозрачные списания токенов, поэтому слайдер показывает цену в&nbsp;кредитах</p>
+        <div class="decision-shots decision-shots--trio" data-drag-scroll tabindex="0" aria-label="Три варианта выбора длительности">
+          <figure class="decision-shot decision-shot--chosen">
+            <figcaption>ТАЙМЛАЙН</figcaption>
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/duration-timeline.webp" alt="Выбранный вариант: таймлайн со стоимостью в кредитах" />
+          </figure>
+          <figure class="decision-shot">
+            <figcaption>ПРЕСЕТЫ</figcaption>
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/duration-list.webp" alt="Длительность пресетами с шагом 5 секунд" />
+          </figure>
+          <figure class="decision-shot">
+            <figcaption>ПИКЕР</figcaption>
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/duration-drum.webp" alt="Длительность колёсным пикером по секунде" />
+          </figure>
+        </div>
+      </article>
+
+      <article class="decision">
+        <div class="decision-copy">
+          <p class="decision-label"><span>3&nbsp;•</span>ОЖИДАНИЕ И&nbsp;ОШИБКИ</p>
+          <h2>Сбой не&nbsp;должен стоить токенов</h2>
+        </div>
+        <p class="decision-note">Описал состояния экранов. Токены не&nbsp;списываются, если генерация не&nbsp;началась, а&nbsp;промпт и&nbsp;вложения остаются после любой ошибки</p>
+        <div class="decision-shots decision-shots--rail" data-drag-scroll tabindex="0" aria-label="Состояния генерации">
+          <figure class="decision-shot">
+            <figcaption>EMPTY</figcaption>
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-empty.webp" alt="Пустой архив работ" />
+          </figure>
+          <figure class="decision-shot">
+            <figcaption>QUEUED</figcaption>
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-queued.webp" alt="Генерация в очереди" />
+          </figure>
+          <figure class="decision-shot">
+            <figcaption>GENERATING</figcaption>
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-loading.webp" alt="Идёт генерация" />
+          </figure>
+          <figure class="decision-shot">
+            <figcaption>SUCCESS</figcaption>
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-success.webp" alt="Готовый результат" />
+          </figure>
+          <figure class="decision-shot">
+            <figcaption>CANCELED</figcaption>
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-canceled.webp" alt="Генерация отменена, промпт сохранён" />
+          </figure>
+          <figure class="decision-shot">
+            <figcaption>LIMIT REACHED</figcaption>
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-limit.webp" alt="Достигнут лимит генераций" />
+          </figure>
+        </div>
+      </article>
+    </section>
+
+    <div class="case-divider case-divider--hairline" aria-hidden="true"></div>
+
     <section class="case-section testing" data-node-id="2048:642" aria-labelledby="testing-title">
       <div class="case-section-head">
         <p class="case-kicker" id="testing-title">ТЕСТИРОВАНИЕ</p>
@@ -231,6 +317,7 @@
         <div class="metric-value-row">
           <strong>54%</strong>
         </div>
+        <p class="metric-foot"><span class="nowrap">66 сдались</span> · <span class="nowrap">в&nbsp;среднем 2&nbsp;мин 36&nbsp;с</span> · <span class="nowrap">лёгкость 3,3&nbsp;из&nbsp;5</span></p>
       </article>
 
       <div class="testing-process">
@@ -277,6 +364,7 @@
         <div class="metric-value-row">
           <strong>83%</strong>
         </div>
+        <p class="metric-foot"><span class="nowrap">16 сдались</span> · <span class="nowrap">в&nbsp;среднем 1&nbsp;мин 40&nbsp;с</span> · <span class="nowrap">лёгкость 4&nbsp;из&nbsp;5</span></p>
       </article>
     </section>
 
