@@ -2647,6 +2647,12 @@
   border-radius: 24px;
 }
 
+/* Переносы по макету работают только на широком экране: ниже строки
+   ломаются по месту. */
+.wide-br {
+  display: none;
+}
+
 /* Пояснение стоит над экранами: сначала мысль, потом доказательство. */
 .decision-note {
   max-width: 588px;
@@ -2682,6 +2688,16 @@
 }
 
 @media (min-width: 1320px) {
+  .wide-br {
+    display: inline;
+  }
+
+  /* Первое пояснение шире остальных: его средняя строка длиннее и в 588
+     не помещается. 736 — её ширина в браузере, в макете она уже 678. */
+  .decision:first-of-type .decision-note {
+    max-width: 736px;
+  }
+
   .decision-shots--pair,
   .decision-shots--trio {
     overflow: visible;
