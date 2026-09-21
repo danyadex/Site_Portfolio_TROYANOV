@@ -2623,6 +2623,7 @@
 
 /* 2. Длительность: три варианта с аргументами и выбранный — в экране. */
 .decision-compare {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2639,13 +2640,14 @@
 }
 
 .compare-option {
+  position: relative;
   display: grid;
-  grid-template-columns: 380px minmax(0, 1fr);
+  grid-template-columns: 380px 310px;
   grid-template-areas:
     "caption shot"
     "note shot";
   align-items: center;
-  gap: 12px 0;
+  gap: 12px 71px;
 }
 
 .compare-caption {
@@ -2669,10 +2671,19 @@
   outline-offset: 11px;
 }
 
+/* Стрелка ведёт от выбранного контрола к экрану, где он стоит: на широком
+   экране они рядом, поэтому она горизонтальная, ниже — экран уходит вниз
+   и она разворачивается. */
 .compare-arrow {
-  display: none;
+  display: block;
+  grid-column: 1 / -1;
   width: 24px;
   height: 73px;
+  margin: 4px auto 0;
+}
+
+.compare-link {
+  display: none;
 }
 
 .compare-note {
@@ -2686,7 +2697,7 @@
   text-wrap: balance;
 }
 
-.compare-option img {
+.compare-option .compare-shot {
   grid-area: shot;
   display: block;
   justify-self: center;
@@ -2788,6 +2799,9 @@
   --panel-secondary: #bcbcbc;
   --panel-muted: #6d6d68;
 
+  /* Линий вокруг панели нет, поэтому воздух держит она сама — те же 100,
+     что между остальными разделами. */
+  margin: 100px 0;
   border-radius: 52px;
   /* Чёрный, как экран приложения, а не #111 из палитры сайта. */
   background: #000;
@@ -2983,6 +2997,21 @@
   .wide-br {
     display: inline;
   }
+
+  /* Переход от выбранного контрола к экрану: кривая из макета, её позиция
+     привязана к колонке 1200. */
+  .compare-arrow {
+    display: none;
+  }
+
+  .compare-link {
+    display: block;
+    position: absolute;
+    top: 323px;
+    left: 782px;
+    width: 130px;
+    height: 207px;
+  }
 }
 
 @media (max-width: 1319px) {
@@ -3069,10 +3098,6 @@
   .compare-option img {
     max-width: 100%;
     margin-top: 4px;
-  }
-
-  .compare-arrow {
-    display: block;
   }
 
   .compare-chosen {
