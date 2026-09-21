@@ -175,3 +175,24 @@ test("visible video requests playback before the first frame is ready", (t) => {
   assert.equal(video.playCount, 1);
   dispose();
 });
+
+
+test("native autoplay is enabled only while visible and cleared on cleanup", (t) => {
+  const { observers, motion } = setup(t);
+  const video = new Video();
+  const dispose = manageVideoPlayback(video);
+  assert.equal(video.autoplay, false);
+  observers[1].setVisible(true);
+  assert.equal(video.autoplay, true);
+  motion.matches = true;
+  motion.dispatchEvent(new Event("change"));
+  assert.equal(video.autoplay, false);
+  motion.matches = false;
+  motion.dispatchEvent(new Event("change"));
+  assert.equal(video.autoplay, true);
+  observers[1].setVisible(false);
+  assert.equal(video.autoplay, false);
+  observers[1].setVisible(true);
+  dispose();
+  assert.equal(video.autoplay, false);
+});

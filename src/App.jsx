@@ -310,6 +310,7 @@ function ArtifactProject() {
           src={homeAssets.artifact}
           staticSrc={homeAssets.artifactStill}
           startAt={27}
+          rootMargin="800px 0px"
           preload="none"
           label="Аниматик приложения ARTIFACT"
         />
@@ -340,7 +341,7 @@ function BrowserMockup() {
           poster={homeAssets.aiProducerPoster}
           label="Аниматик рабочего пространства AI Producer"
           preload="none"
-          rootMargin="180px 0px"
+          rootMargin="800px 0px"
           mediaRef={videoRef}
           startAt={18}
         />

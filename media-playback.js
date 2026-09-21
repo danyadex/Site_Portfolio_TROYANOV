@@ -81,6 +81,9 @@ export function manageVideoPlayback(video, target = video, options = {}) {
   };
 
   const sync = () => {
+    // Keep native autoplay available while visible, including when the first
+    // play request arrives before decoding is ready. Never autoplay offscreen.
+    video.autoplay = active && !disposed;
     if (!active || disposed) video.pause();
     else if (video.paused) playWhenReady();
   };
@@ -103,6 +106,7 @@ export function manageVideoPlayback(video, target = video, options = {}) {
   document.addEventListener("click", retryFromGesture);
   return () => {
     disposed = true;
+    video.autoplay = false;
     video.removeEventListener("playing", showPlaying);
     video.removeEventListener("pause", showStill);
     video.removeEventListener("error", showStill);
