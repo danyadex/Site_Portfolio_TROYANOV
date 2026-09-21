@@ -2588,7 +2588,7 @@
 .decision-note,
 .system-note {
   max-width: 736px;
-  margin-top: 40px;
+  margin: 40px auto 0;
   font-size: 16px;
   line-height: 24px;
   text-align: center;
@@ -2853,13 +2853,9 @@
   gap: 12px;
 }
 
-/* Стрелка принадлежит переходу, а не пункту, поэтому её рисует псевдоэлемент
-   у соседа: в разметке остаётся чистый список. */
-.system-chain li + li::before {
-  content: "→";
-  position: absolute;
-  top: 12px;
-  left: -30px;
+/* Стрелка — такой же пункт ряда, как боксы: иначе она не занимает место
+   и расстояния между шагами расходятся с макетом. */
+.chain-arrow {
   color: var(--color-text-muted);
   font-size: 16px;
   line-height: 24px;
@@ -3133,11 +3129,7 @@
     margin-top: 48px;
   }
 
-  .system-chain li + li::before {
-    content: "↓";
-    position: static;
-    top: auto;
-    left: auto;
+  .chain-arrow {
     line-height: 18px;
   }
 

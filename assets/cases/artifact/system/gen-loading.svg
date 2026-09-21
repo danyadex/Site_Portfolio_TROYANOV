@@ -1,0 +1,35 @@
+<svg width="366" height="48" viewBox="0 0 366 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="366" height="48" fill="#1E1E1E"/>
+<g id="Buttons">
+<path d="M-406 -260V-259H565V-260V-261H-406V-260ZM567 -258H566V1053H567H568V-258H567ZM565 1055V1054H-406V1055V1056H565V1055ZM-408 1053H-407V-258H-408H-409V1053H-408ZM-406 1055V1054C-406.552 1054 -407 1053.55 -407 1053H-408H-409C-409 1054.66 -407.657 1056 -406 1056V1055ZM567 1053H566C566 1053.55 565.552 1054 565 1054V1055V1056C566.657 1056 568 1054.66 568 1053H567ZM565 -260V-259C565.552 -259 566 -258.552 566 -258H567H568C568 -259.657 566.657 -261 565 -261V-260ZM-406 -260V-261C-407.657 -261 -409 -259.657 -409 -258H-408H-407C-407 -258.552 -406.552 -259 -406 -259V-260Z" fill="white" fill-opacity="0.1"/>
+<g id="btn">
+<rect x="-390.5" y="-235.5" width="780" height="787" rx="4.5" fill="black"/>
+<rect x="-390.5" y="-235.5" width="780" height="787" rx="4.5" stroke="#8A38F5" stroke-dasharray="10 5"/>
+<g id="Type=Primary, State=Processing, Size=S" filter="url(#filter0_d_93_160)">
+<path d="M4 24C4 12.9543 12.9543 4 24 4H342C353.046 4 362 12.9543 362 24C362 35.0457 353.046 44 342 44H24C12.9543 44 4 35.0457 4 24Z" fill="#5EF500" shape-rendering="crispEdges"/>
+<g id="Button">
+<g id="Icon / spinner" clip-path="url(#clip0_93_160)">
+<g id="Icon / spinner_2">
+<path id="Spinner" d="M174 24C174 22.0594 174.627 20.1708 175.788 18.6158C176.949 17.0608 178.582 15.9227 180.442 15.3711C182.303 14.8196 184.292 14.8842 186.112 15.5553C187.933 16.2264 189.488 17.4681 190.546 19.0952C191.604 20.7222 192.107 22.6476 191.981 24.584C191.855 26.5205 191.107 28.3644 189.847 29.8408C188.588 31.3172 186.885 32.347 184.993 32.7767C183.1 33.2063 181.12 33.0128 179.346 32.2249L179.907 30.9618C181.408 31.6286 183.085 31.7924 184.687 31.4288C186.288 31.0651 187.73 30.1935 188.796 28.9438C189.862 27.6942 190.495 26.1334 190.602 24.4944C190.708 22.8553 190.282 21.2256 189.387 19.8484C188.492 18.4712 187.176 17.4203 185.634 16.8522C184.093 16.2842 182.41 16.2295 180.835 16.6963C179.26 17.1631 177.878 18.1265 176.896 19.4427C175.913 20.7589 175.382 22.3574 175.382 24H174Z" fill="black"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_93_160" x="0" y="0" width="366" height="48" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.368627 0 0 0 0 0.960784 0 0 0 0 0 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_93_160"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_93_160" result="shape"/>
+</filter>
+<clipPath id="clip0_93_160">
+<rect width="20" height="20" fill="white" transform="translate(173 14)"/>
+</clipPath>
+</defs>
+</svg>
