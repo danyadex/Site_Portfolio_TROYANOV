@@ -2491,11 +2491,13 @@
   }
 }
 
-/* Решения: три сложные задачи продукта. Язык тот же, что у остального
-   кейса: подпись 13px капсом, заявление 32px, экраны 282×610 со скруглением
-   24, как в «Архитектуре». На узких экранах ряды становятся лентой. */
+/* Решения и система. Язык тот же, что у остального кейса: подпись 13px
+   капсом, заявление 32px, тёмные экраны и фрагменты интерфейса на белой
+   странице. На узких экранах ряды становятся лентой или складываются
+   в колонку — масштабировать их нельзя, подписи внутри станут нечитаемыми. */
 
-.decisions .case-kicker {
+.decisions .case-kicker,
+.system .case-kicker {
   width: 100%;
   color: var(--color-text-muted);
   text-align: center;
@@ -2534,8 +2536,22 @@
   text-align: center;
 }
 
+/* Подписи везде одной высоты: у выбранного варианта плашка с полями,
+   у остальных те же поля, но без фона — иначе ряд съезжает на 8px. */
+.decision-shot figcaption,
+.model-shot figcaption,
+.compare-caption {
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
 .decision-copy > p,
 .decision-shot figcaption,
+.model-shot figcaption,
+.compare-caption,
+.compare-chosen figcaption,
+.system-tile figcaption,
+.chain-step,
 .decision-note {
   margin: 0;
   color: var(--color-text-secondary);
@@ -2550,7 +2566,8 @@
   color: var(--color-text-muted);
 }
 
-.decision-copy h2 {
+.decision-copy h2,
+.system-copy h2 {
   /* Ширина по макету: строки рвутся тегом, а не шириной колонки. */
   max-width: 1036px;
   margin: 0;
@@ -2561,6 +2578,146 @@
   text-wrap: balance;
 }
 
+/* Переносы по макету работают только на широком экране: ниже строки
+   ломаются по месту. */
+.wide-br {
+  display: none;
+}
+
+/* Пояснение стоит над доказательством: сначала мысль, потом экраны. */
+.decision-note,
+.system-note {
+  max-width: 736px;
+  margin-top: 40px;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* 1. Настройки моделей: сравниваются сами списки, поэтому от экранов
+   оставлены только они — разная высота и есть ответ. */
+.decision-models {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 120px;
+  width: 100%;
+  margin-top: 32px;
+}
+
+.model-shot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 0;
+}
+
+.model-shot img {
+  display: block;
+  width: 205px;
+  height: auto;
+  -webkit-user-drag: none;
+}
+
+/* 2. Длительность: три варианта с аргументами и выбранный — в экране. */
+.decision-compare {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  margin-top: 32px;
+}
+
+.compare-options {
+  display: flex;
+  flex: 0 1 761px;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.compare-option {
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+  grid-template-areas:
+    "caption shot"
+    "note shot";
+  align-items: center;
+  gap: 12px 0;
+}
+
+.compare-caption {
+  grid-area: caption;
+  align-self: end;
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+/* Выбранный вариант: плашка на подписи и пунктир вокруг фрагмента —
+   дальше пунктир ведёт к экрану, где этот контрол стоит. */
+.compare-caption--chosen {
+  background: var(--color-text-accent);
+  color: var(--color-text-inverse);
+  justify-self: center;
+}
+
+.compare-shot--chosen {
+  border-radius: 13px;
+  outline: 2px dashed var(--color-text-accent);
+  outline-offset: 11px;
+}
+
+.compare-arrow {
+  display: none;
+  width: 24px;
+  height: 73px;
+}
+
+.compare-note {
+  grid-area: note;
+  align-self: start;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.compare-option img {
+  grid-area: shot;
+  display: block;
+  justify-self: center;
+  height: auto;
+  -webkit-user-drag: none;
+}
+
+.compare-shot--presets { width: 127px; }
+.compare-shot--drum { width: 269px; }
+.compare-shot--slider { width: 310px; }
+
+.compare-chosen {
+  display: flex;
+  flex: 0 0 282px;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 0;
+}
+
+.compare-chosen img {
+  display: block;
+  width: 282px;
+  height: 610px;
+  border-radius: 24px;
+  object-fit: cover;
+  -webkit-user-drag: none;
+}
+
+/* 3. Ожидание и ошибки: три экрана целиком — пустой экран с сообщением
+   и есть состояние, резать его нельзя. */
 .decision-shots {
   display: flex;
   /* Пока ряд влезает — он по центру. Как только перестал, «safe» сам
@@ -2571,69 +2728,12 @@
   gap: 24px;
   width: 100%;
   margin-top: 32px;
-}
-
-.decision-shot {
-  display: flex;
-  flex: 0 0 282px;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  margin: 0;
-}
-
-/* Отступы есть у всех подписей, чтобы плашка выбранного варианта
-   не сдвигала его экран относительно соседних. */
-.decision-shot figcaption {
-  padding: 4px 12px;
-  border-radius: 999px;
-  text-align: center;
-  white-space: nowrap;
-}
-
-/* Выбранный вариант отмечен акцентом сайта. */
-.decision-shot--chosen figcaption {
-  background: var(--color-text-accent);
-  color: var(--color-text-inverse);
-}
-
-.decision-shot--chosen img {
-  outline: 2px solid var(--color-text-accent);
-  outline-offset: 6px;
-}
-
-/* Место под обводку: у ленты overflow обрезал бы её по краям. */
-.decision-shots--trio {
-  width: calc(100% + 16px);
-  margin-inline: -8px;
-  padding: 8px;
-  scroll-padding-inline: 8px;
-}
-
-.decision-shot img {
-  display: block;
-  width: 282px;
-  height: 610px;
-  max-width: none;
-  border-radius: 24px;
-  object-fit: cover;
-  -webkit-user-drag: none;
-  pointer-events: none;
-}
-
-/* Шесть состояний не помещаются в строку — это лента, как у разделов
-   приложения, с тем же перетаскиванием. */
-.decision-shots--rail {
   overflow-x: auto;
-  overflow-y: hidden;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
-  cursor: grab;
-  -webkit-user-select: none;
-  user-select: none;
 }
 
-.decision-shots--rail::-webkit-scrollbar {
+.decision-shots::-webkit-scrollbar {
   display: none;
 }
 
@@ -2647,20 +2747,29 @@
   border-radius: 24px;
 }
 
-/* Переносы по макету работают только на широком экране: ниже строки
-   ломаются по месту. */
-.wide-br {
-  display: none;
+.decision-shot {
+  display: flex;
+  flex: 0 0 282px;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 0;
 }
 
-/* Пояснение стоит над экранами: сначала мысль, потом доказательство. */
-.decision-note {
-  max-width: 588px;
-  margin-top: 40px;
-  font-size: 16px;
-  line-height: 24px;
+.decision-shot figcaption {
   text-align: center;
-  text-wrap: balance;
+  white-space: nowrap;
+}
+
+.decision-shot img {
+  display: block;
+  width: 282px;
+  height: 610px;
+  max-width: none;
+  border-radius: 24px;
+  object-fit: cover;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 .metric-foot {
@@ -2671,8 +2780,52 @@
   text-align: center;
 }
 
-/* Система: на чём собран интерфейс. Палитра — настоящие значения токенов,
-   компоненты — экспорт из кита, поэтому они тёмные на светлой странице. */
+/* Система — тёмная панель: компоненты кита нарисованы под тёмную тему,
+   на белом disabled и пустое поле просто исчезают. Панель заодно
+   отделяет раздел от соседей, поэтому линий вокруг неё нет. */
+.system {
+  --panel-text: #ffffff;
+  --panel-secondary: #bcbcbc;
+  --panel-muted: #6d6d68;
+
+  border-radius: 52px;
+  /* Чёрный, как экран приложения, а не #111 из палитры сайта. */
+  background: #000;
+  padding: 48px 48px 56px;
+}
+
+.system .case-kicker,
+.system .case-section-note,
+.system .system-note,
+.system .system-caption,
+.system .chain-value,
+.system .chain-step,
+.system .system-tile figcaption {
+  color: var(--panel-secondary);
+}
+
+.system .system-copy h2,
+.system .chain-value {
+  color: var(--panel-text);
+}
+
+.system .chain-step,
+.system .system-tiles--buttons .system-tile figcaption {
+  color: var(--panel-muted);
+}
+
+.system .chain-value {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Плашки не нужны: панель уже чёрная. */
+.system .chain-value--tile,
+.system .system-tile span {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+}
+
 .system-copy {
   display: flex;
   width: 100%;
@@ -2681,80 +2834,51 @@
   margin-top: 100px;
 }
 
-.system-copy h2 {
-  max-width: 1036px;
-  margin: 0;
-  color: var(--color-text-primary);
-  font-size: 32px;
-  line-height: 40px;
-  font-weight: 400;
-  text-align: center;
-  text-wrap: balance;
+.system-chain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  margin: 64px 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.system-note {
-  max-width: 736px;
-  margin: 40px 0 0;
-  color: var(--color-text-secondary);
+.system-chain li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Стрелка принадлежит переходу, а не пункту, поэтому её рисует псевдоэлемент
+   у соседа: в разметке остаётся чистый список. */
+.system-chain li + li::before {
+  content: "→";
+  position: absolute;
+  top: 12px;
+  left: -30px;
+  color: var(--color-text-muted);
   font-size: 16px;
   line-height: 24px;
-  text-align: center;
-  text-wrap: balance;
 }
 
-.system-palette {
-  width: min(100%, 940px);
-  margin: 48px 0 0;
-}
-
-.system-palette > div {
-  display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
-  gap: 24px;
+.chain-value {
+  display: flex;
   align-items: center;
-  padding: 16px 0;
-  border-top: 1px solid var(--color-border-divider);
-}
-
-.system-palette > div:last-child {
-  border-bottom: 1px solid var(--color-border-divider);
-}
-
-.system-palette dt,
-.system-palette dd {
-  margin: 0;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 12px;
+  color: var(--color-text-primary);
   font-size: 13px;
   line-height: 18px;
+  white-space: nowrap;
 }
 
-.system-palette dt {
-  color: var(--color-text-secondary);
-}
-
-.system-palette dd {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.swatch {
-  display: grid;
-  grid-template-columns: 20px minmax(0, 1fr);
-  gap: 2px 8px;
-  align-items: center;
-  color: var(--color-text-primary);
-}
-
-.swatch b,
-.swatch i {
-  grid-column: 2;
-}
-
-/* Внутренняя обводка нужна белому и чёрному: без неё они сливаются
-   со страницей. */
-.swatch::before {
-  content: "";
-  grid-row: span 2;
+.chain-swatch {
   width: 20px;
   height: 20px;
   border-radius: 6px;
@@ -2762,201 +2886,219 @@
   box-shadow: inset 0 0 0 1px var(--color-border-subtle);
 }
 
-.swatch b {
-  font-weight: 400;
+.chain-value--tile {
+  padding: 16px;
+  border: 0;
+  border-radius: 12px;
+  background: #000;
 }
 
-.swatch i,
-.system-fonts span {
+.chain-value--tile img {
+  display: block;
+  width: 366px;
+  height: auto;
+}
+
+.chain-step {
   color: var(--color-text-muted);
-  font-style: normal;
 }
 
-/* Строка шрифтов живёт не по колонкам палитры: там фразы, а не пары. */
-.system-palette dd.system-fonts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 24px;
+.system-caption {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  line-height: 18px;
+  text-align: center;
+  text-wrap: balance;
 }
 
-.system-fonts b {
-  color: var(--color-text-primary);
-  font-weight: 400;
-}
-
-.system-shot {
+.system-group {
   display: flex;
   width: 100%;
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  margin: 64px 0 0;
+  margin-top: 64px;
 }
 
-.system-shot figcaption {
-  color: var(--color-text-secondary);
-  font-size: 13px;
-  line-height: 18px;
-  text-align: center;
-}
-
-.system-shot-frame {
+.system-tiles {
   display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  justify-content: safe center;
-  overscroll-behavior-x: contain;
-  scrollbar-width: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px 16px;
 }
 
-.system-shot-frame::-webkit-scrollbar {
-  display: none;
+.system-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
 }
 
-.system-shot-frame:focus-visible {
-  outline: 2px solid var(--color-text-accent);
-  outline-offset: 6px;
-  border-radius: 24px;
+.system-tile span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #000;
 }
 
-.system-shot img {
-  display: block;
-  width: 760px;
-  max-width: 100%;
+.system-tile figcaption {
+  color: var(--color-text-muted);
+}
+
+.system-tiles--buttons .system-tile span {
+  width: auto;
   height: auto;
-  border-radius: 24px;
-  -webkit-user-drag: none;
-  pointer-events: none;
 }
 
-@media (max-width: 1319px) {
-  .decision-shots--pair,
-  .decision-shots--trio {
-    overflow-x: auto;
-    overflow-y: hidden;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-    cursor: grab;
-  }
+.system-tiles--buttons img {
+  display: block;
+  width: 366px;
+  height: auto;
+}
 
-  .decision-shots--pair::-webkit-scrollbar,
-  .decision-shots--trio::-webkit-scrollbar {
-    display: none;
-  }
+.system-tiles--fields .system-tile span {
+  width: auto;
+  height: auto;
+}
+
+.system-tiles--fields {
+  width: 100%;
+  flex-wrap: nowrap;
+  /* Поля разной высоты — равняем по низу, чтобы подписи шли одной строкой. */
+  align-items: flex-end;
+}
+
+.system-tiles--fields .system-tile {
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+.system-tiles--fields img {
+  display: block;
+  width: 100%;
+  max-width: 358px;
+  height: auto;
 }
 
 @media (min-width: 1320px) {
   .wide-br {
     display: inline;
   }
+}
 
-  /* Первое пояснение шире остальных: его средняя строка длиннее и в 588
-     не помещается. 736 — её ширина в браузере, в макете она уже 678. */
-  .decision:first-of-type .decision-note {
-    max-width: 736px;
+@media (max-width: 1319px) {
+  .decision-models {
+    gap: 64px;
   }
 
-  .decision-shots--pair,
-  .decision-shots--trio {
-    overflow: visible;
+  .decision-compare {
+    flex-direction: column;
+    gap: 48px;
   }
 
-  /* На широком экране все шесть состояний видны сразу одним рядом:
-     это обзор, а не разбор отдельного экрана. */
-  .decision-shots--rail {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 16px;
-    overflow: visible;
-    cursor: default;
-  }
-
-  .decision-shots--rail .decision-shot {
-    min-width: 0;
-  }
-
-  .decision-shots--rail .decision-shot img {
+  .compare-options {
+    flex: 0 0 auto;
     width: 100%;
-    height: auto;
-    aspect-ratio: 282 / 610;
-    border-radius: 18px;
+  }
+
+  .compare-option {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
   }
 }
 
 @media (max-width: 899px) {
+  .decisions-count b {
+    font-size: 64px;
+    line-height: 84px;
+  }
+
   .decision {
     margin-top: 64px;
   }
 
-  .system-copy {
-    margin-top: 64px;
-  }
-
+  .decision-copy h2,
   .system-copy h2 {
     font-size: 20px;
     line-height: 28px;
   }
 
+  .decision-note,
   .system-note {
     margin-top: 28px;
     font-size: 14px;
     line-height: 20px;
   }
 
-  .system-palette {
-    margin-top: 32px;
-  }
-
-  .system-palette > div {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 14px 0;
-  }
-
-  .system-palette dd {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px 16px;
-  }
-
-  .system-shot {
+  /* Списки форматов остаются рядом: их разная высота и есть сравнение,
+     в колонку оно рассыплется. */
+  .decision-models {
     gap: 16px;
-    margin-top: 48px;
+    margin-top: 24px;
   }
 
-  /* На узком экране компонент показан в своём масштабе: мельче его
-     не прочитать. Ряд листается, как остальные ленты кейса. */
-  .system-shot-frame {
-    overflow-x: auto;
-    cursor: grab;
-    -webkit-user-select: none;
-    user-select: none;
+  .model-shot {
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 16px;
   }
 
-  .system-shot-frame.is-dragging {
-    cursor: grabbing;
+  .model-shot img {
+    width: 100%;
+    max-width: 205px;
   }
 
-  .system-shot img {
-    width: 640px;
-    max-width: none;
-    border-radius: 16px;
+  .decision-compare {
+    margin-top: 24px;
+    gap: 40px;
   }
 
-  .decision-copy h2 {
-    font-size: 20px;
-    line-height: 28px;
+  .compare-option {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "caption"
+      "note"
+      "shot";
+    gap: 12px;
+    justify-items: center;
   }
 
-  .decisions-count b {
-    font-size: 64px;
-    line-height: 84px;
+  .compare-note {
+    font-size: 14px;
+    line-height: 20px;
   }
 
+  .compare-option img {
+    max-width: 100%;
+    margin-top: 4px;
+  }
+
+  .compare-arrow {
+    display: block;
+  }
+
+  .compare-chosen {
+    flex: 0 0 auto;
+    gap: 16px;
+  }
+
+  .compare-chosen img {
+    width: 265px;
+    height: auto;
+    aspect-ratio: 282 / 610;
+  }
+
+  /* Экраны состояний в своём масштабе: ряд листается, как остальные ленты. */
   .decision-shots {
     gap: 16px;
     margin-top: 24px;
     padding-bottom: 8px;
+    cursor: grab;
     scroll-snap-type: x proximity;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
   .decision-shot {
@@ -2975,9 +3117,62 @@
     white-space: normal;
   }
 
-  .decision-note {
-    margin-top: 28px;
-    font-size: 14px;
-    line-height: 20px;
+  .system {
+    border-radius: 32px;
+    padding: 24px 16px 32px;
+  }
+
+  .system-copy {
+    margin-top: 48px;
+  }
+
+  /* Цепочка встаёт в колонку: стрелка поворачивается вниз. */
+  .system-chain {
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .system-chain li + li::before {
+    content: "↓";
+    position: static;
+    top: auto;
+    left: auto;
+    line-height: 18px;
+  }
+
+  .system-chain li {
+    width: 100%;
+  }
+
+  .chain-value {
+    white-space: normal;
+    text-align: center;
+  }
+
+  .chain-value--tile img,
+  .system-tiles--buttons img,
+  .system-tiles--fields img {
+    width: 100%;
+    max-width: 366px;
+  }
+
+  .system-group {
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .system-tiles {
+    width: 100%;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .system-tile {
+    width: 100%;
+  }
+
+  .system-tiles--fields img {
+    max-width: 358px;
   }
 }

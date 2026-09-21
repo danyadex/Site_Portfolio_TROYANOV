@@ -221,17 +221,17 @@
       <article class="decision">
         <div class="decision-copy">
           <p class="decision-label"><span>1&nbsp;•</span>ОТОБРАЖЕНИЕ НАСТРОЕК МОДЕЛЕЙ</p>
-          <h2>У&nbsp;каждой модели свои параметры&nbsp;—<br />интерфейс один</h2>
+          <h2>Одна логика настроек<br class="wide-br" /> для&nbsp;разных моделей</h2>
         </div>
-        <p class="decision-note">Значения приходят из&nbsp;настроек модели,<br class="wide-br" /> а&nbsp;не&nbsp;зашиты в&nbsp;компонент: чипы показывают только то, что&nbsp;модель умеет&nbsp;—<br class="wide-br" /> выбрать недоступный формат нельзя</p>
-        <div class="decision-shots decision-shots--pair" data-drag-scroll tabindex="0" aria-label="Настройки двух видеомоделей">
-          <figure class="decision-shot">
+        <p class="decision-note">Список приходит из&nbsp;настроек модели и&nbsp;не&nbsp;зашит в&nbsp;компонент.<br class="wide-br" /> Недоступный вариант выбрать нельзя</p>
+        <div class="decision-models">
+          <figure class="model-shot">
             <figcaption>SEEDANCE 2.5&nbsp;· 7&nbsp;ФОРМАТОВ&nbsp;· ДО&nbsp;30&nbsp;С</figcaption>
-            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/model-seedance.webp" alt="Выбор формата у Seedance 2.5: семь вариантов" />
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/models-seedance.webp" alt="Выбор формата у Seedance 2.5: семь вариантов" />
           </figure>
-          <figure class="decision-shot">
+          <figure class="model-shot">
             <figcaption>KLING 3.0&nbsp;· 3&nbsp;ФОРМАТА&nbsp;· ДО&nbsp;15&nbsp;С</figcaption>
-            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/model-kling.webp" alt="Выбор формата у Kling 3.0: три варианта" />
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/models-kling.webp" alt="Выбор формата у Kling 3.0: три варианта" />
           </figure>
         </div>
       </article>
@@ -239,21 +239,29 @@
       <article class="decision">
         <div class="decision-copy">
           <p class="decision-label"><span>2&nbsp;•</span>ДЛИТЕЛЬНОСТЬ ГЕНЕРАЦИИ</p>
-          <h2>Из&nbsp;трёх вариантов выбрал таймлайн.<br />Виджет понятен на&nbsp;iOS&nbsp;и&nbsp;Android</h2>
+          <h2>Сравнил пресеты, пикер и&nbsp;слайдер&nbsp;—<br class="wide-br" /> выбрал слайдер</h2>
         </div>
-        <p class="decision-note">В&nbsp;отзывах на&nbsp;конкурентов респонденты жаловались на&nbsp;непрозрачные списания токенов,<br class="wide-br" /> поэтому слайдер показывает цену в&nbsp;кредитах</p>
-        <div class="decision-shots decision-shots--trio" data-drag-scroll tabindex="0" aria-label="Три варианта выбора длительности">
-          <figure class="decision-shot decision-shot--chosen">
-            <figcaption>ТАЙМЛАЙН</figcaption>
-            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/duration-timeline.webp" alt="Выбранный вариант: таймлайн со стоимостью в кредитах" />
-          </figure>
-          <figure class="decision-shot">
-            <figcaption>ПРЕСЕТЫ</figcaption>
-            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/duration-list.webp" alt="Длительность пресетами с шагом 5 секунд" />
-          </figure>
-          <figure class="decision-shot">
-            <figcaption>ПИКЕР</figcaption>
-            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/duration-drum.webp" alt="Длительность колёсным пикером по секунде" />
+        <div class="decision-compare">
+          <div class="compare-options">
+            <div class="compare-option">
+              <p class="compare-caption">ПРЕСЕТЫ</p>
+              <p class="compare-note">Слайдер наглядно показывает границы диапазона и&nbsp;положение выбранной длительности</p>
+              <img loading="lazy" decoding="async" class="compare-shot compare-shot--presets" src="assets/cases/artifact/decisions/duration-presets-crop.webp" alt="Список пресетов: 5, 10, 15, 20 и 30 секунд" />
+            </div>
+            <div class="compare-option">
+              <p class="compare-caption">ПИКЕР</p>
+              <p class="compare-note">Пикер использует паттерн iOS. Слайдер выбран как контрол для&nbsp;обеих платформ</p>
+              <img loading="lazy" decoding="async" class="compare-shot compare-shot--drum" src="assets/cases/artifact/decisions/duration-drum-crop.webp" alt="Колёсный пикер с выбором по секунде" />
+            </div>
+            <div class="compare-option">
+              <p class="compare-caption compare-caption--chosen">СЛАЙДЕР</p>
+              <p class="compare-note">Стоимость видна до&nbsp;запуска.<br class="wide-br" /> Респонденты жаловались на&nbsp;непрозрачные списания токенов у&nbsp;конкурентов</p>
+              <img loading="lazy" decoding="async" class="compare-shot compare-shot--slider compare-shot--chosen" src="assets/cases/artifact/decisions/duration-slider-crop.webp" alt="Слайдер длительности со стоимостью в кредитах" />
+            </div>
+          </div>
+          <img loading="lazy" decoding="async" class="compare-arrow" src="assets/cases/artifact/decisions/chosen-down.svg" alt="" aria-hidden="true" />
+          <figure class="compare-chosen">
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/duration-timeline.webp" alt="Слайдер длительности в экране создания видео" />
           </figure>
         </div>
       </article>
@@ -261,108 +269,73 @@
       <article class="decision">
         <div class="decision-copy">
           <p class="decision-label"><span>3&nbsp;•</span>ОЖИДАНИЕ И&nbsp;ОШИБКИ</p>
-          <h2>Сбой не&nbsp;должен стоить токенов</h2>
+          <h2>При ошибке не&nbsp;нужно<br class="wide-br" /> собирать запрос заново</h2>
         </div>
-        <p class="decision-note">Описал состояния экранов.<br class="wide-br" /> Токены не&nbsp;списываются, если генерация не&nbsp;началась,<br class="wide-br" /> а&nbsp;промпт и&nbsp;вложения остаются после любой ошибки</p>
-        <div class="decision-shots decision-shots--rail" data-drag-scroll tabindex="0" aria-label="Состояния генерации">
+        <p class="decision-note">Описал семь состояний и&nbsp;ошибок.<br class="wide-br" /> Промпт и&nbsp;вложения сохраняются после ошибки,<br class="wide-br" /> а&nbsp;если генерация не&nbsp;началась, токены не&nbsp;списываются</p>
+        <div class="decision-shots decision-shots--states" data-drag-scroll tabindex="0" aria-label="Состояния генерации">
           <figure class="decision-shot">
-            <figcaption>EMPTY</figcaption>
-            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-empty.webp" alt="Пустой архив работ" />
+            <figcaption>В ОЧЕРЕДИ</figcaption>
+            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-queued.webp" alt="Генерация в очереди, её можно отменить" />
           </figure>
           <figure class="decision-shot">
-            <figcaption>QUEUED</figcaption>
-            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-queued.webp" alt="Генерация в очереди" />
-          </figure>
-          <figure class="decision-shot">
-            <figcaption>GENERATING</figcaption>
-            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-loading.webp" alt="Идёт генерация" />
-          </figure>
-          <figure class="decision-shot">
-            <figcaption>SUCCESS</figcaption>
-            <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-success.webp" alt="Готовый результат" />
-          </figure>
-          <figure class="decision-shot">
-            <figcaption>CANCELED</figcaption>
+            <figcaption>ОТМЕНЕНО</figcaption>
             <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-canceled.webp" alt="Генерация отменена, промпт сохранён" />
           </figure>
           <figure class="decision-shot">
-            <figcaption>LIMIT REACHED</figcaption>
+            <figcaption>ЛИМИТ ИСЧЕРПАН</figcaption>
             <img loading="lazy" decoding="async" src="assets/cases/artifact/decisions/state-limit.webp" alt="Достигнут лимит генераций" />
           </figure>
         </div>
       </article>
     </section>
 
-    <div class="case-divider case-divider--hairline" aria-hidden="true"></div>
-
     <section class="case-section system" aria-labelledby="system-title">
       <div class="case-section-head">
-        <p class="case-kicker" id="system-title">СИСТЕМА</p>
+        <p class="case-kicker" id="system-title">ДИЗАЙН-СИСТЕМА</p>
         <div class="case-section-note">
-          <span>45 ПРИМИТИВОВ · 58 ТОКЕНОВ</span>
-          <strong>ОДИН ИСТОЧНИК ПРАВДЫ</strong>
+          <span>45 ПРИМИТИВОВ&nbsp;· 58 ТОКЕНОВ</span>
         </div>
       </div>
 
       <div class="system-copy">
-        <h2>Цвет и&nbsp;состояние приходят из&nbsp;переменных,<br class="wide-br" /> а&nbsp;не&nbsp;задаются в&nbsp;макете</h2>
+        <h2>Компоненты и&nbsp;состояния<br class="wide-br" /> для&nbsp;всех экранов</h2>
       </div>
-      <p class="system-note">Примитивы свёрнуты в&nbsp;смысловые токены: кнопка знает не&nbsp;про зелёный, а&nbsp;про акцент.<br class="wide-br" /> Поэтому нажатие, ошибка и&nbsp;блокировка правятся в&nbsp;одном месте, а&nbsp;не&nbsp;в&nbsp;каждом экране</p>
+      <p class="system-note">Экраны собраны из&nbsp;общих компонентов.<br class="wide-br" /> Изменения основного компонента применяются к&nbsp;его инстансам в&nbsp;макетах</p>
 
-      <dl class="system-palette" aria-label="Основа системы">
-        <div>
-          <dt>ПОВЕРХНОСТИ</dt>
-          <dd>
-            <span class="swatch" style="--swatch: #000000"><b>bg/base</b><i>#000000</i></span>
-            <span class="swatch" style="--swatch: #1a1a1a"><b>surface/default</b><i>#1A1A1A</i></span>
-            <span class="swatch" style="--swatch: #2e2e2e"><b>surface/raised</b><i>#2E2E2E</i></span>
-            <span class="swatch" style="--swatch: #525252"><b>border/strong</b><i>#525252</i></span>
-          </dd>
-        </div>
-        <div>
-          <dt>ТЕКСТ</dt>
-          <dd>
-            <span class="swatch" style="--swatch: #ffffff"><b>text/primary</b><i>#FFFFFF</i></span>
-            <span class="swatch" style="--swatch: #787878"><b>text/secondary</b><i>#787878</i></span>
-            <span class="swatch" style="--swatch: #525252"><b>text/muted</b><i>#525252</i></span>
-            <span class="swatch" style="--swatch: #5ef500"><b>text/accent</b><i>#5EF500</i></span>
-          </dd>
-        </div>
-        <div>
-          <dt>ДЕЙСТВИЕ И&nbsp;СТАТУСЫ</dt>
-          <dd>
-            <span class="swatch" style="--swatch: #5ef500"><b>accent/primary</b><i>#5EF500</i></span>
-            <span class="swatch" style="--swatch: #4ad400"><b>accent/pressed</b><i>#4AD400</i></span>
-            <span class="swatch" style="--swatch: #ffb020"><b>warning/primary</b><i>#FFB020</i></span>
-            <span class="swatch" style="--swatch: #ff4d4d"><b>error/primary</b><i>#FF4D4D</i></span>
-          </dd>
-        </div>
-        <div>
-          <dt>ШРИФТЫ</dt>
-          <dd class="system-fonts">
-            <span><b>Goldman</b> — заголовки и&nbsp;кнопки</span>
-            <span><b>Geist</b> — текст и&nbsp;подписи</span>
-            <span>18 стилей</span>
-          </dd>
-        </div>
-      </dl>
+      <ol class="system-chain" aria-label="Как цвет доходит до компонента">
+        <li>
+          <span class="chain-value"><i class="chain-swatch" style="--swatch: #5ef500"></i>Green/500 #5EF500</span>
+          <span class="chain-step">ПРИМИТИВ</span>
+        </li>
+        <li>
+          <span class="chain-value">color/accent/primary</span>
+          <span class="chain-step">СМЫСЛОВОЙ ТОКЕН</span>
+        </li>
+        <li>
+          <span class="chain-value chain-value--tile"><img loading="lazy" decoding="async" src="assets/cases/artifact/system/gen-default.webp" alt="Кнопка генерации в обычном состоянии" /></span>
+          <span class="chain-step">КОМПОНЕНТ</span>
+        </li>
+      </ol>
 
-      <figure class="system-shot">
-        <figcaption>КНОПКИ&nbsp;· 4&nbsp;СОСТОЯНИЯ&nbsp;· 2&nbsp;РАЗМЕРА</figcaption>
-        <div class="system-shot-frame" data-drag-scroll tabindex="0" aria-label="Кнопки во всех состояниях">
-          <img loading="lazy" decoding="async" src="assets/cases/artifact/system/kit-buttons.webp" alt="Кнопки кита: обычная, нажатая, отключённая и с индикатором загрузки, в двух размерах" />
+      <div class="system-group">
+        <p class="system-caption">КНОПКА&nbsp;· ЧЕТЫРЕ СОСТОЯНИЯ</p>
+        <div class="system-tiles system-tiles--buttons">
+          <figure class="system-tile"><span><img loading="lazy" decoding="async" src="assets/cases/artifact/system/gen-default.webp" alt="Кнопка в обычном состоянии" /></span><figcaption>DEFAULT</figcaption></figure>
+          <figure class="system-tile"><span><img loading="lazy" decoding="async" src="assets/cases/artifact/system/gen-pressed.webp" alt="Кнопка в нажатом состоянии" /></span><figcaption>PRESSED</figcaption></figure>
+          <figure class="system-tile"><span><img loading="lazy" decoding="async" src="assets/cases/artifact/system/gen-loading.webp" alt="Кнопка с индикатором загрузки" /></span><figcaption>LOADING</figcaption></figure>
+          <figure class="system-tile"><span><img loading="lazy" decoding="async" src="assets/cases/artifact/system/gen-disabled.webp" alt="Отключённая кнопка" /></span><figcaption>DISABLED</figcaption></figure>
         </div>
-      </figure>
+      </div>
 
-      <figure class="system-shot">
-        <figcaption>ПОЛЯ&nbsp;· 2&nbsp;ТИПА&nbsp;· 8&nbsp;СОСТОЯНИЙ</figcaption>
-        <div class="system-shot-frame" data-drag-scroll tabindex="0" aria-label="Поля во всех состояниях">
-          <img loading="lazy" decoding="async" src="assets/cases/artifact/system/kit-fields.webp" alt="Поля ввода кита: линия и капсула в состояниях от пустого до ошибки" />
+      <div class="system-group">
+        <p class="system-caption">ПОЛЕ ПРОМПТА&nbsp;· ТРИ ВАРИАНТА ЗАПОЛНЕНИЯ</p>
+        <div class="system-tiles system-tiles--fields">
+          <figure class="system-tile"><span><img loading="lazy" decoding="async" src="assets/cases/artifact/system/prompt-empty.webp" alt="Пустое поле промпта" /></span><figcaption>ПУСТОЕ</figcaption></figure>
+          <figure class="system-tile"><span><img loading="lazy" decoding="async" src="assets/cases/artifact/system/prompt-filled.webp" alt="Поле с коротким промптом" /></span><figcaption>С ПРОМПТОМ</figcaption></figure>
+          <figure class="system-tile"><span><img loading="lazy" decoding="async" src="assets/cases/artifact/system/prompt-long.webp" alt="Поле с длинным промптом" /></span><figcaption>ДЛИННЫЙ ПРОМПТ</figcaption></figure>
         </div>
-      </figure>
+      </div>
     </section>
-
-    <div class="case-divider case-divider--hairline" aria-hidden="true"></div>
 
     <section class="case-section testing" data-node-id="2048:642" aria-labelledby="testing-title">
       <div class="case-section-head">
