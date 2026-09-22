@@ -2629,7 +2629,7 @@
   align-items: center;
   gap: 24px;
   width: 100%;
-  margin-top: 40px;
+  margin-top: 56px;
 }
 
 .compare-options {
@@ -3043,10 +3043,12 @@
   .compare-link {
     display: block;
     position: absolute;
+    /* Стрелка приходит к экрану на своей высоте, а точка связи стоит
+       на середине выбранного слайдера — отсюда лишние 12px высоты. */
     top: 323px;
     left: 782px;
     width: 130px;
-    height: 207px;
+    height: 220px;
   }
 }
 
