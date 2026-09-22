@@ -1,14 +1,11 @@
-/* TAYA AI — песочница кейса. Опирается на стили AI Producer:
+/* TAYA AI. Кейс опирается на стили AI Producer:
    секции, кикеры, заметки и сноски берутся оттуда, здесь только своё. */
 
 /* Под заголовком — сама Тая в полный рост, по центру */
+/* Вырезка без полей: 238px дают ту же высоту 561, что в макете */
 .taya-hero {
-  width: 274px;
+  width: 238px;
   margin: 29px auto 0;
-}
-
-.taya-body .ai-case-divider--overview {
-  margin-top: 30px;
 }
 
 .taya-hero img {
@@ -16,6 +13,11 @@
   width: 100%;
   height: auto;
 }
+
+.taya-body .ai-case-divider--overview {
+  margin-top: 30px;
+}
+
 
 /* Персона */
 
@@ -243,7 +245,7 @@
 
 @media (max-width: 899px) {
   .taya-hero {
-    width: 220px;
+    width: 191px;
     margin-top: 24px;
   }
 

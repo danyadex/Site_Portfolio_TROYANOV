@@ -15,6 +15,7 @@ export default defineConfig({
         home: fileURLToPath(new URL("./index.html", import.meta.url)),
         artifact: fileURLToPath(new URL("./artifact.html", import.meta.url)),
         aiProducer: fileURLToPath(new URL("./ai-producer.html", import.meta.url)),
+        taya: fileURLToPath(new URL("./taya.html", import.meta.url)),
       },
     },
   },

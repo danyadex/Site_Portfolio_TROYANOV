@@ -115,10 +115,10 @@ def verify_dist() -> None:
     """Быстрая проверка сборки вместо полного npm test.
 
     npm test собирает сайт ещё раз в памяти и на iCloud иногда виснет. Здесь
-    проверяем то, что реально ломало прод: все три страницы собраны, а каждый
+    проверяем то, что реально ломало прод: все четыре страницы собраны, а каждый
     файл, на который ссылаются HTML и CSS, лежит в dist/.
     """
-    for page in ("index.html", "artifact.html", "ai-producer.html"):
+    for page in ("index.html", "artifact.html", "ai-producer.html", "taya.html"):
         if not (DIST / page).is_file():
             sys.exit(f"✗ В сборке нет страницы {page}")
     pattern = re.compile(

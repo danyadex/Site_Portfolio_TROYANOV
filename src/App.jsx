@@ -377,7 +377,7 @@ function TayaProject() {
         <PhoneMockup src={homeAssets.taya} staticSrc={homeAssets.tayaPoster} rootMargin="800px 0px" label="Аниматик экрана TAYA AI" variant="taya" sound startAt={13} />
       </div>
       <div className="home-project-info">
-        <ProjectHeader disabled title="Taya AI" tags={["Concept", "Design & Research"]} />
+        <ProjectHeader href="/taya.html" title="Taya AI" tags={["Concept", "Design & Research"]} />
         <RhythmDot />
         <ProjectDescription>
           Мобильный ассистент
