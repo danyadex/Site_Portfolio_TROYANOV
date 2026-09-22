@@ -2976,8 +2976,10 @@
 }
 
 /* У выключенной кнопки нет свечения, поэтому её картинка на 8px уже
-   остальных: добавляем поля, чтобы тело кнопки везде было 358x40. */
-.system-tiles--buttons img[src$="gen-disabled.png"] {
+   остальных: добавляем поля, чтобы тело кнопки везде было 358x40.
+   Метку держим классом: в сборке к именам файлов дописывается хеш,
+   и селектор по src перестаёт совпадать. */
+.system-tile--flat img {
   width: 358px;
   margin: 4px;
 }
@@ -3217,7 +3219,7 @@
     max-width: 366px;
   }
 
-  .system-tiles--buttons img[src$="gen-disabled.png"] {
+  .system-tile--flat img {
     width: calc(100% - 8px);
     max-width: 358px;
   }
