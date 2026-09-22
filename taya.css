@@ -1,12 +1,14 @@
 /* TAYA AI — песочница кейса. Опирается на стили AI Producer:
    секции, кикеры, заметки и сноски берутся оттуда, здесь только своё. */
 
+/* Под заголовком — сама Тая в полный рост, по центру */
 .taya-hero {
-  width: 100%;
-  margin: 64px 0 0;
-  overflow: hidden;
-  border-radius: 40px;
-  background: #000;
+  width: 274px;
+  margin: 29px auto 0;
+}
+
+.taya-body .ai-case-divider--overview {
+  margin-top: 30px;
 }
 
 .taya-hero img {
@@ -53,11 +55,12 @@
   font-weight: 400;
 }
 
-.taya-persona-head p {
+.taya-persona-facts {
   margin: 0;
+  padding-left: 20px;
   color: var(--color-text-secondary);
   font-size: 14px;
-  line-height: 18px;
+  line-height: 22px;
 }
 
 .taya-quote {
@@ -233,8 +236,13 @@
 
 @media (max-width: 899px) {
   .taya-hero {
-    margin-top: 40px;
-    border-radius: 24px;
+    width: 200px;
+    margin-top: 24px;
+  }
+
+  .taya-persona-facts {
+    display: inline-block;
+    text-align: left;
   }
 
   .taya-persona-card {
