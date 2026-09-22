@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <link rel="icon" type="image/png" sizes="38x38" href="/favicon.png?v=1" />
+  <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg?v=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <!-- Песочница: страницы нет во входах vite.config.js, поэтому она живёт
+       только на дев-сервере и в сборку для прода не попадает. -->
+  <meta name="robots" content="noindex" />
+  <title>TAYA AI — песочница</title>
+  <link rel="stylesheet" href="assets/reveal.css?v=position-safe-2" />
+  <link rel="stylesheet" href="styles.css?v=case-enter-1" />
+  <link rel="stylesheet" href="ai-producer.css?v=kit-outline-1" />
+  <link rel="stylesheet" href="bottom-nav.css?v=top-glass-2" />
+  <link rel="stylesheet" href="taya.css?v=sandbox-1" />
+</head>
+<body class="case-body ai-producer-body taya-body" id="top">
+  <nav class="mobile-case-return" aria-label="Возврат к портфолио"><a href="index.html">← На&nbsp;главную</a></nav>
+  <main class="ai-producer-page">
+
+    <section class="ai-case-section ai-overview" aria-labelledby="taya-title">
+      <p class="ai-case-kicker ai-overview-kicker">TAYA AI</p>
+      <h1 class="ai-overview-title" id="taya-title">AI-компаньон, который помогает<span class="ai-desktop-break"><br /></span> независимому художнику увидеть свой&nbsp;стиль</h1>
+      <dl class="ai-case-meta-grid">
+        <div>
+          <dt>Роль</dt>
+          <dd>Соло дизайнер</dd>
+        </div>
+        <div>
+          <dt>Сроки</dt>
+          <dd>2025</dd>
+        </div>
+        <div>
+          <dt>Статус</dt>
+          <dd>Концепт • прототип</dd>
+        </div>
+        <div>
+          <dt>Объём работ</dt>
+          <dd>Research • Персона • User Flow • Prototype • UI Kit • Testing</dd>
+        </div>
+      </dl>
+    </section>
+
+    <figure class="taya-hero">
+      <img src="assets/cases/taya/taya-hero.webp" width="2400" height="1683" alt="Логотип TAYA и персонаж Тая — девушка в наушниках с кистью" fetchpriority="high" />
+    </figure>
+
+    <div class="ai-case-divider ai-case-divider--overview" aria-hidden="true"></div>
+
+    <section class="ai-depth taya-problem" aria-labelledby="problem-title">
+      <p class="ai-case-kicker">ПРОБЛЕМА</p>
+      <h2 id="problem-title">Художник не&nbsp;видит свой стиль со&nbsp;стороны</h2>
+      <p class="depth-lead">Работ много, а&nbsp;общий почерк не&nbsp;складывается:<span class="ai-desktop-break"><br /></span> портфолио собрано в&nbsp;кучу, и&nbsp;непонятно, на&nbsp;чём ставить акцент</p>
+
+      <div class="taya-persona">
+        <div class="taya-persona-head">
+          <span>ПЕРСОНА</span>
+          <h3>Слава Козлов, 28&nbsp;лет</h3>
+          <p>Независимый живописец из&nbsp;Екатеринбурга, художественное училище, без&nbsp;патронажа галерей</p>
+        </div>
+        <blockquote class="taya-quote">«Хочу понять, чем мой стиль отличается от&nbsp;других&nbsp;— и&nbsp;показать это красиво, в&nbsp;своём портфолио»</blockquote>
+        <div class="depth-notes depth-notes--pair">
+          <article><span>ЦЕЛИ</span><h3>Понять свой язык</h3><p>Увидеть развитие стиля, получить независимую обратную связь без&nbsp;оценок и&nbsp;собрать выразительное портфолио</p></article>
+          <article><span>БАРЬЕРЫ</span><h3>Нет взгляда со&nbsp;стороны</h3><p>Кажется, что «все работы разные и&nbsp;ни&nbsp;о&nbsp;чём», а&nbsp;сильные стороны объективно не&nbsp;видны</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-depth taya-market" aria-labelledby="market-title">
+      <p class="ai-case-kicker">АНАЛИЗ КОНКУРЕНТОВ</p>
+      <h2 id="market-title">Вдохновение есть везде, разбора работ — нигде</h2>
+      <div class="taya-table-wrap" role="region" aria-label="Сравнение с конкурентами" tabindex="0">
+        <table class="taya-table">
+          <thead>
+            <tr><th scope="col">Сервис</th><th scope="col">Вдохновение</th><th scope="col" class="taya-table-key">Анализ работ</th><th scope="col">UX-простота</th><th scope="col">Позиционирование</th><th scope="col">Вовлечение</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Behance</th><td>Норм</td><td class="taya-table-key">Нет</td><td>Норм</td><td>Сильное</td><td>Норм</td></tr>
+            <tr><th scope="row">Pinterest</th><td>Супер</td><td class="taya-table-key">Нет</td><td>Супер</td><td>Слабое</td><td>Супер</td></tr>
+            <tr><th scope="row">Runway ML</th><td>Норм</td><td class="taya-table-key">Поверхностно</td><td>Норм</td><td>Слабое</td><td>Норм</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="depth-footnote">Ни&nbsp;один сервис не&nbsp;разбирает работы художника по&nbsp;сути — эту нишу и&nbsp;занимает Тая</p>
+    </section>
+
+    <div class="ai-case-divider" aria-hidden="true"></div>
+
+    <section class="ai-depth taya-solution" aria-labelledby="solution-title">
+      <p class="ai-case-kicker">РЕШЕНИЕ</p>
+      <h2 id="solution-title">Тая ведёт разговор вместо пустого чата</h2>
+      <p class="depth-lead">Художник загружает 3–5&nbsp;работ, а&nbsp;Тая сама предлагает, с&nbsp;чего<span class="ai-desktop-break"><br /></span> начать, — и&nbsp;через диалог собирает разбор стиля в&nbsp;отчёт</p>
+
+      <ol class="taya-screens" aria-label="Основной сценарий">
+        <li>
+          <img src="assets/cases/taya/s-start.webp" width="786" height="1704" loading="lazy" decoding="async" alt="Стартовый экран: «Привет, я Тая! Покреативим?» и готовые сценарии" />
+          <span>01</span><h3>Сценарный старт</h3><p>Вместо пустого поля — три готовых входа: референсы, вдохновение, портфолио</p>
+        </li>
+        <li>
+          <img src="assets/cases/taya/s-dialog.webp" width="786" height="1704" loading="lazy" decoding="async" alt="Диалог с Таей: разбор визуального кода работ" />
+          <span>02</span><h3>Разбор через диалог</h3><p>Чипсы «Визуальный код», «Стиль», «Прайс» подсказывают, о&nbsp;чём спросить</p>
+        </li>
+        <li>
+          <img src="assets/cases/taya/s-report.webp" width="786" height="1704" loading="lazy" decoding="async" alt="Экран «Отчёт готов» с работами и кнопкой «Сохранить отчёт»" />
+          <span>03</span><h3>Отчёт по&nbsp;маркерам</h3><p>Цвет, композиция и&nbsp;три маркера узнаваемости — по&nbsp;каждой работе</p>
+        </li>
+        <li>
+          <img src="assets/cases/taya/s-saved.webp" width="786" height="1704" loading="lazy" decoding="async" alt="Экран «Отчёт сохранён!» с кнопками «Скачать PDF» и «В профиль»" />
+          <span>04</span><h3>Артефакт в&nbsp;профиле</h3><p>Отчёт сохраняется, к&nbsp;нему возвращаются, его можно скачать в&nbsp;PDF</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="ai-depth taya-iteration" aria-labelledby="iteration-title">
+      <p class="ai-case-kicker">ИТЕРАЦИЯ</p>
+      <h2 id="iteration-title">Сохранить отчёт — без&nbsp;пароля и&nbsp;подсказок</h2>
+      <p class="depth-lead">Эвристическая оценка показала, что сохранение ломает сценарий:<span class="ai-desktop-break"><br /></span> иконку в&nbsp;шапке без&nbsp;тултипа не&nbsp;находят, а&nbsp;пароль обрывает момент «хочу увидеть отчёт»</p>
+
+      <div class="taya-compare">
+        <figure class="taya-compare-side">
+          <figcaption><span>БЫЛО</span>Иконка в&nbsp;шапке → email → пароль дважды</figcaption>
+          <div class="taya-compare-shots">
+            <img src="assets/cases/taya/v1-tooltip.webp" width="786" height="1704" loading="lazy" decoding="async" alt="Первая версия: подсказка «Нажми здесь, чтобы сохранить отчёт» у иконки в шапке" />
+            <img src="assets/cases/taya/v1-password.webp" width="786" height="1704" loading="lazy" decoding="async" alt="Первая версия: экран «Придумай пароль» и «Повтори пароль»" />
+          </div>
+        </figure>
+        <figure class="taya-compare-side taya-compare-side--after">
+          <figcaption><span>СТАЛО</span>Кнопка на&nbsp;отчёте → ссылка на&nbsp;почту</figcaption>
+          <div class="taya-compare-shots">
+            <img src="assets/cases/taya/v2-email.webp" width="786" height="1704" loading="lazy" decoding="async" alt="Вторая версия: «Куда сохранить? Пришлём ссылку на почту»" />
+            <img src="assets/cases/taya/v2-mail.webp" width="786" height="1704" loading="lazy" decoding="async" alt="Вторая версия: «Открыть почту» с таймером повторной отправки" />
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <div class="ai-case-divider" aria-hidden="true"></div>
+
+    <section class="ai-depth taya-testing" aria-labelledby="testing-title">
+      <p class="ai-case-kicker">ТЕСТИРОВАНИЕ</p>
+      <h2 id="testing-title">Сценарий прошли все</h2>
+      <p class="depth-lead">Немодерируемый тест в&nbsp;Pathway и&nbsp;два модерируемых интервью.<span class="ai-desktop-break"><br /></span> Задание: получить разбор своих работ и&nbsp;сохранить отчёт в&nbsp;профиле</p>
+
+      <dl class="taya-stats">
+        <div><dt>11 из&nbsp;11</dt><dd>прошли сценарий, никто не&nbsp;сдался</dd></div>
+        <div><dt>35,8&nbsp;с</dt><dd>медианное время прохождения</dd></div>
+        <div><dt>4,9&nbsp;/&nbsp;5</dt><dd>понятно, как сохранить отчёт</dd></div>
+        <div><dt>4,7&nbsp;/&nbsp;5</dt><dd>разбор ощущался персональным</dd></div>
+      </dl>
+
+      <div class="depth-notes">
+        <article><span>ИНСАЙТ</span><h3>Чипсы — это запросы</h3><p>Пользователи хотят выбирать несколько чипсов подряд и&nbsp;комбинировать их в&nbsp;одном разборе</p></article>
+        <article><span>ИНСАЙТ</span><h3>Результат должен быть осязаемым</h3><p>Отчёт хотят скачать как PDF или artist statement и&nbsp;отправить заказчику</p></article>
+        <article><span>ИНСАЙТ</span><h3>Куда вернуться</h3><p>Что отчёт сохранился, понятно, но&nbsp;где он лежит и&nbsp;как к&nbsp;нему вернуться — не&nbsp;всегда</p></article>
+      </div>
+      <p class="depth-footnote">Выборка небольшая: 11&nbsp;человек в&nbsp;Pathway и&nbsp;2&nbsp;модерируемых сессии.<br /> Цифры показывают, что сценарий понятен, а&nbsp;не&nbsp;как он работает на&nbsp;масштабе</p>
+    </section>
+
+    <section class="ai-depth ai-next" aria-labelledby="next-title">
+      <p class="ai-case-kicker">ЧТО ДАЛЬШЕ</p>
+      <h2 id="next-title">Сделать результат понятным<br /> с&nbsp;первого взгляда</h2>
+      <div class="depth-notes">
+        <article><span>ПРИОРИТЕТ 1</span><h3>Что я получил</h3><p>Показать структуру отчёта и&nbsp;то, как им пользоваться дальше</p></article>
+        <article><span>ПРИОРИТЕТ 2</span><h3>Навигация к&nbsp;отчёту</h3><p>Сделать путь к&nbsp;сохранённому результату предсказуемым</p></article>
+        <article><span>ГИПОТЕЗА</span><h3>Комбинируемые запросы</h3><p>Разрешить несколько чипсов в&nbsp;одном разборе и&nbsp;единый итоговый отчёт</p></article>
+      </div>
+      <p class="depth-footnote">Приоритеты — из&nbsp;кластеризации результатов тестирования по&nbsp;матрице impact / effort</p>
+    </section>
+
+    <nav class="mobile-case-return mobile-case-return--end" aria-label="Другие проекты"><a href="index.html#projects">Все проекты ↗</a></nav>
+  </main>
+
+  <div class="bottom-blur" aria-hidden="true">
+    <span class="bottom-blur-layer bottom-blur-layer-1"></span>
+    <span class="bottom-blur-layer bottom-blur-layer-2"></span>
+    <span class="bottom-blur-layer bottom-blur-layer-3"></span>
+    <span class="bottom-blur-layer bottom-blur-layer-4"></span>
+  </div>
+
+  <nav class="bottom-navigation" aria-label="Навигация по портфолио">
+    <div class="bottom-navigation-inner">
+      <a class="nav-button nav-button--back" href="index.html" aria-label="Вернуться на главную" title="На главную">
+        <img src="assets/icon-undo-2.svg" alt="" />
+      </a>
+    </div>
+  </nav>
+
+  <script type="module" src="script.js"></script>
+  <script type="module" src="./assets/reveal.js"></script>
+</body>
+</html>
