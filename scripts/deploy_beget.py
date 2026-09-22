@@ -136,7 +136,19 @@ def verify_dist() -> None:
     print("✓ сборка проверена: страницы на месте, битых ссылок нет", flush=True)
 
 
+def ensure_deps() -> None:
+    """Ставит зависимости, если их нет: node_modules не лежит в гите, и на
+    чистой машине (или после чистки кеша) npm run build падает с «vite: command
+    not found»."""
+    if (ROOT / "node_modules" / ".bin" / "vite").exists():
+        return
+    print("node_modules пустая — ставлю зависимости", flush=True)
+    lock = "package-lock.json" if (ROOT / "package-lock.json").is_file() else None
+    run_step(["npm", "ci" if lock else "install"], timeout=600)
+
+
 def build(with_tests: bool) -> None:
+    ensure_deps()
     if with_tests:
         run_step(["npm", "test"])
     run_step(["npm", "run", "build"])
