@@ -397,7 +397,7 @@
 .ai-case-reference {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   gap: 20px;
   width: 100%;
 }
@@ -414,7 +414,7 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 4px;
   color: var(--color-text-accent);
   font-size: 13px;
@@ -973,9 +973,7 @@
 
   /* Figma references */
 
-  /* На мобиле ссылка встаёт по центру, как и остальной текст страницы. */
   .ai-case-reference {
-    align-items: center;
     gap: 20px;
   }
 
