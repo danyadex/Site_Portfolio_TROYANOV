@@ -2975,9 +2975,9 @@
   height: auto;
 }
 
-/* У выключенной кнопки нет свечения, поэтому её svg на 8px уже остальных:
-   добавляем поля, чтобы само тело кнопки везде было 358x40. */
-.system-tiles--buttons img[src$="gen-disabled.svg"] {
+/* У выключенной кнопки нет свечения, поэтому её картинка на 8px уже
+   остальных: добавляем поля, чтобы тело кнопки везде было 358x40. */
+.system-tiles--buttons img[src$="gen-disabled.png"] {
   width: 358px;
   margin: 4px;
 }
@@ -2987,23 +2987,26 @@
   height: auto;
 }
 
-/* Поля идут в своём размере и выходят за поля панели — как в макете. */
+/* Три поля делят колонку панели: на макете они ровно 358 с зазором 15,
+   а на экранах поуже сжимаются вместе с ней и не вылезают за панель. */
 .system-tiles--fields {
-  width: calc(100% + 68px);
-  margin: 4px -34px 0;
+  width: 100%;
+  margin-top: 4px;
   flex-wrap: nowrap;
   align-items: flex-end;
-  gap: 32px;
+  gap: 15px;
 }
 
 .system-tiles--fields .system-tile {
-  flex: 0 0 auto;
+  min-width: 0;
+  flex: 1 1 0;
   gap: 24px;
 }
 
 .system-tiles--fields img {
   display: block;
-  width: 358px;
+  width: 100%;
+  max-width: 358px;
   height: auto;
 }
 
@@ -3203,7 +3206,7 @@
     max-width: 366px;
   }
 
-  .system-tiles--buttons img[src$="gen-disabled.svg"] {
+  .system-tiles--buttons img[src$="gen-disabled.png"] {
     width: calc(100% - 8px);
     max-width: 358px;
   }
@@ -3224,7 +3227,6 @@
   }
 
   .system-tiles--fields {
-    width: 100%;
     margin: 0;
     gap: 32px;
   }
