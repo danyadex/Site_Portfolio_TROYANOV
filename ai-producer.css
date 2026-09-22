@@ -1271,10 +1271,9 @@
 }
 
 .ai-kit {
+  border: 0.5px solid var(--color-text-primary);
   border-radius: 40px;
-  /* Панель на тон глубже пространства приложения (#EFEEEC), иначе
-     скриншот сливается с фоном и перестаёт читаться как экран. */
-  background: #e6e3de;
+  background: var(--color-bg-base);
   padding: 56px 48px;
   text-align: center;
 }
@@ -1289,8 +1288,6 @@
   max-width: 960px;
   margin: 40px auto;
   border-radius: 22px;
-  /* Тень как у остальных экранов кейса: скриншот лежит поверх панели. */
-  box-shadow: 0 13px 40px rgba(0, 0, 0, 0.18);
   overflow: hidden;
 }
 
@@ -1311,8 +1308,6 @@
   display: block;
   height: 64px;
   margin-bottom: 16px;
-  /* Обводка держит плашку пространства: сам цвет совпадает с фоном. */
-  border: 1px solid rgba(0, 0, 0, 0.14);
   border-radius: 12px;
 }
 
