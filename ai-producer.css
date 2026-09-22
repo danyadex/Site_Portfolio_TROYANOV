@@ -90,32 +90,27 @@
 /* Overview --------------------------------------------------------------- */
 
 .ai-overview {
-  position: relative;
-  height: 292px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
   margin-top: 100px;
   text-align: center;
 }
 
 .ai-overview-kicker {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   color: var(--color-text-accent);
   text-align: center;
 }
 
 .ai-case-meta-grid {
-  position: absolute;
-  top: 72px;
-  left: 50%;
   display: grid;
   grid-template-columns: repeat(4, auto);
   gap: 40px;
   align-items: start;
   width: max-content;
   margin: 0;
-  transform: translateX(-50%);
 }
 
 .ai-case-meta-grid div {
@@ -143,9 +138,6 @@
 }
 
 .ai-overview-title {
-  position: absolute;
-  top: 172px;
-  left: 0;
   width: 100%;
   margin: 0;
   color: var(--color-text-primary);
@@ -734,17 +726,11 @@
   }
 
   .ai-overview {
-    display: flex;
-    flex-direction: column;
-    height: auto;
+    gap: 28px;
     margin-top: 52px;
-    text-align: center;
   }
 
   .ai-overview-kicker {
-    position: static;
-    top: 0;
-    left: 0;
     width: 100%;
     font-size: 20px;
     line-height: 28px;
@@ -752,10 +738,7 @@
   }
 
   .ai-overview-title {
-    order: 1;
-    position: static;
-    margin: 14px 0 32px;
-    top: 42px;
+    margin: 0;
     width: 100%;
     font-size: 20px;
     line-height: 28px;
@@ -764,10 +747,6 @@
   }
 
   .ai-case-meta-grid {
-    order: 2;
-    position: static;
-    top: 214px;
-    left: 0;
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -1202,5 +1181,252 @@
 @media (max-width: 899px) {
   .ai-figma-cta {
     border-width: 0.5px;
+  }
+}
+
+/* Разборы решений: визуальное направление, логика шота, кит и развитие.
+   Блоки идут одной колонкой по центру страницы. */
+.ai-depth {
+  margin: 100px 0;
+  text-align: center;
+}
+
+.ai-depth h2,
+.ai-kit h2 {
+  margin: 28px 0;
+  font-size: 32px;
+  line-height: 42px;
+  font-weight: 400;
+}
+
+.depth-lead {
+  max-width: 760px;
+  margin: 0 auto;
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.ai-direction > .ai-case-browser {
+  margin-top: 40px;
+}
+
+.ai-direction {
+  scroll-margin-top: 80px;
+}
+
+.depth-notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  margin-top: 56px;
+  text-align: left;
+}
+
+/* Пары заметок уже трёх колонок: держим их по центру страницы. */
+.depth-notes--pair {
+  max-width: 1000px;
+  margin-inline: auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ai-shot-notes {
+  margin-top: 40px;
+}
+
+.depth-notes article {
+  border-top: 1px solid var(--color-border-divider);
+  padding-top: 24px;
+}
+
+.depth-notes span,
+.kit-type span,
+.kit-colors span {
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.depth-notes h3 {
+  margin: 16px 0;
+  font-size: 19px;
+  line-height: 28px;
+  font-weight: 400;
+}
+
+.depth-notes p,
+.kit-type p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 23px;
+}
+
+.depth-footnote {
+  max-width: 820px;
+  margin: 40px auto 0;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.ai-kit {
+  border-radius: 40px;
+  background: #f3f0ed;
+  padding: 56px 48px;
+  text-align: center;
+}
+
+.ai-kit header > p:last-child {
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.kit-visual {
+  max-width: 960px;
+  margin: 40px auto;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.kit-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.kit-colors {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  text-align: left;
+}
+
+.kit-colors i {
+  display: block;
+  height: 64px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 12px;
+}
+
+.kit-colors small {
+  display: block;
+  margin-top: 6px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.kit-type {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(0, 0, 0, 0.09);
+  padding-top: 32px;
+  text-align: left;
+}
+
+.kit-type h3 {
+  margin: 12px 0;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.kit-link {
+  display: inline-block;
+  margin-top: 40px;
+  color: var(--color-text-primary);
+  font-size: 13px;
+  text-underline-offset: 5px;
+}
+
+.ai-test-context {
+  max-width: 740px;
+  margin: 40px auto 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  line-height: 22px;
+  text-align: center;
+}
+
+.ai-next {
+  margin-bottom: 56px;
+}
+
+@media (max-width: 899px) {
+  .ai-depth {
+    margin: 64px 0;
+  }
+
+  .ai-depth h2,
+  .ai-kit h2 {
+    margin: 24px 0;
+    font-size: 23px;
+    line-height: 30px;
+  }
+
+  .depth-lead {
+    font-size: 14px;
+  }
+
+  /* В колонке всё выравниваем по центру: слева остаётся рваный край. */
+  .depth-notes,
+  .depth-notes--pair,
+  .ai-shot-notes .depth-notes {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  .depth-notes h3 {
+    margin: 12px 0;
+    font-size: 18px;
+  }
+
+  .depth-footnote,
+  .ai-test-context {
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  .ai-test-context {
+    font-size: 12px;
+  }
+
+  .ai-direction > .ai-case-browser {
+    margin-top: 28px;
+  }
+
+  .ai-kit {
+    border-radius: 24px;
+    padding: 32px 20px;
+  }
+
+  .ai-kit header > p:last-child {
+    font-size: 14px;
+  }
+
+  .kit-visual {
+    margin: 28px 0;
+    border-radius: 10px;
+  }
+
+  .kit-colors {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 16px;
+    text-align: center;
+  }
+
+  .kit-type {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .kit-type h3 {
+    font-size: 26px;
   }
 }

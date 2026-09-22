@@ -28,18 +28,9 @@
 <body class="case-body ai-producer-body" id="top">
   <nav class="mobile-case-return" aria-label="Возврат к портфолио"><a href="index.html">← На главную</a></nav>
   <main class="ai-producer-page">
-    <section class="ai-case-browser ai-case-browser--hero" data-node-id="1209:4504" aria-label="AI Producer: рабочее пространство">
-      <div class="ai-case-browser-content ai-case-browser-content--media">
-        <img class="ai-case-browser-base" src="assets/cases/ai-producer/hero-browser@2x.png" alt="" fetchpriority="high" />
-        <video class="ai-case-browser-motion" data-autoplay muted loop playsinline preload="metadata" poster="assets/cases/ai-producer/hero-screen-poster.jpg" aria-label="Анимация интерфейса AI Producer">
-          <source src="assets/cases/ai-producer/hero-screen.mp4" type="video/mp4" />
-        </video>
-      </div>
-    </section>
-    <p class="ai-hero-caption">AI PRODUCER / OVERVIEW</p>
-
     <section class="ai-case-section ai-overview" data-node-id="1386:3566" aria-labelledby="ai-producer-title">
       <p class="ai-case-kicker ai-overview-kicker">AI PRODUCER</p>
+      <h1 class="ai-overview-title" id="ai-producer-title">Веб-платформа<span class="ai-mobile-break"><br /></span> для создания<span class="ai-mobile-break"><br /></span><span class="ai-desktop-break"><br /></span> последовательных AI-сцен<span class="ai-mobile-break"><br /></span><span class="ai-desktop-break"><br /></span> с&nbsp;режиссёрским контролем</h1>
       <dl class="ai-case-meta-grid">
         <div>
           <dt>Роль</dt>
@@ -58,7 +49,6 @@
           <dd>Research • JTBD • User Flow • Prototype • UI</dd>
         </div>
       </dl>
-      <h1 class="ai-overview-title" id="ai-producer-title">Веб-платформа<span class="ai-mobile-break"><br /></span> для создания<span class="ai-mobile-break"><br /></span><span class="ai-desktop-break"><br /></span> последовательных AI-сцен<span class="ai-mobile-break"><br /></span><span class="ai-desktop-break"><br /></span> с&nbsp;режиссёрским контролем</h1>
     </section>
 
     <div class="ai-case-divider ai-case-divider--overview" aria-hidden="true"></div>
@@ -131,12 +121,30 @@
       <div class="ai-case-reference-line" aria-hidden="true"></div>
     </div>
 
+    <section class="ai-depth ai-direction" id="design-decisions" aria-labelledby="direction-title">
+      <p class="ai-case-kicker">ВИЗУАЛЬНОЕ НАПРАВЛЕНИЕ</p>
+      <h2 id="direction-title">Задать стиль до генерации</h2>
+      <p class="depth-lead">От жанра и атмосферы до персонажа и ракурса — собрать направление сцены из визуальных референсов.</p>
+      <div class="ai-case-browser ai-case-browser--hero" data-node-id="1209:4504" aria-label="AI Producer: рабочее пространство">
+        <div class="ai-case-browser-content ai-case-browser-content--media">
+          <img class="ai-case-browser-base" src="assets/cases/ai-producer/hero-browser@2x.png" alt="" loading="lazy" />
+          <video class="ai-case-browser-motion" data-autoplay muted loop playsinline preload="metadata" poster="assets/cases/ai-producer/hero-screen-poster.jpg" aria-label="Анимация интерфейса AI Producer">
+            <source src="assets/cases/ai-producer/hero-screen.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+      <div class="depth-notes depth-notes--pair">
+        <article><span>ПАРАМЕТРЫ СЦЕНЫ</span><h3>Настроить по отдельности</h3><p>Жанр, атмосфера, локация, персонаж и ракурс разделены. Выбор референсов можно дополнить текстовым уточнением.</p></article>
+        <article><span>ВЕСА РЕФЕРЕНСОВ</span><h3>Задать соотношение</h3><p>Проценты показывают заданные веса выбранных референсов: например, 35% тревоги, 40% холодного неона и 25% городского тумана.</p></article>
+      </div>
+    </section>
+
     <section class="ai-case-section ai-solution" data-node-id="1386:3579" aria-labelledby="ai-solution-title">
       <div class="ai-solution-intro">
         <p class="ai-case-kicker">РЕШЕНИЕ</p>
         <div class="ai-solution-copy">
-          <h2 id="ai-solution-title">Рабочее пространство для сцены</h2>
-          <p>AI Producer объединяет визуальное направление,<br class="ai-desktop-break" /> сборку шотов и&nbsp;локальные правки<br class="ai-desktop-break" /> в&nbsp;одном управляемом сценарии</p>
+          <h2 id="ai-solution-title">От сцены к локальной правке</h2>
+          <p>Выбрать шот, настроить камеру<br class="ai-desktop-break" /> или уточнить отдельную область кадра</p>
         </div>
       </div>
       <div class="ai-case-browser ai-case-browser--solution" data-node-id="1346:917" aria-label="AI Producer: редактор сцены">
@@ -148,6 +156,28 @@
         </div>
       </div>
       <p class="ai-solution-caption">Сцена / Сборка шотов / Локальная правка</p>
+    </section>
+
+
+    <section class="ai-depth ai-shot-notes" aria-label="Логика работы с шотом">
+      <div class="depth-notes depth-notes--pair">
+        <article><span>ВЫБРАННЫЙ ШОТ</span><h3>Сцена остаётся рядом</h3><p>Лента шотов сохраняет контекст сцены. Режиссура, камера и локальная правка собраны рядом с просмотром и таймлайном выбранного шота.</p></article>
+        <article><span>ОБЛАСТЬ В КАДРЕ</span><h3>Указать, что изменить</h3><p>Выделение области дополняет запрос «Измени татуировку на лице». Пользователь задаёт не только содержание правки, но и её место в кадре.</p></article>
+      </div>
+      <p class="depth-footnote">В кейсе показан интерактивный прототип. Точность влияния весов и сохранение остальных деталей при генерации требуют отдельной проверки на AI-модели.</p>
+    </section>
+
+    <section class="ai-kit" aria-labelledby="kit-title">
+      <header><p class="ai-case-kicker">UI KIT</p><h2 id="kit-title">Один язык управления</h2><p>Цвет различает выбранный инструмент и действие.<br />Типографика — управление и содержание.</p></header>
+      <div class="kit-visual"><img loading="lazy" decoding="async" src="assets/cases/ai-producer/solution-screen-poster.jpg" alt="Редактор AI Producer: лента шотов, просмотр сцены и панель управления" /></div>
+      <div class="kit-colors">
+        <div><i style="background:#F3F0ED"></i><span>ПРОСТРАНСТВО</span><small>#F3F0ED</small></div>
+        <div><i style="background:#D8FF9D"></i><span>ВЫБОР</span><small>#D8FF9D</small></div>
+        <div><i style="background:#B59FFC"></i><span>ДЕЙСТВИЕ</span><small>#B59FFC</small></div>
+        <div><i style="background:#0A0A0A"></i><span>ТЕКСТ</span><small>#0A0A0A</small></div>
+      </div>
+      <div class="kit-type"><article><span>ЗАГОЛОВКИ И КОНТРОЛЫ</span><h3>Unbounded</h3><p>Названия, переключатели и основные действия.</p></article><article><span>ТЕКСТ И ПОДСКАЗКИ</span><h3>Gilroy</h3><p>Промпты, пояснения и служебная информация.</p></article></div>
+      <a class="kit-link" href="https://www.figma.com/design/kskOg3mcZzbNKr4DUs3i58/AI_PRODUCER_UIKIT?node-id=36-6" target="_blank" rel="noopener noreferrer">Компоненты и состояния в Figma ↗</a>
     </section>
 
     <div class="ai-case-divider ai-case-divider--solution" aria-hidden="true"></div>
@@ -172,6 +202,7 @@
       </div>
     </section>
 
+    <aside class="ai-test-context"><p>65 участников, 18–42 года, без отбора по опыту работы с AI.</p><p>Тест проверял прохождение Figma-прототипа — от визуальной концепции до экспорта. Оценка понятности не измеряет качество генерации.</p></aside>
     <div class="ai-case-reference ai-case-reference--testing" data-node-id="1940:386">
       <a class="ai-case-reference-link" href="https://www.figma.com/design/8aXoKCa3SM2TyqgwgcGtiv/AGNETICS.AI-PRODUCER?node-id=4871-2725&amp;t=3KY1gGiOXBrnr6Dk-1" target="_blank" rel="noopener noreferrer" aria-label="Открыть Usability testing в Figma">
         <span>Usability testing</span><span aria-hidden="true">↗</span>
@@ -179,10 +210,7 @@
       <div class="ai-case-reference-line" aria-hidden="true"></div>
     </div>
 
-    <section class="ai-case-section ai-development" data-node-id="1279:991" aria-labelledby="ai-development-title">
-      <p class="ai-case-kicker" id="ai-development-title">РАЗВИТИЕ</p>
-      <p>Снизить порог входа:<span class="ai-desktop-break"><br /></span><span class="ai-mobile-break"><br /></span> добавить подсказки,<span class="ai-mobile-break"><br /></span> ясные активные состояния<span class="ai-desktop-break"><br /></span><span class="ai-mobile-break"><br /></span> и&nbsp;обратную связь между шагами сценария</p>
-    </section>
+    <section class="ai-depth ai-next" aria-labelledby="next-title"><p class="ai-case-kicker">ПОСЛЕ ТЕСТИРОВАНИЯ</p><h2 id="next-title">Сценарий работает.<br />Порог входа ещё нужно снизить.</h2><div class="depth-notes"><article><span>ПОДСКАЗКИ</span><h3>Объяснить первый шаг</h3><p>Добавить ориентиры для людей без опыта работы с AI-инструментами.</p></article><article><span>АКТИВНЫЕ СОСТОЯНИЯ</span><h3>Сделать выбор явным</h3><p>Усилить различие между доступным и выбранным инструментом.</p></article><article><span>ОБРАТНАЯ СВЯЗЬ</span><h3>Показать результат действия</h3><p>Сделать переходы между шагами сценария понятнее.</p></article></div><p class="depth-footnote">Направления доработки по итогам исследования. Результаты повторного тестирования пока не представлены.</p></section>
 
     <div class="ai-figma-cta-wrap">
       <a class="ai-figma-cta" href="https://www.figma.com/design/8aXoKCa3SM2TyqgwgcGtiv/AGNETICS.AI-PRODUCER?node-id=4009-4704" target="_blank" rel="noopener noreferrer" aria-label="Открыть кейс в Figma" data-node-id="1940:396">
