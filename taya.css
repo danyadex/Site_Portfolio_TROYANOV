@@ -359,14 +359,24 @@
   }
 
   /* Ленты экранов: карточка у левого края, следующая выглядывает справа */
+  /* Ленты листаются пальцем и тянутся мышью — как в ARTIFACT
+     (data-drag-scroll, инерция из inertial-rail.js) */
   .taya-screens,
   .taya-compare-shots {
     display: flex;
     gap: 12px;
     overflow-x: auto;
     overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
+    cursor: grab;
+    scroll-snap-type: x proximity;
     scrollbar-width: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .taya-screens img,
+  .taya-compare-shots img {
+    -webkit-user-drag: none;
   }
 
   .taya-screens::-webkit-scrollbar,
