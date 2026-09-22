@@ -1195,16 +1195,16 @@
 .ai-kit h2 {
   margin: 28px 0;
   font-size: 32px;
-  line-height: 42px;
+  line-height: 40px;
   font-weight: 400;
 }
 
 .depth-lead {
-  max-width: 760px;
+  max-width: 900px;
   margin: 0 auto;
   color: var(--color-text-secondary);
-  font-size: 16px;
-  line-height: 26px;
+  font-size: 20px;
+  line-height: 32px;
 }
 
 .ai-direction > .ai-case-browser {
@@ -1239,18 +1239,25 @@
   padding-top: 24px;
 }
 
+/* Подписи-метки светлее текста: по макету #BCBCBC. */
 .depth-notes span,
 .kit-type span,
+.kit-colors small {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  line-height: 18px;
+}
+
 .kit-colors span {
   color: var(--color-text-secondary);
-  font-size: 11px;
-  line-height: 16px;
+  font-size: 13px;
+  line-height: 18px;
 }
 
 .depth-notes h3 {
   margin: 16px 0;
-  font-size: 19px;
-  line-height: 28px;
+  font-size: 20px;
+  line-height: 32px;
   font-weight: 400;
 }
 
@@ -1259,15 +1266,15 @@
   margin: 0;
   color: var(--color-text-secondary);
   font-size: 14px;
-  line-height: 23px;
+  line-height: 18px;
 }
 
 .depth-footnote {
   max-width: 820px;
   margin: 40px auto 0;
   color: var(--color-text-secondary);
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 13px;
+  line-height: 22px;
 }
 
 .ai-kit {
@@ -1280,8 +1287,8 @@
 
 .ai-kit header > p:last-child {
   color: var(--color-text-secondary);
-  font-size: 16px;
-  line-height: 26px;
+  font-size: 20px;
+  line-height: 32px;
 }
 
 .kit-visual {
@@ -1314,8 +1321,6 @@
 .kit-colors small {
   display: block;
   margin-top: 6px;
-  color: var(--color-text-secondary);
-  font-size: 11px;
 }
 
 .kit-type {
@@ -1330,15 +1335,17 @@
 
 .kit-type h3 {
   margin: 12px 0;
-  font-size: 30px;
+  font-size: 32px;
+  line-height: 40px;
   font-weight: 400;
 }
 
 .kit-link {
   display: inline-block;
   margin-top: 40px;
-  color: var(--color-text-primary);
+  color: var(--color-text-accent);
   font-size: 13px;
+  line-height: 18px;
   text-underline-offset: 5px;
 }
 
@@ -1384,6 +1391,13 @@
   .depth-notes h3 {
     margin: 12px 0;
     font-size: 18px;
+    line-height: 26px;
+  }
+
+  /* В колонке заметка занимает всю ширину: ручной перенос только мешает. */
+  .depth-notes .ai-desktop-break,
+  .depth-lead .ai-desktop-break {
+    display: none;
   }
 
   .depth-footnote,
