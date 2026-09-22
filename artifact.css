@@ -2636,7 +2636,13 @@
   display: flex;
   flex: 0 1 761px;
   flex-direction: column;
-  gap: 24px;
+  gap: 44px;
+}
+
+/* Выбранному варианту нужен воздух: рамка выбора рисуется за пределами
+   картинки и без этого подходит вплотную к соседнему ряду. */
+.compare-option--chosen {
+  padding: 16px 0;
 }
 
 .compare-option {
@@ -2692,7 +2698,7 @@
   margin: 0;
   color: var(--color-text-secondary);
   font-size: 14px;
-  line-height: 20px;
+  line-height: 18px;
   text-align: center;
   text-wrap: balance;
 }
