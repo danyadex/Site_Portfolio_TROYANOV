@@ -22,6 +22,23 @@
   margin: 56px auto 0;
 }
 
+/* Карточка персоны: фото слева, кто он и его слова — справа */
+.taya-persona-card {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 48px;
+  align-items: center;
+  text-align: left;
+}
+
+.taya-persona-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 32px;
+  background: #000;
+}
+
 .taya-persona-head span {
   color: var(--color-text-muted);
   font-size: 13px;
@@ -44,8 +61,7 @@
 }
 
 .taya-quote {
-  margin: 40px auto 0;
-  max-width: 820px;
+  margin: 32px 0 0;
   color: var(--color-text-primary);
   font-size: 24px;
   line-height: 34px;
@@ -221,7 +237,20 @@
     border-radius: 24px;
   }
 
+  .taya-persona-card {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .taya-persona-photo {
+    max-width: 280px;
+    margin: 0 auto;
+    border-radius: 24px;
+  }
+
   .taya-quote {
+    margin-top: 20px;
     font-size: 18px;
     line-height: 26px;
   }
