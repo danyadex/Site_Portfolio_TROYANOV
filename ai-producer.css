@@ -1272,7 +1272,9 @@
 
 .ai-kit {
   border-radius: 40px;
-  background: #f3f0ed;
+  /* Фон панели — тот же токен, что у пространства приложения:
+     скриншот ложится без стыка по краям. */
+  background: #efeeec;
   padding: 56px 48px;
   text-align: center;
 }
@@ -1307,7 +1309,8 @@
   display: block;
   height: 64px;
   margin-bottom: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.07);
+  /* Обводка держит плашку пространства: сам цвет совпадает с фоном. */
+  border: 1px solid rgba(0, 0, 0, 0.14);
   border-radius: 12px;
 }
 
