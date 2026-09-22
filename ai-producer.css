@@ -1272,9 +1272,9 @@
 
 .ai-kit {
   border-radius: 40px;
-  /* Фон панели — тот же токен, что у пространства приложения:
-     скриншот ложится без стыка по краям. */
-  background: #efeeec;
+  /* Панель на тон глубже пространства приложения (#EFEEEC), иначе
+     скриншот сливается с фоном и перестаёт читаться как экран. */
+  background: #e6e3de;
   padding: 56px 48px;
   text-align: center;
 }
@@ -1288,7 +1288,9 @@
 .kit-visual {
   max-width: 960px;
   margin: 40px auto;
-  border-radius: 20px;
+  border-radius: 22px;
+  /* Тень как у остальных экранов кейса: скриншот лежит поверх панели. */
+  box-shadow: 0 13px 40px rgba(0, 0, 0, 0.18);
   overflow: hidden;
 }
 
