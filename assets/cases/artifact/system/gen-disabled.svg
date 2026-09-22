@@ -21,4 +21,4 @@
 </g>
 </g>
 </g>
-</svg>
+<defs><linearGradient id="glassRim" x1="0" y1="0" x2="358" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="white" stop-opacity="0.25"/><stop offset="0.5" stop-color="white" stop-opacity="0.22"/><stop offset="1" stop-color="white" stop-opacity="0.2"/></linearGradient></defs><rect x="0.5" y="0.5" width="357" height="39" rx="19.5" stroke="url(#glassRim)"/></svg>

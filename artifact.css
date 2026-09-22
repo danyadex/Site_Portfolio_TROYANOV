@@ -2601,7 +2601,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 120px;
+  gap: 24px;
   width: 100%;
   margin-top: 32px;
 }
@@ -2629,7 +2629,7 @@
   align-items: center;
   gap: 24px;
   width: 100%;
-  margin-top: 32px;
+  margin-top: 40px;
 }
 
 .compare-options {
@@ -2845,6 +2845,7 @@
   width: 100%;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   margin-top: 100px;
 }
 
@@ -2935,6 +2936,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  /* 16 по горизонтали, потому что вокруг кнопки в svg ещё 4px свечения
+     с каждой стороны: между телами кнопок получается 24, как в макете. */
   gap: 24px 16px;
 }
 
@@ -2961,6 +2964,9 @@
 .system-tiles--buttons .system-tile span {
   width: auto;
   height: auto;
+  /* Свечение вокруг кнопки не участвует в раскладке: отступы считаем
+     от самой кнопки, как в макете. */
+  margin: -4px 0;
 }
 
 .system-tiles--buttons img {
@@ -2969,27 +2975,35 @@
   height: auto;
 }
 
+/* У выключенной кнопки нет свечения, поэтому её svg на 8px уже остальных:
+   добавляем поля, чтобы само тело кнопки везде было 358x40. */
+.system-tiles--buttons img[src$="gen-disabled.svg"] {
+  width: 358px;
+  margin: 4px;
+}
+
 .system-tiles--fields .system-tile span {
   width: auto;
   height: auto;
 }
 
+/* Поля идут в своём размере и выходят за поля панели — как в макете. */
 .system-tiles--fields {
-  width: 100%;
+  width: calc(100% + 68px);
+  margin: 4px -34px 0;
   flex-wrap: nowrap;
-  /* Поля разной высоты — равняем по низу, чтобы подписи шли одной строкой. */
   align-items: flex-end;
+  gap: 32px;
 }
 
 .system-tiles--fields .system-tile {
-  min-width: 0;
-  flex: 1 1 0;
+  flex: 0 0 auto;
+  gap: 24px;
 }
 
 .system-tiles--fields img {
   display: block;
-  width: 100%;
-  max-width: 358px;
+  width: 358px;
   height: auto;
 }
 
@@ -3052,7 +3066,7 @@
 
   .decision-note,
   .system-note {
-    margin-top: 28px;
+    margin-top: 24px;
     font-size: 14px;
     line-height: 20px;
   }
@@ -3076,7 +3090,7 @@
   }
 
   .decision-compare {
-    margin-top: 24px;
+    margin-top: 36px;
     gap: 40px;
   }
 
@@ -3114,7 +3128,7 @@
   /* Экраны состояний в своём масштабе: ряд листается, как остальные ленты. */
   .decision-shots {
     gap: 16px;
-    margin-top: 24px;
+    margin-top: 36px;
     padding-bottom: 8px;
     cursor: grab;
     scroll-snap-type: x proximity;
@@ -3144,18 +3158,33 @@
   }
 
   .system-copy {
-    margin-top: 48px;
+    margin-top: 64px;
   }
 
   /* Цепочка встаёт в колонку: стрелка поворачивается вниз. */
   .system-chain {
     flex-direction: column;
-    gap: 32px;
-    margin-top: 48px;
+    gap: 16px;
+    margin-top: 52px;
   }
 
+  /* Шапка панели по макету выше остальных: кикер 32 и 30 до подписи. */
+  .system .case-section-head {
+    gap: 30px;
+  }
+
+  .system .case-section-head > .case-kicker {
+    height: 32px;
+  }
+
+  .system .case-section-note {
+    margin-top: 0;
+  }
+
+  /* В колонке стрелка смотрит вниз. */
   .chain-arrow {
     line-height: 18px;
+    transform: rotate(90deg);
   }
 
   .system-chain li {
@@ -3174,22 +3203,38 @@
     max-width: 366px;
   }
 
+  .system-tiles--buttons img[src$="gen-disabled.svg"] {
+    width: calc(100% - 8px);
+    max-width: 358px;
+  }
+
   .system-group {
     gap: 16px;
-    margin-top: 48px;
+    margin-top: 52px;
   }
 
   .system-tiles {
     width: 100%;
     flex-direction: column;
-    gap: 20px;
+    gap: 32px;
   }
 
   .system-tile {
     width: 100%;
   }
 
+  .system-tiles--fields {
+    width: 100%;
+    margin: 0;
+    gap: 32px;
+  }
+
+  .system-tiles--fields .system-tile {
+    gap: 12px;
+  }
+
   .system-tiles--fields img {
+    width: 100%;
     max-width: 358px;
   }
 }
