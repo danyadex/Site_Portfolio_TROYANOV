@@ -381,8 +381,9 @@
     text-align: center;
   }
 
+  /* Экраны в лентах — как у ARTIFACT: 265px, на узком телефоне до 78% */
   .taya-screens li {
-    flex: 0 0 76%;
+    flex: 0 0 min(265px, 78%);
     scroll-snap-align: start;
   }
 
@@ -424,7 +425,8 @@
   }
 
   .taya-compare-shots img {
-    flex: 0 0 72%;
+    flex: 0 0 min(265px, 78%);
+    min-width: 0;
     scroll-snap-align: start;
   }
 
