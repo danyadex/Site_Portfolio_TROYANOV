@@ -28,10 +28,17 @@
 .taya-persona-card {
   display: grid;
   grid-template-columns: 360px minmax(0, 1fr);
-  gap: 48px;
-  align-items: center;
+  grid-template-areas:
+    "photo head"
+    "photo quote";
+  column-gap: 48px;
+  align-content: center;
   text-align: left;
 }
+
+.taya-persona-photo { grid-area: photo; align-self: center; }
+.taya-persona-head { grid-area: head; align-self: end; }
+.taya-persona-card .taya-quote { grid-area: quote; align-self: start; }
 
 .taya-persona-photo {
   display: block;
@@ -236,51 +243,145 @@
 
 @media (max-width: 899px) {
   .taya-hero {
-    width: 200px;
+    width: 220px;
     margin-top: 24px;
   }
 
-  .taya-persona-facts {
-    display: inline-block;
-    text-align: left;
+  /* Персона — шапка профиля: фото, имя и факты в строку, цитата под ними */
+  .taya-persona {
+    margin-top: 32px;
   }
 
   .taya-persona-card {
     grid-template-columns: 1fr;
-    gap: 24px;
+    grid-template-areas:
+      "photo"
+      "head"
+      "quote";
+    gap: 20px;
     text-align: center;
   }
 
   .taya-persona-photo {
+    width: 100%;
     max-width: 280px;
     margin: 0 auto;
     border-radius: 24px;
   }
 
+  .taya-persona-head h3 {
+    margin: 8px 0;
+  }
+
+  /* По центру маркеры не держат строку — факты идут просто строками */
+  .taya-persona-facts {
+    padding: 0;
+    list-style: none;
+  }
+
   .taya-quote {
-    margin-top: 20px;
+    margin: 0;
     font-size: 18px;
     line-height: 26px;
   }
 
-  .taya-table-wrap {
+  .taya-persona .depth-notes {
     margin-top: 32px;
   }
 
-  /* Сценарий — лентой: четыре экрана в колонку слишком длинные */
-  .taya-screens {
+  /* Конкуренты — карточками вместо таблицы с горизонтальным скроллом:
+     главное значение, «Анализ работ», стоит справа от названия */
+  .taya-table-wrap {
+    margin-top: 24px;
+    overflow: visible;
+  }
+
+  .taya-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .taya-table,
+  .taya-table tbody {
+    display: block;
+  }
+
+  .taya-table tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--color-border-divider);
+    text-align: center;
+  }
+
+  .taya-table th,
+  .taya-table td {
+    padding: 0;
+    border: 0;
+    white-space: normal;
+  }
+
+  /* Название и главное значение — первыми, остальные четыре ложатся 2×2 */
+  .taya-table tbody th {
+    grid-column: 1 / -1;
+    order: -2;
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .taya-table td {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .taya-table td::before {
+    display: block;
+    color: var(--color-text-muted);
+    content: attr(data-label);
+  }
+
+  .taya-table .taya-table-key {
+    grid-column: 1 / -1;
+    order: -1;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .taya-table .taya-table-key::before {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  /* Ленты экранов: карточка у левого края, следующая выглядывает справа */
+  .taya-screens,
+  .taya-compare-shots {
     display: flex;
-    gap: 16px;
-    margin: 32px -16px 0;
-    padding: 0 16px 8px;
+    gap: 12px;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .taya-screens::-webkit-scrollbar,
+  .taya-compare-shots::-webkit-scrollbar {
+    display: none;
+  }
+
+  .taya-screens {
+    margin: 32px -16px 0;
+    padding: 0 16px 4px;
+    scroll-padding-inline: 16px;
     text-align: center;
   }
 
   .taya-screens li {
-    flex: 0 0 72%;
-    scroll-snap-align: center;
+    flex: 0 0 76%;
+    scroll-snap-align: start;
   }
 
   .taya-screens img,
@@ -288,30 +389,56 @@
     border-radius: 28px;
   }
 
+  .taya-screens span {
+    margin-top: 16px;
+  }
+
+  .taya-screens h3 {
+    margin: 4px 0;
+    font-size: 18px;
+    line-height: 26px;
+  }
+
   .taya-compare {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 16px;
     margin-top: 32px;
   }
 
   .taya-compare-side {
-    padding: 16px;
+    padding: 20px 0 16px;
     border-radius: 28px;
+    overflow: hidden;
+  }
+
+  .taya-compare-side figcaption {
+    margin-bottom: 16px;
+    padding: 0 16px;
+  }
+
+  .taya-compare-shots {
+    padding: 0 16px;
+    scroll-padding-inline: 16px;
+  }
+
+  .taya-compare-shots img {
+    flex: 0 0 72%;
+    scroll-snap-align: start;
   }
 
   .taya-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px 16px;
+    gap: 28px 16px;
     margin-top: 32px;
     text-align: center;
+  }
+
+  .taya-stats div {
+    align-items: center;
   }
 
   .taya-stats dt {
     font-size: 32px;
     line-height: 40px;
-  }
-
-  .taya-stats div {
-    align-items: center;
   }
 }
