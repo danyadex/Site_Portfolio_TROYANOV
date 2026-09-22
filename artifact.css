@@ -2989,18 +2989,29 @@
 
 /* Три поля делят колонку панели: на макете они ровно 358 с зазором 15,
    а на экранах поуже сжимаются вместе с ней и не вылезают за панель. */
+/* У полей подпись ближе к ряду, чем у кнопок: 12 против 20 по макету. */
+.system-group--fields {
+  gap: 12px;
+}
+
 .system-tiles--fields {
   width: 100%;
-  margin-top: 4px;
   flex-wrap: nowrap;
-  align-items: flex-end;
+  align-items: stretch;
   gap: 15px;
 }
 
 .system-tiles--fields .system-tile {
   min-width: 0;
   flex: 1 1 0;
-  gap: 24px;
+  gap: 12px;
+}
+
+/* Поля разной высоты стоят по центру плитки, а подписи — на одной строке:
+   поле с длинным промптом задаёт высоту, вокруг него 12 сверху и снизу. */
+.system-tiles--fields .system-tile span {
+  flex: 1 1 auto;
+  padding: 12px 0;
 }
 
 .system-tiles--fields img {
@@ -3226,8 +3237,16 @@
     width: 100%;
   }
 
+  .system-group--fields {
+    gap: 16px;
+  }
+
+  /* В колонке поля идут друг за другом, центрировать их не в чем. */
+  .system-tiles--fields .system-tile span {
+    padding: 0;
+  }
+
   .system-tiles--fields {
-    margin: 0;
     gap: 32px;
   }
 
