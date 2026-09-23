@@ -148,7 +148,7 @@
   background: #000;
 }
 
-.taya-screens span {
+.taya-screens li > span {
   display: block;
   margin-top: 24px;
   color: var(--color-text-muted);
@@ -398,7 +398,7 @@
     scroll-snap-align: start;
   }
 
-  .taya-screens span {
+  .taya-screens li > span {
     margin-top: 16px;
   }
 
