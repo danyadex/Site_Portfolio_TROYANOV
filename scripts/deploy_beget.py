@@ -16,14 +16,14 @@
 
 Доступ берётся из переменных окружения, в коде и в репозитории его нет:
 
-  BEGET_LOGIN         логин панели Beget (<логин>)
+  BEGET_LOGIN         логин панели Beget
   BEGET_API_PASSWORD  пароль для API: панель Beget → раздел «API»
                       (там же лучше ограничить доступ по IP)
 
 Необязательные:
 
   BEGET_FTP_HOST      FTP-хост, по умолчанию <login>.beget.tech
-  BEGET_SITE_DIR      папка сайта, по умолчанию /<логин>.beget.tech/public_html
+  BEGET_SITE_DIR      папка сайта, по умолчанию /<login>.beget.tech/public_html
   SITE_URL            адрес для проверки, по умолчанию https://danyatroyanov.com/
 
 Запуск:
@@ -256,7 +256,7 @@ def main() -> None:
     login = env("BEGET_LOGIN")
     api_password = env("BEGET_API_PASSWORD")
     host = env("BEGET_FTP_HOST", f"{login}.beget.tech")
-    site_dir = env("BEGET_SITE_DIR", "/<логин>.beget.tech/public_html")
+    site_dir = env("BEGET_SITE_DIR", f"/{login}.beget.tech/public_html")
     site_url = env("SITE_URL", "https://danyatroyanov.com/")
 
     # Beget ограничивает полный логин «login_suffix» 17 символами.
