@@ -24,3 +24,21 @@ assets/home/artifact-screen-web*.mp4
 
 # Устарел: заменён HANDOFF.md (там был неверный акцентный цвет).
 PORTFOLIO_HANDOFF.md
+
+# Рабочие материалы, в публичном репо им не место: сохранённые чужие сайты
+# для референса и сырые выгрузки из Figma. Лежат локально.
+references/
+content-intake/
+figma-intake/
+
+# Исходники роликов главной. В сборку идут облегчённые -source30 и -web,
+# tests/build.test.js следит, чтобы оригиналы туда не попали.
+assets/home/artifact-screen.mp4
+assets/home/ai-producer-screen.mp4
+assets/home/taya-screen.mp4
+
+# Локальный запуск маски аватара: работает только с .tools/ и assets/avatar/,
+# которых в репо нет.
+run-avatar-mask.command
+
+__pycache__/
