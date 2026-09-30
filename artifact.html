@@ -1,12 +1,6 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <!-- Крупные иконки первыми: превью ссылок (HH и др.) берут иконку, а не og:image,
-       и растягивали 38×38 до мыла -->
-  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png?v=1" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1" />
-  <link rel="icon" type="image/png" sizes="38x38" href="/favicon.png?v=1" />
-  <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg?v=1" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="description" content="Прохождение сценария 54% → 83% после итерации. Мобильное приложение для AI-контента, лид дизайна." />
@@ -18,10 +12,20 @@
   <meta property="og:title" content="ARTIFACT — кейс Даниила Троянова" />
   <meta property="og:description" content="Прохождение сценария 54% → 83% после итерации. Мобильное приложение для AI-контента, лид дизайна." />
   <meta property="og:image" content="https://danyatroyanov.com/og/artifact-v2.jpg" />
+  <meta property="og:image:secure_url" content="https://danyatroyanov.com/og/artifact-v2.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Кейс ARTIFACT" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://danyatroyanov.com/og/artifact-v2.jpg" />
+  <link rel="image_src" href="https://danyatroyanov.com/og/artifact-v2.jpg" />
+  <!-- Иконки после превью: парсеры, которые берут первую картинку в head
+       (судя по превью, так делает HH), должны найти og-картинку, а не монограмму -->
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png?v=1" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1" />
+  <link rel="icon" type="image/png" sizes="38x38" href="/favicon.png?v=1" />
+  <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg?v=1" />
   <link rel="canonical" href="https://danyatroyanov.com/artifact.html" />
   <title>ARTIFACT</title>
   <link rel="stylesheet" href="assets/reveal.css?v=position-safe-2" />

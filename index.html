@@ -1,12 +1,6 @@
 <!doctype html>
 <html lang="ru">
   <head>
-  <!-- Крупные иконки первыми: превью ссылок (HH и др.) берут иконку, а не og:image,
-       и растягивали 38×38 до мыла -->
-  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png?v=1" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1" />
-  <link rel="icon" type="image/png" sizes="38x38" href="/favicon.png?v=1" />
-  <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg?v=1" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content="Продуктовый дизайнер Даня Троянов. Кейсы ARTIFACT, AI PRODUCER и TAYA AI: от исследования до протестированного прототипа." />
@@ -18,10 +12,20 @@
     <meta property="og:title" content="Продуктовый AI-дизайнер с художественным бэкграундом" />
     <meta property="og:description" content="Продуктовый дизайнер Даня Троянов. Кейсы ARTIFACT, AI PRODUCER и TAYA AI: от исследования до протестированного прототипа." />
     <meta property="og:image" content="https://danyatroyanov.com/og/home-v2.jpg" />
+    <meta property="og:image:secure_url" content="https://danyatroyanov.com/og/home-v2.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Даниил Троянов — продуктовый AI-дизайнер" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://danyatroyanov.com/og/home-v2.jpg" />
+    <link rel="image_src" href="https://danyatroyanov.com/og/home-v2.jpg" />
+    <!-- Иконки после превью: парсеры, которые берут первую картинку в head
+         (судя по превью, так делает HH), должны найти og-картинку, а не монограмму -->
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png?v=1" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1" />
+    <link rel="icon" type="image/png" sizes="38x38" href="/favicon.png?v=1" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg?v=1" />
     <link rel="canonical" href="https://danyatroyanov.com/" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -33,6 +37,9 @@
     <title>Даниил Троянов</title>
   </head>
   <body>
+    <!-- Без JS главная пустая. Картинка превью — и для тех, у кого JS выключен,
+         и для парсеров ссылок, которые берут первую <img> со страницы и JS не запускают -->
+    <noscript><img src="/og/home-v2.jpg" width="1200" height="630" alt="Даниил Троянов — продуктовый AI-дизайнер" style="display: block; max-width: 100%; height: auto; margin: 0 auto" /></noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
